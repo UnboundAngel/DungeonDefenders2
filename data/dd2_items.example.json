@@ -1,0 +1,12 @@
+[
+  {
+    "name": "Ability Buff Chip",
+    "description": "+5,740~7,770 Ability Power while buffed.",
+    "hero": "All",
+    "drop": "Chaos 4 - Chaos 10",
+    "type": "Armor",
+    "category": "chip",
+    "slotType": "Armor",
+    "image": "https://raw.githubusercontent.com/Cryotalis/Protobot-TS/refs/heads/main/assets/Misc_Icons/Shield_Icon.png"
+  }
+]
