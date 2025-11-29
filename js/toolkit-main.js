@@ -17,8 +17,22 @@ const DD2Toolkit = {
         // Setup modal
         this.setupModal();
 
-        // Load default tool
-        this.loadTool('totem-counter');
+        // Check for URL parameter to load specific tool
+        const urlParams = new URLSearchParams(window.location.search);
+        const toolParam = urlParams.get('tool');
+
+        if (toolParam) {
+            this.loadTool(toolParam);
+            // Set active nav item
+            const navItem = document.querySelector(`.nav-item[data-tool="${toolParam}"]`);
+            if (navItem) {
+                document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+                navItem.classList.add('active');
+            }
+        } else {
+            // Load default tool
+            this.loadTool('totem-counter');
+        }
 
         console.log('%c⚔️ DD2 TOOLKIT LOADED', 'color: #ff6b35; font-size: 20px; font-weight: bold;');
     },
@@ -44,6 +58,10 @@ const DD2Toolkit = {
                 // Update active state
                 navItems.forEach(nav => nav.classList.remove('active'));
                 item.classList.add('active');
+
+                // Update URL for bookmarking
+                const newUrl = `${window.location.pathname}?tool=${toolName}`;
+                window.history.pushState({ tool: toolName }, '', newUrl);
 
                 // Close mobile nav
                 if (window.innerWidth < 768) {

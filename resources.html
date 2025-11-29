@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Comprehensive resource hub for Dungeon Defenders 2 players - guides, maps, builds, and complete game information.">
+    <title>Dungeon Defenders 2 Resources Hub</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Page fade-in animation */
+        body {
+            animation: pageLoad 0.6s ease-out;
+        }
+
+        @keyframes pageLoad {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Section animations */
+        .content-section {
+            animation: fadeInUp 0.7s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Back to home button hover */
+        .back-home-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <div style="flex: 1; min-width: 250px;">
+                    <h1>⚔️ Dungeon Defenders 2 Resources Hub</h1>
+                    <p class="subtitle">Your all-in-one community-driven guide for builds, maps, and game info</p>
+                </div>
+                <a href="index.html" class="back-home-btn" style="text-decoration: none; padding: 0.75rem 1.5rem; background: linear-gradient(45deg, #ff6b35, #f7931e); border-radius: 8px; color: white; font-weight: bold; transition: transform 0.3s, box-shadow 0.3s; display: inline-block;">
+                    🏠 Back to Home
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="main-nav" id="mainNav">
+        <div class="container">
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-list" id="navList">
+                <li><a href="#resources">Resources</a></li>
+                <li><a href="#practice-maps">Practice Maps</a></li>
+                <li><a href="#game-info">Game Info</a></li>
+                <li><a href="#footer">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+
+            <!-- Section 1: Community Resources -->
+            <section id="resources" class="content-section">
+                <h2>📚 Commonly Used DD2 Resources</h2>
+                <p class="section-intro">Essential community tools, guides, and databases to enhance your DD2 experience.</p>
+
+                <div class="resource-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">🔗</div>
+                        <h3>Protobot Database</h3>
+                        <p>Links, mod/shard info, drop tables, and more.</p>
+                        <a href="https://bit.ly/Protobot" target="_blank" rel="noopener noreferrer" class="resource-link">Visit Database →</a>
+                    </div>
+
+                    <div class="resource-card">
+                        <div class="resource-icon">💰</div>
+                        <h3>DD2 Market Prices</h3>
+                        <p>Community-maintained estimates for mods, pets, and materials. ⚠ Extremely unstable market!</p>
+                        <a href="http://bit.ly/dd2market" target="_blank" rel="noopener noreferrer" class="resource-link">View Prices →</a>
+                    </div>
+
+                    <div class="resource-card">
+                        <div class="resource-icon">⚔️</div>
+                        <h3>DPS Build Guides</h3>
+                        <p>Community DPS hero builds with optimal gear and shard setups.</p>
+                        <a href="https://docs.google.com/spreadsheets/d/14eqaz9FgWAM9jBZagH3araTz0509KvO3x2FssmdHvoA" target="_blank" rel="noopener noreferrer" class="resource-link">DPS Builds →</a>
+                    </div>
+
+                    <div class="resource-card">
+                        <div class="resource-icon">🛡</div>
+                        <h3>Defense Build Guides</h3>
+                        <p>Defense setups for every hero with effective defense placements.</p>
+                        <a href="https://docs.google.com/spreadsheets/d/1sjBA60Fr9ryVnw4FUIMU2AVXbKw395Tdz7j--EAUA1A" target="_blank" rel="noopener noreferrer" class="resource-link">Defense Builds →</a>
+                    </div>
+
+                    <div class="resource-card">
+                        <div class="resource-icon">📄</div>
+                        <h3>LichtAbzeichen8 Master Spreadsheet</h3>
+                        <p>Updated drops, defense info, mods, and progression guides.</p>
+                        <a href="https://docs.google.com/spreadsheets/d/1Grd0H2iaNy1I-CPDKjE1uo5_qHNCf9WyQlnEB4u-yOg/edit?gid=1808764212" target="_blank" rel="noopener noreferrer" class="resource-link">Master Sheet →</a>
+                    </div>
+
+                    <div class="resource-card">
+                        <div class="resource-icon">🎥</div>
+                        <h3>Juicebags' YouTube Channel</h3>
+                        <p>Guides, builds, and strategy videos by MrJuicebags.</p>
+                        <a href="https://www.youtube.com/user/MrJuicebags" target="_blank" rel="noopener noreferrer" class="resource-link">Watch Videos →</a>
+                    </div>
+
+                    <div class="resource-card">
+                        <div class="resource-icon">📘</div>
+                        <h3>DD2 Wiki</h3>
+                        <p>General reference information for heroes, enemies, items, and more.</p>
+                        <a href="https://wiki.dungeondefenders2.com/wiki/Main_Page" target="_blank" rel="noopener noreferrer" class="resource-link">Visit Wiki →</a>
+                    </div>
+
+                    <div class="resource-card">
+                        <div class="resource-icon">🧩</div>
+                        <h3>Chromatic Games Support</h3>
+                        <p>Submit a ticket or email support@chromatic.games for assistance.</p>
+                        <a href="https://chromatic.zendesk.com/hc/en-us/requests/new" target="_blank" rel="noopener noreferrer" class="resource-link">Get Support →</a>
+                    </div>
+
+                    <div class="resource-card">
+                        <div class="resource-icon">🧱</div>
+                        <h3>Community Builds Archive</h3>
+                        <p>Player-submitted map builds and defense layouts for all maps.</p>
+                        <a href="https://builds.dundef.com/builds" target="_blank" rel="noopener noreferrer" class="resource-link">Browse Builds →</a>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="section-divider">
+
+            <!-- Section 2: Practice Maps -->
+            <section id="practice-maps" class="content-section">
+                <h2>🎮 Helpful Practice Maps (IHDC)</h2>
+                <p class="section-intro">Custom workshop maps to practice difficult content and boss encounters.</p>
+
+                <div class="practice-maps-list">
+                    <div class="practice-map-item">
+                        <div class="map-icon">🎮</div>
+                        <div class="map-details">
+                            <h3>Poly Practice Map</h3>
+                            <p>Practice the Polybius challenge or area.</p>
+                            <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=1962358255" target="_blank" rel="noopener noreferrer" class="map-link">Steam Workshop →</a>
+                        </div>
+                    </div>
+
+                    <div class="practice-map-item">
+                        <div class="map-icon">🎮</div>
+                        <div class="map-details">
+                            <h3>True Boss Rush Practice (CP1–CP2)</h3>
+                            <p>Practice map for Boss Rush mode, checkpoints 1–2.</p>
+                            <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=1962445845" target="_blank" rel="noopener noreferrer" class="map-link">Steam Workshop →</a>
+                        </div>
+                    </div>
+
+                    <div class="practice-map-item">
+                        <div class="map-icon">🎮</div>
+                        <div class="map-details">
+                            <h3>True Boss Rush Practice (CP3 – Sky City)</h3>
+                            <p>Practice Boss Rush up to Checkpoint 3 (Sky City boss).</p>
+                            <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=1962465961" target="_blank" rel="noopener noreferrer" class="map-link">Steam Workshop →</a>
+                        </div>
+                    </div>
+
+                    <div class="practice-map-item">
+                        <div class="map-icon">🎮</div>
+                        <div class="map-details">
+                            <h3>True Boss Rush Practice (CP4 – Polybius Portion)</h3>
+                            <p>Practice map for Boss Rush checkpoint 4, the Poly portion.</p>
+                            <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=1962508653" target="_blank" rel="noopener noreferrer" class="map-link">Steam Workshop →</a>
+                        </div>
+                    </div>
+
+                    <div class="practice-map-item">
+                        <div class="map-icon">🎮</div>
+                        <div class="map-details">
+                            <h3>WIP TBR Old One / Regular Old One Practice</h3>
+                            <p>Work-in-progress map to practice the final boss (Old One) in Boss Rush or regular mode.</p>
+                            <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=1963194874" target="_blank" rel="noopener noreferrer" class="map-link">Steam Workshop →</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="section-divider">
+
+            <!-- Section 3: Game Info -->
+            <section id="game-info" class="content-section">
+                <h2>🛈 Comprehensive Game Info</h2>
+                <p class="section-intro">Detailed information on heroes, items, shards, mods, and more - all in one place.</p>
+
+                <div class="info-tabs">
+                    <div class="tab-buttons">
+                        <button class="tab-button active" data-tab="mods">Mods</button>
+                        <button class="tab-button" data-tab="shards">Shards</button>
+                        <button class="tab-button" data-tab="abilities">Abilities</button>
+                        <button class="tab-button" data-tab="prices">Market Prices</button>
+                    </div>
+
+                    <div class="tab-content">
+                        <!-- Mods Tab -->
+                        <div class="tab-panel active" id="mods">
+                            <h3>Defense & Hero Mods</h3>
+                            <p class="tab-description">Powerful modifications that alter defense and hero abilities.</p>
+                            <div id="mods-list" class="info-grid">
+                                <p class="loading-message">Loading mods data...</p>
+                            </div>
+                        </div>
+
+                        <!-- Shards Tab -->
+                        <div class="tab-panel" id="shards">
+                            <h3>Shards</h3>
+                            <p class="tab-description">Equipment shards that enhance hero and defense capabilities.</p>
+                            <div id="shards-list" class="info-grid">
+                                <p class="loading-message">Loading shards data...</p>
+                            </div>
+                        </div>
+
+                        <!-- Abilities Tab -->
+                        <div class="tab-panel" id="abilities">
+                            <h3>Hero Abilities</h3>
+                            <p class="tab-description">Complete list of hero abilities and their properties.</p>
+                            <div id="abilities-list" class="info-grid">
+                                <p class="loading-message">Loading abilities data...</p>
+                            </div>
+                        </div>
+
+                        <!-- Prices Tab -->
+                        <div class="tab-panel" id="prices">
+                            <h3>Market Prices</h3>
+                            <p class="tab-description">Community market prices across PC, PlayStation, and Xbox platforms. Note: Prices are volatile and change frequently!</p>
+                            <div id="prices-list" class="info-grid">
+                                <p class="loading-message">Loading price data...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer" class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About This Site</h3>
+                    <p>Community-driven resource hub for Dungeon Defenders 2 players. All content compiled from various community sources and contributors.</p>
+                    <p class="update-info">Last updated: November 2025</p>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Official Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="https://dungeondefenders.com/" target="_blank" rel="noopener noreferrer">Official DD2 Website</a></li>
+                        <li><a href="https://store.steampowered.com/app/236110/Dungeon_Defenders_II/" target="_blank" rel="noopener noreferrer">Steam Store Page</a></li>
+                        <li><a href="https://discord.gg/dd2" target="_blank" rel="noopener noreferrer">DD2 Discord Community</a></li>
+                        <li><a href="https://www.reddit.com/r/dungeondefenders/" target="_blank" rel="noopener noreferrer">DD2 Subreddit</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Credits</h3>
+                    <p>Compiled by <strong>UnboundAngel</strong> and the DD2 community.</p>
+                    <p>Special thanks to all spreadsheet maintainers, guide creators, and community contributors.</p>
+                    <button class="back-to-top" id="backToTop">↑ Back to Top</button>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 DD2 Resources Hub. Dungeon Defenders 2 is property of Chromatic Games.</p>
+                <p class="disclaimer">This is an unofficial community resource. Not affiliated with Chromatic Games.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>
