@@ -122,23 +122,39 @@ const DD2Toolkit = {
     },
 
     getToolModule(toolName) {
-        // Tool module registry
+        // Tool module registry - ALL 20 TOOLS
         const modules = {
-            'totem-counter': TotemCounter,
+            // Browsers & Data
             'mod-browser': ModBrowser,
             'shard-browser': ShardBrowser,
-            'gold-calculator': GoldCalculator,
-            'timers': DD2Timers,
-            'onslaught-tracker': OnslaughtTracker,
-            'material-tracker': MaterialTracker,
-            'mission-tracker': MissionTracker,
+            'enemy-database': EnemyDatabase,
             'resources': ResourcesPage,
-            // Additional tools
+
+            // Calculators
+            'gold-calculator': GoldCalculator,
             'dps-benchmark': DPSBenchmark,
             'ancient-power': AncientPowerTool,
             'gear-simulator': GearSimulator,
+
+            // Timers & Counters
+            'timers': DD2Timers,
+            'totem-counter': TotemCounter,
+
+            // Trackers
+            'onslaught-tracker': OnslaughtTracker,
+            'material-tracker': MaterialTracker,
+            'mission-tracker': MissionTracker,
             'shard-wishlist': ShardWishlist,
-            'loadout-sharing': LoadoutSharing
+
+            // Builders & Planners
+            'hero-builder': HeroBuilder,
+            'strategy-planner': StrategyPlanner,
+
+            // Utilities
+            'loadout-sharing': LoadoutSharing,
+            'pet-evolution': PetEvolution,
+            'tower-visualizer': TowerVisualizer,
+            'practice-helper': PracticeHelper
         };
 
         return modules[toolName];
