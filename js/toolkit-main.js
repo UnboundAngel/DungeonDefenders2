@@ -132,8 +132,13 @@ const DD2Toolkit = {
             'onslaught-tracker': OnslaughtTracker,
             'material-tracker': MaterialTracker,
             'mission-tracker': MissionTracker,
-            'resources': ResourcesPage
-            // Add more as they're implemented
+            'resources': ResourcesPage,
+            // Additional tools
+            'dps-benchmark': DPSBenchmark,
+            'ancient-power': AncientPowerTool,
+            'gear-simulator': GearSimulator,
+            'shard-wishlist': ShardWishlist,
+            'loadout-sharing': LoadoutSharing
         };
 
         return modules[toolName];
