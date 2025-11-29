@@ -1,0 +1,1276 @@
+[
+  {
+    "name": "Heal Self",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "0",
+    "damageType": "1s",
+    "damageScalar": null,
+    "heroes": [
+      "N/A"
+    ],
+    "iconUrl": "Squire, Huntress, Monk, Apprentice, Adept"
+  },
+  {
+    "name": "Sword Beam",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "20",
+    "damageType": "N/A",
+    "damageScalar": null,
+    "heroes": [
+      "32"
+    ],
+    "iconUrl": "Squire"
+  },
+  {
+    "name": "Provoke",
+    "statusEffects": [],
+    "abilityType": "Taunt",
+    "manaCost": null,
+    "recharge": "50",
+    "damageType": "10s",
+    "damageScalar": null,
+    "heroes": [
+      "N/A"
+    ],
+    "iconUrl": "Squire"
+  },
+  {
+    "name": "Seismic Slam (Center)",
+    "statusEffects": [],
+    "abilityType": "Stun",
+    "manaCost": null,
+    "recharge": "100",
+    "damageType": "10s",
+    "damageScalar": null,
+    "heroes": [
+      "75"
+    ],
+    "iconUrl": "Squire"
+  },
+  {
+    "name": "Seismic Slam (Edge)",
+    "statusEffects": [],
+    "abilityType": "Stun",
+    "manaCost": null,
+    "recharge": "100",
+    "damageType": "10s",
+    "damageScalar": null,
+    "heroes": [
+      "215"
+    ],
+    "iconUrl": "Squire"
+  },
+  {
+    "name": "Arcane Volley",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "20",
+    "damageType": "N/A",
+    "damageScalar": null,
+    "heroes": [
+      "40"
+    ],
+    "iconUrl": "Apprentice"
+  },
+  {
+    "name": "Tornado",
+    "statusEffects": [],
+    "abilityType": "Knockup",
+    "manaCost": null,
+    "recharge": "50",
+    "damageType": "2s",
+    "damageScalar": null,
+    "heroes": [
+      "8"
+    ],
+    "iconUrl": "Apprentice"
+  },
+  {
+    "name": "Mana Bomb",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "100",
+    "damageType": "10s",
+    "damageScalar": null,
+    "heroes": [
+      "104"
+    ],
+    "iconUrl": "Apprentice"
+  },
+  {
+    "name": "Concussive Shots",
+    "statusEffects": [],
+    "abilityType": "Stun",
+    "manaCost": null,
+    "recharge": "25",
+    "damageType": "5s",
+    "damageScalar": null,
+    "heroes": [
+      "25.88"
+    ],
+    "iconUrl": "Huntress"
+  },
+  {
+    "name": "Concussive Shots (Total)",
+    "statusEffects": [],
+    "abilityType": "Stun",
+    "manaCost": null,
+    "recharge": "-",
+    "damageType": "-",
+    "damageScalar": null,
+    "heroes": [
+      "129.38"
+    ],
+    "iconUrl": "Huntress"
+  },
+  {
+    "name": "Oil Flask",
+    "statusEffects": [],
+    "abilityType": "Oiled",
+    "manaCost": null,
+    "recharge": "50",
+    "damageType": "N/A",
+    "damageScalar": null,
+    "heroes": [
+      "140"
+    ],
+    "iconUrl": "Huntress"
+  },
+  {
+    "name": "Piercing Shot",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "All",
+    "damageType": "30s",
+    "damageScalar": null,
+    "heroes": [
+      "250"
+    ],
+    "iconUrl": "Huntress"
+  },
+  {
+    "name": "Pole Smash",
+    "statusEffects": [],
+    "abilityType": "Knockup",
+    "manaCost": null,
+    "recharge": "25",
+    "damageType": "2s",
+    "damageScalar": null,
+    "heroes": [
+      "50"
+    ],
+    "iconUrl": "Monk"
+  },
+  {
+    "name": "Chi Blast",
+    "statusEffects": [],
+    "abilityType": "Knockback",
+    "manaCost": null,
+    "recharge": "50",
+    "damageType": "N/A",
+    "damageScalar": null,
+    "heroes": [
+      "75"
+    ],
+    "iconUrl": "Monk"
+  },
+  {
+    "name": "Heroic Wave",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "100",
+    "damageType": "10s",
+    "damageScalar": null,
+    "heroes": [
+      "4"
+    ],
+    "iconUrl": "Monk"
+  },
+  {
+    "name": "Abyss Stone",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "50",
+    "damageType": "10s",
+    "damageScalar": null,
+    "heroes": [
+      "4"
+    ],
+    "iconUrl": "Abyss Lord"
+  },
+  {
+    "name": "Abyss Stone (Total)",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "-",
+    "damageType": "-",
+    "damageScalar": null,
+    "heroes": [
+      "12"
+    ],
+    "iconUrl": "Abyss Lord"
+  },
+  {
+    "name": "Knight of the Abyss",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "50",
+    "damageType": "2s",
+    "damageScalar": null,
+    "heroes": [
+      "18.825"
+    ],
+    "iconUrl": "Abyss Lord"
+  },
+  {
+    "name": "Knight of the Abyss (Total)",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "-",
+    "damageType": "-",
+    "damageScalar": null,
+    "heroes": [
+      "75.3"
+    ],
+    "iconUrl": "Abyss Lord"
+  },
+  {
+    "name": "Direct Command",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "100",
+    "damageType": "20s",
+    "damageScalar": null,
+    "heroes": [
+      "N/A"
+    ],
+    "iconUrl": "Abyss Lord"
+  },
+  {
+    "name": "Abyss Fountain",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "20",
+    "damageType": "2s",
+    "damageScalar": null,
+    "heroes": [
+      "N/A"
+    ],
+    "iconUrl": "Abyss Lord"
+  },
+  {
+    "name": "Anti Gravity Bots",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "35",
+    "damageType": "N/A",
+    "damageScalar": null,
+    "heroes": [
+      "83.5"
+    ],
+    "iconUrl": "Ev2"
+  },
+  {
+    "name": "Holographic Decoy",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "30",
+    "damageType": "7s",
+    "damageScalar": null,
+    "heroes": [
+      "44.275"
+    ],
+    "iconUrl": "Ev2"
+  },
+  {
+    "name": "Proton Charge",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "20",
+    "damageType": "N/A",
+    "damageScalar": null,
+    "heroes": [
+      "27.5"
+    ],
+    "iconUrl": "Ev2"
+  },
+  {
+    "name": "Heal Self (Series EV2)",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "0",
+    "damageType": "1s",
+    "damageScalar": null,
+    "heroes": [
+      "N/A"
+    ],
+    "iconUrl": "Ev2"
+  },
+  {
+    "name": "Blunder Broom Buster",
+    "statusEffects": [],
+    "abilityType": "Stun",
+    "manaCost": null,
+    "recharge": "40",
+    "damageType": "5s",
+    "damageScalar": null,
+    "heroes": [
+      "47"
+    ],
+    "iconUrl": "Gunwitch"
+  },
+  {
+    "name": "Scatter Sweep",
+    "statusEffects": [],
+    "abilityType": "Knockback",
+    "manaCost": null,
+    "recharge": "50",
+    "damageType": "2s",
+    "damageScalar": null,
+    "heroes": [
+      "76.5"
+    ],
+    "iconUrl": "Gunwitch"
+  },
+  {
+    "name": "Ice Needle",
+    "statusEffects": [],
+    "abilityType": "Freeze",
+    "manaCost": null,
+    "recharge": "50",
+    "damageType": "2s",
+    "damageScalar": null,
+    "heroes": [
+      "33"
+    ],
+    "iconUrl": "Gunwitch"
+  },
+  {
+    "name": "Vroom Broom",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "0",
+    "damageType": "1s",
+    "damageScalar": null,
+    "heroes": [
+      "N/A"
+    ],
+    "iconUrl": "Gunwitch"
+  },
+  {
+    "name": "Book Drop",
+    "statusEffects": [],
+    "abilityType": "Stun",
+    "manaCost": null,
+    "recharge": "40",
+    "damageType": "15s",
+    "damageScalar": null,
+    "heroes": [
+      "N/A"
+    ],
+    "iconUrl": "Gunwitch"
+  },
+  {
+    "name": "Broom Nado",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "60",
+    "damageType": "20s",
+    "damageScalar": null,
+    "heroes": [
+      "11"
+    ],
+    "iconUrl": "Gunwitch"
+  },
+  {
+    "name": "Broom Nado (Total)",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "-",
+    "damageType": "-",
+    "damageScalar": null,
+    "heroes": [
+      "110"
+    ],
+    "iconUrl": "Gunwitch"
+  },
+  {
+    "name": "Two at Twice the Price",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "80",
+    "damageType": "25s",
+    "damageScalar": null,
+    "heroes": [
+      "5.5"
+    ],
+    "iconUrl": "Gunwitch"
+  },
+  {
+    "name": "Two at Twice the Price (Total)",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "-",
+    "damageType": "-",
+    "damageScalar": null,
+    "heroes": [
+      "192.5"
+    ],
+    "iconUrl": "Gunwitch"
+  },
+  {
+    "name": "Broom Vault",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "20",
+    "damageType": "4s",
+    "damageScalar": null,
+    "heroes": [
+      "36"
+    ],
+    "iconUrl": "Gunwitch"
+  },
+  {
+    "name": "Molten Core",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "40",
+    "damageType": "1s",
+    "damageScalar": null,
+    "heroes": [
+      "35"
+    ],
+    "iconUrl": "Lavamancer"
+  },
+  {
+    "name": "Inflame",
+    "statusEffects": [],
+    "abilityType": "Taunt",
+    "manaCost": null,
+    "recharge": "20",
+    "damageType": "10s",
+    "damageScalar": null,
+    "heroes": [
+      "25"
+    ],
+    "iconUrl": "Lavamancer"
+  },
+  {
+    "name": "Eruption",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "80",
+    "damageType": "10s",
+    "damageScalar": null,
+    "heroes": [
+      "80"
+    ],
+    "iconUrl": "Lavamancer"
+  },
+  {
+    "name": "Submerge/Emerge",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "0",
+    "damageType": "N/A",
+    "damageScalar": null,
+    "heroes": [
+      "N/A"
+    ],
+    "iconUrl": "Lavamancer"
+  },
+  {
+    "name": "Lash Out",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "5",
+    "damageType": "4s",
+    "damageScalar": null,
+    "heroes": [
+      "35"
+    ],
+    "iconUrl": "Mystic"
+  },
+  {
+    "name": "Lash Out (Poison)",
+    "statusEffects": [],
+    "abilityType": "Poison",
+    "manaCost": null,
+    "recharge": "-",
+    "damageType": "-",
+    "damageScalar": null,
+    "heroes": [
+      "5"
+    ],
+    "iconUrl": "Mystic"
+  },
+  {
+    "name": "Call To Madness",
+    "statusEffects": [],
+    "abilityType": "Confuse",
+    "manaCost": null,
+    "recharge": "10",
+    "damageType": "30s",
+    "damageScalar": null,
+    "heroes": [
+      "N/A"
+    ],
+    "iconUrl": "Mystic"
+  },
+  {
+    "name": "Dark Torment",
+    "statusEffects": [],
+    "abilityType": "Stun",
+    "manaCost": null,
+    "recharge": "10",
+    "damageType": "4s",
+    "damageScalar": null,
+    "heroes": [
+      "80"
+    ],
+    "iconUrl": "Mystic"
+  },
+  {
+    "name": "Dark Torment (Poison)",
+    "statusEffects": [],
+    "abilityType": "Poison",
+    "manaCost": null,
+    "recharge": "-",
+    "damageType": "-",
+    "damageScalar": null,
+    "heroes": [
+      "16"
+    ],
+    "iconUrl": "Mystic"
+  },
+  {
+    "name": "Dryad's Blessing",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "1",
+    "damageType": "N/A",
+    "damageScalar": null,
+    "heroes": [
+      "N/A"
+    ],
+    "iconUrl": "Dryad"
+  },
+  {
+    "name": "Powder Toss",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "10",
+    "damageType": "N/A",
+    "damageScalar": null,
+    "heroes": [
+      "N/A"
+    ],
+    "iconUrl": "Dryad"
+  },
+  {
+    "name": "Starfall",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "0",
+    "damageType": "4s",
+    "damageScalar": null,
+    "heroes": [
+      "8"
+    ],
+    "iconUrl": "Dryad"
+  },
+  {
+    "name": "Dryad's Blessing (Corrupt)",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "2",
+    "damageType": "N/A",
+    "damageScalar": null,
+    "heroes": [
+      "3.5"
+    ],
+    "iconUrl": "Dryad"
+  },
+  {
+    "name": "Powder Toss (Corrupt)",
+    "statusEffects": [],
+    "abilityType": "Stun",
+    "manaCost": null,
+    "recharge": "10",
+    "damageType": "N/A",
+    "damageScalar": null,
+    "heroes": [
+      "5.5"
+    ],
+    "iconUrl": "Dryad"
+  },
+  {
+    "name": "Starfall (Corrupt)",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "15",
+    "damageType": "4s",
+    "damageScalar": null,
+    "heroes": [
+      "85"
+    ],
+    "iconUrl": "Dryad"
+  },
+  {
+    "name": "Starfall (Corrupt DoT)",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "-",
+    "damageType": "-",
+    "damageScalar": null,
+    "heroes": [
+      "12"
+    ],
+    "iconUrl": "Dryad"
+  },
+  {
+    "name": "Chi Stomp",
+    "statusEffects": [],
+    "abilityType": "Knockup",
+    "manaCost": null,
+    "recharge": "25",
+    "damageType": "2s",
+    "damageScalar": null,
+    "heroes": [
+      "50"
+    ],
+    "iconUrl": "Initiate"
+  },
+  {
+    "name": "Crippling Chi Wave",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "50",
+    "damageType": "1s",
+    "damageScalar": null,
+    "heroes": [
+      "40.5"
+    ],
+    "iconUrl": "Initiate"
+  },
+  {
+    "name": "Crippling Chi Wave (With Debuff)",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "-",
+    "damageType": "-",
+    "damageScalar": null,
+    "heroes": [
+      "50.625"
+    ],
+    "iconUrl": "Initiate"
+  },
+  {
+    "name": "Talisman of Empowerment",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "100",
+    "damageType": "15s",
+    "damageScalar": null,
+    "heroes": [
+      "N/A"
+    ],
+    "iconUrl": "Initiate"
+  },
+  {
+    "name": "Arc Lightning",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "35",
+    "damageType": "N/A",
+    "damageScalar": null,
+    "heroes": [
+      "42"
+    ],
+    "iconUrl": "Adept"
+  },
+  {
+    "name": "Tornado",
+    "statusEffects": [],
+    "abilityType": "Knockup",
+    "manaCost": null,
+    "recharge": "50",
+    "damageType": "2s",
+    "damageScalar": null,
+    "heroes": [
+      "8"
+    ],
+    "iconUrl": "Adept"
+  },
+  {
+    "name": "Arcane Bubble",
+    "statusEffects": [],
+    "abilityType": "Stun",
+    "manaCost": null,
+    "recharge": "80",
+    "damageType": "25s",
+    "damageScalar": null,
+    "heroes": [
+      "N/A"
+    ],
+    "iconUrl": "Adept"
+  },
+  {
+    "name": "Furious Slash",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "5",
+    "damageType": "2s",
+    "damageScalar": null,
+    "heroes": [
+      "40"
+    ],
+    "iconUrl": "Barbarian"
+  },
+  {
+    "name": "Tornado Stance",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "6",
+    "damageType": "N/A",
+    "damageScalar": null,
+    "heroes": [
+      "N/A"
+    ],
+    "iconUrl": "Barbarian"
+  },
+  {
+    "name": "Turtle Stance",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "6",
+    "damageType": "N/A",
+    "damageScalar": null,
+    "heroes": [
+      "N/A"
+    ],
+    "iconUrl": "Barbarian"
+  },
+  {
+    "name": "Siphon Stance",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "6",
+    "damageType": "N/A",
+    "damageScalar": null,
+    "heroes": [
+      "N/A"
+    ],
+    "iconUrl": "Barbarian"
+  },
+  {
+    "name": "Lightning Stance",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "10",
+    "damageType": "N/A",
+    "damageScalar": null,
+    "heroes": [
+      "1.25"
+    ],
+    "iconUrl": "Barbarian"
+  },
+  {
+    "name": "Staggering Shout",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "15",
+    "damageType": "5s",
+    "damageScalar": null,
+    "heroes": [
+      "N/A"
+    ],
+    "iconUrl": "Barbarian"
+  },
+  {
+    "name": "Whirlwind",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "26",
+    "damageType": "N/A",
+    "damageScalar": null,
+    "heroes": [
+      "15"
+    ],
+    "iconUrl": "Barbarian"
+  },
+  {
+    "name": "Hawk Strike",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "All",
+    "damageType": "10s",
+    "damageScalar": null,
+    "heroes": [
+      "425"
+    ],
+    "iconUrl": "Barbarian"
+  },
+  {
+    "name": "Fan Of Knives",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "30",
+    "damageType": "2s",
+    "damageScalar": null,
+    "heroes": [
+      "40"
+    ],
+    "iconUrl": "Mercenary"
+  },
+  {
+    "name": "Poison Dagger Throw",
+    "statusEffects": [],
+    "abilityType": "Poison",
+    "manaCost": null,
+    "recharge": "50",
+    "damageType": "7s",
+    "damageScalar": null,
+    "heroes": [
+      "15"
+    ],
+    "iconUrl": "Mercenary"
+  },
+  {
+    "name": "Poison Dagger Throw (Total)",
+    "statusEffects": [],
+    "abilityType": "Poison",
+    "manaCost": null,
+    "recharge": "-",
+    "damageType": "-",
+    "damageScalar": null,
+    "heroes": [
+      "75"
+    ],
+    "iconUrl": "Mercenary"
+  },
+  {
+    "name": "Combat Preparation",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "100",
+    "damageType": "20s",
+    "damageScalar": null,
+    "heroes": [
+      "N/A"
+    ],
+    "iconUrl": "Mercenary"
+  },
+  {
+    "name": "Sweeping Strikes",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "150",
+    "damageType": "20s",
+    "damageScalar": null,
+    "heroes": [
+      "100"
+    ],
+    "iconUrl": "Mercenary"
+  },
+  {
+    "name": "Sweeping Strikes (Landing)",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "-",
+    "damageType": "-",
+    "damageScalar": null,
+    "heroes": [
+      "105"
+    ],
+    "iconUrl": "Mercenary"
+  },
+  {
+    "name": "Flame Surge",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "50",
+    "damageType": "15s",
+    "damageScalar": null,
+    "heroes": [
+      "40"
+    ],
+    "iconUrl": "Countess"
+  },
+  {
+    "name": "Flame Surge (Dot)",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "-",
+    "damageType": "-",
+    "damageScalar": null,
+    "heroes": [
+      "5"
+    ],
+    "iconUrl": "Countess"
+  },
+  {
+    "name": "Call To Arms",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "10",
+    "damageType": "20s",
+    "damageScalar": null,
+    "heroes": [
+      "N/A"
+    ],
+    "iconUrl": "Countess"
+  },
+  {
+    "name": "Valiant Charge",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "100",
+    "damageType": "25s",
+    "damageScalar": null,
+    "heroes": [
+      "510"
+    ],
+    "iconUrl": "Countess"
+  },
+  {
+    "name": "Holy Fire",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "10",
+    "damageType": "30",
+    "damageScalar": null,
+    "heroes": [
+      "N/A"
+    ],
+    "iconUrl": "Countess"
+  },
+  {
+    "name": "Bunker Buster",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "40",
+    "damageType": "8s",
+    "damageScalar": null,
+    "heroes": [
+      "50"
+    ],
+    "iconUrl": "Engineer"
+  },
+  {
+    "name": "Drill Smash",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "40",
+    "damageType": "8s",
+    "damageScalar": null,
+    "heroes": [
+      "85"
+    ],
+    "iconUrl": "Engineer"
+  },
+  {
+    "name": "Orbital Cannon",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "80",
+    "damageType": "20s",
+    "damageScalar": null,
+    "heroes": [
+      "20"
+    ],
+    "iconUrl": "Engineer"
+  },
+  {
+    "name": "Orbital Cannon (Total)",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "-",
+    "damageType": "-",
+    "damageScalar": null,
+    "heroes": [
+      "160"
+    ],
+    "iconUrl": "Engineer"
+  },
+  {
+    "name": "Steam Blast",
+    "statusEffects": [],
+    "abilityType": "Drench",
+    "manaCost": null,
+    "recharge": "1",
+    "damageType": "10s",
+    "damageScalar": null,
+    "heroes": [
+      "150"
+    ],
+    "iconUrl": "Engineer"
+  },
+  {
+    "name": "Wooden Stake",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "80",
+    "damageType": "N/A",
+    "damageScalar": null,
+    "heroes": [
+      "60"
+    ],
+    "iconUrl": "Hunter"
+  },
+  {
+    "name": "Cloaked",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "100",
+    "damageType": "20s",
+    "damageScalar": null,
+    "heroes": [
+      "N/A"
+    ],
+    "iconUrl": "Hunter"
+  },
+  {
+    "name": "Blood Effigy",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "60",
+    "damageType": "5s",
+    "damageScalar": null,
+    "heroes": [
+      "?"
+    ],
+    "iconUrl": "Hunter"
+  },
+  {
+    "name": "Blood Siphon",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "50",
+    "damageType": "-",
+    "damageScalar": null,
+    "heroes": [
+      "30"
+    ],
+    "iconUrl": "Hunter"
+  },
+  {
+    "name": "Blood Siphon (Explosion)",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "-",
+    "damageType": "10s",
+    "damageScalar": null,
+    "heroes": [
+      "105"
+    ],
+    "iconUrl": "Hunter"
+  },
+  {
+    "name": "Flurry",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "30",
+    "damageType": "N/A",
+    "damageScalar": null,
+    "heroes": [
+      "7.5"
+    ],
+    "iconUrl": "Frostweaver"
+  },
+  {
+    "name": "Flurry (Total)",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "-",
+    "damageType": "-",
+    "damageScalar": null,
+    "heroes": [
+      "45"
+    ],
+    "iconUrl": "Frostweaver"
+  },
+  {
+    "name": "Cold Snap (First Hit)",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "50",
+    "damageType": "6s",
+    "damageScalar": null,
+    "heroes": [
+      "65"
+    ],
+    "iconUrl": "Frostweaver"
+  },
+  {
+    "name": "Cold Snap",
+    "statusEffects": [],
+    "abilityType": "Slow, Stun",
+    "manaCost": null,
+    "recharge": "-",
+    "damageType": "-",
+    "damageScalar": null,
+    "heroes": [
+      "40"
+    ],
+    "iconUrl": "Frostweaver"
+  },
+  {
+    "name": "Cold Snap (Total)",
+    "statusEffects": [],
+    "abilityType": "Slow, Stun",
+    "manaCost": null,
+    "recharge": "-",
+    "damageType": "-",
+    "damageScalar": null,
+    "heroes": [
+      "545"
+    ],
+    "iconUrl": "Frostweaver"
+  },
+  {
+    "name": "Avalanche Strike",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "80",
+    "damageType": "20s",
+    "damageScalar": null,
+    "heroes": [
+      "100"
+    ],
+    "iconUrl": "Frostweaver"
+  },
+  {
+    "name": "PermaFreeze",
+    "statusEffects": [],
+    "abilityType": "Stun",
+    "manaCost": null,
+    "recharge": "50",
+    "damageType": "10s",
+    "damageScalar": null,
+    "heroes": [
+      "60"
+    ],
+    "iconUrl": "Frostweaver"
+  },
+  {
+    "name": "Blizzard's Embrace",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "0",
+    "damageType": "5s",
+    "damageScalar": null,
+    "heroes": [
+      "N/A"
+    ],
+    "iconUrl": "Frostweaver"
+  },
+  {
+    "name": "Arctic Empowerment",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "0",
+    "damageType": "N/A",
+    "damageScalar": null,
+    "heroes": [
+      "N/A"
+    ],
+    "iconUrl": "Frostweaver"
+  },
+  {
+    "name": "Ice Wall",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "30",
+    "damageType": "10s",
+    "damageScalar": null,
+    "heroes": [
+      "50"
+    ],
+    "iconUrl": "Frostweaver"
+  },
+  {
+    "name": "Icicle Fragmentation",
+    "statusEffects": [],
+    "abilityType": "N/A",
+    "manaCost": null,
+    "recharge": "40",
+    "damageType": "15s",
+    "damageScalar": null,
+    "heroes": [
+      "?"
+    ],
+    "iconUrl": "Frostweaver"
+  }
+]
