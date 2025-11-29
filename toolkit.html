@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Complete DD2 Toolkit - Hero Builder, Calculators, Trackers, and more!">
+    <title>DD2 Toolkit - Dungeon Defenders 2 Tools</title>
+    <link rel="stylesheet" href="toolkit-styles.css">
+</head>
+<body class="dark-theme">
+    <!-- Header -->
+    <header class="toolkit-header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="neon-text">⚔️ DD2 TOOLKIT</h1>
+                <p class="header-subtitle">Complete Suite of Interactive Tools</p>
+            </div>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <span class="theme-icon">🌙</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Navigation -->
+    <nav class="toolkit-nav" id="toolkitNav">
+        <div class="container">
+            <button class="nav-toggle-btn" id="navToggleBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-content" id="navContent">
+                <div class="nav-section">
+                    <h3>🏗️ Builders</h3>
+                    <button class="nav-item" data-tool="hero-builder">Hero Builder</button>
+                    <button class="nav-item" data-tool="strategy-planner">Strategy Planner</button>
+                </div>
+                <div class="nav-section">
+                    <h3>📊 Calculators</h3>
+                    <button class="nav-item" data-tool="gold-calculator">Gold/Hour Calc</button>
+                    <button class="nav-item" data-tool="dps-benchmark">DPS Benchmark</button>
+                    <button class="nav-item" data-tool="ancient-power">Ancient Power</button>
+                    <button class="nav-item" data-tool="gear-simulator">Gear Stats</button>
+                </div>
+                <div class="nav-section">
+                    <h3>📚 Browsers</h3>
+                    <button class="nav-item" data-tool="mod-browser">Mod Browser</button>
+                    <button class="nav-item" data-tool="shard-browser">Shard Browser</button>
+                    <button class="nav-item" data-tool="enemy-database">Enemy Database</button>
+                    <button class="nav-item" data-tool="map-efficiency">Map Efficiency</button>
+                </div>
+                <div class="nav-section">
+                    <h3>⏱️ Timers & Counters</h3>
+                    <button class="nav-item" data-tool="timers">DD2 Timers</button>
+                    <button class="nav-item" data-tool="totem-counter">Totem Counter</button>
+                </div>
+                <div class="nav-section">
+                    <h3>📋 Trackers</h3>
+                    <button class="nav-item" data-tool="onslaught-tracker">Onslaught Progress</button>
+                    <button class="nav-item" data-tool="material-tracker">Materials</button>
+                    <button class="nav-item" data-tool="mission-tracker">Daily/Weekly</button>
+                    <button class="nav-item" data-tool="shard-wishlist">Shard Wishlist</button>
+                </div>
+                <div class="nav-section">
+                    <h3>🔧 Utilities</h3>
+                    <button class="nav-item" data-tool="pet-evolution">Pet Evolution</button>
+                    <button class="nav-item" data-tool="tower-visualizer">Tower Scaling</button>
+                    <button class="nav-item" data-tool="practice-helper">Practice Helper</button>
+                    <button class="nav-item" data-tool="loadout-sharing">Share Loadout</button>
+                </div>
+                <div class="nav-section">
+                    <h3>📖 Resources</h3>
+                    <button class="nav-item" data-tool="resources">Community Links</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="toolkit-main">
+        <div class="container">
+            <!-- Tool Container - Tools loaded dynamically here -->
+            <div id="toolContainer" class="tool-container"></div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="toolkit-footer">
+        <div class="container">
+            <p>&copy; 2025 DD2 Toolkit | Community-driven project by UnboundAngel</p>
+            <p class="footer-links">
+                <a href="https://github.com/UnboundAngel/DungeonDefenders2" target="_blank">GitHub</a> |
+                <a href="https://discord.gg/dd2" target="_blank">Discord</a> |
+                <button id="settingsBtn">Settings</button>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Settings Modal -->
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>⚙️ Settings</h2>
+                <button class="modal-close" id="closeSettings">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="setting-group">
+                    <label>
+                        <input type="checkbox" id="animationsToggle" checked>
+                        Enable Animations
+                    </label>
+                </div>
+                <div class="setting-group">
+                    <label>
+                        <input type="checkbox" id="particlesToggle" checked>
+                        Particle Effects
+                    </label>
+                </div>
+                <div class="setting-group">
+                    <label>
+                        <input type="checkbox" id="neonToggle" checked>
+                        Neon Accents
+                    </label>
+                </div>
+                <div class="setting-group">
+                    <label for="fontScale">Font Size:</label>
+                    <input type="range" id="fontScale" min="80" max="120" value="100" step="5">
+                    <span id="fontScaleValue">100%</span>
+                </div>
+                <div class="setting-group">
+                    <button id="clearDataBtn" class="danger-btn">Clear All Data</button>
+                    <p class="setting-note">This will reset all saved data in localStorage</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Core Scripts -->
+    <script src="js/core/storage.js"></script>
+    <script src="js/core/theme.js"></script>
+    <script src="js/core/utils.js"></script>
+    <script src="js/tools-extended.js"></script>
+    <script src="js/toolkit-main.js"></script>
+</body>
+</html>
