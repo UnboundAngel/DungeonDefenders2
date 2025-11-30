@@ -414,11 +414,15 @@ const AncientPowerTool = {
 // GEAR STATS SIMULATOR
 // ========================================
 const GearSimulator = {
-    render() {
+    pWeapons: [],
+    rings: [],
+
+    async render() {
+        await this.loadGearData();
         return `
             <div class="tool-header">
                 <h1 class="tool-title">⚙️ Gear Stats Simulator</h1>
-                <p class="tool-description">Calculate gear stat ranges based on chaos tier, rarity, and quality</p>
+                <p class="tool-description">Calculate gear stat ranges, browse premium weapons, and prime rings</p>
             </div>
 
             <div class="grid-2">
@@ -475,6 +479,115 @@ const GearSimulator = {
                     <div id="gear-results">
                         <p style="color: var(--text-muted);">Configure gear and simulate</p>
                     </div>
+                </div>
+            </div>
+
+            <!-- Premium Weapons Reference -->
+            ${this.renderPWeaponsReference()}
+
+            <!-- Prime Rings Reference -->
+            ${this.renderRingsReference()}
+        `;
+    },
+
+    async loadGearData() {
+        try {
+            // Load premium weapons from P_Weapon.json
+            const pWeaponsData = await DD2DataCache.load('pWeapons');
+            if (pWeaponsData && Array.isArray(pWeaponsData)) {
+                this.pWeapons = pWeaponsData;
+                console.log('✅ Loaded', this.pWeapons.length, 'premium weapons from P_Weapon.json');
+            }
+
+            // Load rings from dd2_rings.json
+            const ringsData = await DD2DataCache.load('rings');
+            if (ringsData?.rings) {
+                this.rings = ringsData.rings;
+                console.log('✅ Loaded', this.rings.length, 'rings from dd2_rings.json');
+            }
+        } catch (e) {
+            console.error('Failed to load gear data:', e);
+        }
+    },
+
+    renderPWeaponsReference() {
+        if (!this.pWeapons || this.pWeapons.length === 0) {
+            return '';
+        }
+
+        // Group weapons by category
+        const byCategory = {};
+        this.pWeapons.forEach(weapon => {
+            const category = weapon.category || 'Other';
+            if (!byCategory[category]) {
+                byCategory[category] = [];
+            }
+            byCategory[category].push(weapon);
+        });
+
+        return `
+            <div class="card mt-md">
+                <h3 class="card-title">⚔️ Premium Weapons Database</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+                    Special weapons with unique stats and drop locations. Total: ${this.pWeapons.length} weapons
+                </p>
+
+                ${Object.keys(byCategory).sort().map(category => `
+                    <div style="margin-bottom: 2rem;">
+                        <h4 style="color: var(--dd2-orange); margin-bottom: 1rem; font-size: 1.1rem;">
+                            ${category} (${byCategory[category].length})
+                        </h4>
+                        <div class="grid-2" style="gap: 0.75rem;">
+                            ${byCategory[category].map(weapon => `
+                                <div class="card" style="background: var(--bg-input); padding: 0.75rem;">
+                                    <h5 style="color: var(--dd2-purple); margin-bottom: 0.5rem; font-size: 0.95rem;">
+                                        ${weapon.name}
+                                    </h5>
+                                    <div style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5;">
+                                        <p><strong>Attack Speed:</strong> ${weapon.attack_speed_raw || 'N/A'}</p>
+                                        <p><strong>Projectiles:</strong> ${weapon.projectile_raw || 'N/A'}</p>
+                                        <p><strong>Main Stat:</strong> ${weapon.main_stat ? weapon.main_stat.join(', ') : 'N/A'}</p>
+                                        <p><strong>Drop Rate:</strong> ${weapon.drop_rate || 'Unknown'}</p>
+                                        <p style="color: var(--dd2-orange);"><strong>Location:</strong> ${weapon.drop_location || 'Unknown'}</p>
+                                        ${weapon.special ? `<p style="color: var(--dd2-gold); margin-top: 0.5rem;"><strong>Special:</strong> ${weapon.special}</p>` : ''}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    },
+
+    renderRingsReference() {
+        if (!this.rings || this.rings.length === 0) {
+            return '';
+        }
+
+        return `
+            <div class="card mt-md">
+                <h3 class="card-title">💍 Prime Rings Collection</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+                    Special rings from Prime Incursions and Survival. Total: ${this.rings.length} rings
+                </p>
+
+                <div class="grid-3" style="gap: 1rem;">
+                    ${this.rings.map(ring => `
+                        <div class="card" style="background: var(--bg-input); padding: 1rem; text-align: center;">
+                            ${ring.iconUrl ? `
+                                <img src="${ring.iconUrl}" alt="${ring.name}"
+                                     style="width: 64px; height: 64px; margin: 0 auto 0.75rem; display: block; border-radius: 8px;"
+                                     onerror="this.style.display='none'">
+                            ` : ''}
+                            <h4 style="color: var(--dd2-orange); margin-bottom: 0.5rem; font-size: 1rem;">
+                                ${ring.name}
+                            </h4>
+                            <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                                ${ring.acquisition}
+                            </p>
+                        </div>
+                    `).join('')}
                 </div>
             </div>
         `;
