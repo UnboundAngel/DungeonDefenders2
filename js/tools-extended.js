@@ -506,63 +506,114 @@ const MissionTracker = {
 // RESOURCES PAGE (from original)
 // ========================================
 const ResourcesPage = {
-    render() {
+    links: [],
+    categories: [],
+
+    async render() {
+        await this.loadLinks();
+
         return `
             <div class="tool-header">
                 <h1 class="tool-title">📚 Community Resources</h1>
                 <p class="tool-description">Essential DD2 community tools and guides</p>
             </div>
 
-            <div class="grid-3">
-                <a href="https://bit.ly/Protobot" target="_blank" class="card" style="text-decoration: none;">
-                    <h3 style="color: var(--dd2-orange);">🔗 Protobot Database</h3>
-                    <p style="color: var(--text-secondary);">Mod/shard info, drop tables, and more</p>
-                </a>
+            ${this.categories.length > 0 ? `
+                <div class="card">
+                    <div class="input-group">
+                        <label class="input-label">Filter by Category</label>
+                        <select class="input-field" id="resource-category-filter">
+                            <option value="all">All Categories</option>
+                            ${this.categories.map(cat => `
+                                <option value="${cat}">${cat}</option>
+                            `).join('')}
+                        </select>
+                    </div>
+                </div>
+            ` : ''}
 
-                <a href="http://bit.ly/dd2market" target="_blank" class="card" style="text-decoration: none;">
-                    <h3 style="color: var(--dd2-orange);">💰 DD2 Market Prices</h3>
-                    <p style="color: var(--text-secondary);">Community price estimates (very volatile!)</p>
-                </a>
-
-                <a href="https://docs.google.com/spreadsheets/d/14eqaz9FgWAM9jBZagH3araTz0509KvO3x2FssmdHvoA" target="_blank" class="card" style="text-decoration: none;">
-                    <h3 style="color: var(--dd2-orange);">⚔️ DPS Build Guides</h3>
-                    <p style="color: var(--text-secondary);">Community DPS hero builds</p>
-                </a>
-
-                <a href="https://docs.google.com/spreadsheets/d/1sjBA60Fr9ryVnw4FUIMU2AVXbKw395Tdz7j--EAUA1A" target="_blank" class="card" style="text-decoration: none;">
-                    <h3 style="color: var(--dd2-orange);">🛡 Defense Build Guides</h3>
-                    <p style="color: var(--text-secondary);">Tower setups for every hero</p>
-                </a>
-
-                <a href="https://docs.google.com/spreadsheets/d/1Grd0H2iaNy1I-CPDKjE1uo5_qHNCf9WyQlnEB4u-yOg/edit?gid=1808764212" target="_blank" class="card" style="text-decoration: none;">
-                    <h3 style="color: var(--dd2-orange);">📄 Master Spreadsheet</h3>
-                    <p style="color: var(--text-secondary);">LichtAbzeichen8's comprehensive guide</p>
-                </a>
-
-                <a href="https://www.youtube.com/user/MrJuicebags" target="_blank" class="card" style="text-decoration: none;">
-                    <h3 style="color: var(--dd2-orange);">🎥 Juicebags' YouTube</h3>
-                    <p style="color: var(--text-secondary);">Video guides and builds</p>
-                </a>
-
-                <a href="https://wiki.dungeondefenders2.com/wiki/Main_Page" target="_blank" class="card" style="text-decoration: none;">
-                    <h3 style="color: var(--dd2-orange);">📘 DD2 Wiki</h3>
-                    <p style="color: var(--text-secondary);">General game reference</p>
-                </a>
-
-                <a href="https://chromatic.zendesk.com/hc/en-us/requests/new" target="_blank" class="card" style="text-decoration: none;">
-                    <h3 style="color: var(--dd2-orange);">🧩 Support</h3>
-                    <p style="color: var(--text-secondary);">Chromatic Games support tickets</p>
-                </a>
-
-                <a href="https://builds.dundef.com/builds" target="_blank" class="card" style="text-decoration: none;">
-                    <h3 style="color: var(--dd2-orange);">🧱 Community Builds</h3>
-                    <p style="color: var(--text-secondary);">Player-submitted defense layouts</p>
-                </a>
+            <div id="resources-grid" class="grid-3">
+                ${this.renderLinks()}
             </div>
         `;
     },
 
-    init() {}
+    renderLinks() {
+        if (this.links.length === 0) {
+            return this.renderFallbackLinks();
+        }
+
+        return this.links.map(link => `
+            <a href="${link.url}" target="_blank" class="card" style="text-decoration: none;">
+                <h3 style="color: var(--dd2-orange);">${link.icon || '🔗'} ${link.title}</h3>
+                <p style="color: var(--text-secondary);">${link.description || ''}</p>
+                ${link.category ? `<p style="color: var(--dd2-purple); font-size: 0.85rem; margin-top: 0.5rem;"><strong>Category:</strong> ${link.category}</p>` : ''}
+            </a>
+        `).join('');
+    },
+
+    renderFallbackLinks() {
+        // Fallback to hardcoded links when dd2_links.json doesn't exist
+        const fallbackLinks = [
+            { icon: '🔗', title: 'Protobot Database', url: 'https://bit.ly/Protobot', description: 'Mod/shard info, drop tables, and more', category: 'Database' },
+            { icon: '💰', title: 'DD2 Market Prices', url: 'http://bit.ly/dd2market', description: 'Community price estimates (very volatile!)', category: 'Trading' },
+            { icon: '⚔️', title: 'DPS Build Guides', url: 'https://docs.google.com/spreadsheets/d/14eqaz9FgWAM9jBZagH3araTz0509KvO3x2FssmdHvoA', description: 'Community DPS hero builds', category: 'Guides' },
+            { icon: '🛡', title: 'Defense Build Guides', url: 'https://docs.google.com/spreadsheets/d/1sjBA60Fr9ryVnw4FUIMU2AVXbKw395Tdz7j--EAUA1A', description: 'Tower setups for every hero', category: 'Guides' },
+            { icon: '📄', title: 'Master Spreadsheet', url: 'https://docs.google.com/spreadsheets/d/1Grd0H2iaNy1I-CPDKjE1uo5_qHNCf9WyQlnEB4u-yOg/edit?gid=1808764212', description: 'LichtAbzeichen8\'s comprehensive guide', category: 'Guides' },
+            { icon: '🎥', title: 'Juicebags\' YouTube', url: 'https://www.youtube.com/user/MrJuicebags', description: 'Video guides and builds', category: 'Videos' },
+            { icon: '📘', title: 'DD2 Wiki', url: 'https://wiki.dungeondefenders2.com/wiki/Main_Page', description: 'General game reference', category: 'Reference' },
+            { icon: '🧩', title: 'Support', url: 'https://chromatic.zendesk.com/hc/en-us/requests/new', description: 'Chromatic Games support tickets', category: 'Support' },
+            { icon: '🧱', title: 'Community Builds', url: 'https://builds.dundef.com/builds', description: 'Player-submitted defense layouts', category: 'Guides' }
+        ];
+
+        return fallbackLinks.map(link => `
+            <a href="${link.url}" target="_blank" class="card" style="text-decoration: none;">
+                <h3 style="color: var(--dd2-orange);">${link.icon} ${link.title}</h3>
+                <p style="color: var(--text-secondary);">${link.description}</p>
+            </a>
+        `).join('');
+    },
+
+    init() {
+        const categoryFilter = document.getElementById('resource-category-filter');
+        categoryFilter?.addEventListener('change', (e) => this.filterByCategory(e.target.value));
+    },
+
+    async loadLinks() {
+        // Try to load from DD2DataCache first
+        if (typeof DD2DataCache !== 'undefined') {
+            const linksData = await DD2DataCache.load('links');
+            if (linksData && Array.isArray(linksData)) {
+                this.links = linksData;
+                this.categories = [...new Set(linksData.map(l => l.category).filter(Boolean))];
+                console.log('✅ Loaded links from dd2_links.json');
+                return;
+            }
+        }
+
+        // If data cache fails or doesn't exist, use fallback
+        console.log('📋 Using fallback hardcoded links (dd2_links.json not found)');
+        this.links = [];
+        this.categories = [];
+    },
+
+    filterByCategory(category) {
+        const grid = document.getElementById('resources-grid');
+        if (!grid) return;
+
+        if (category === 'all') {
+            grid.innerHTML = this.renderLinks();
+        } else {
+            const filtered = this.links.filter(link => link.category === category);
+            grid.innerHTML = filtered.map(link => `
+                <a href="${link.url}" target="_blank" class="card" style="text-decoration: none;">
+                    <h3 style="color: var(--dd2-orange);">${link.icon || '🔗'} ${link.title}</h3>
+                    <p style="color: var(--text-secondary);">${link.description || ''}</p>
+                    <p style="color: var(--dd2-purple); font-size: 0.85rem; margin-top: 0.5rem;"><strong>Category:</strong> ${link.category}</p>
+                </a>
+            `).join('');
+        }
+    }
 };
 
 // ========================================
