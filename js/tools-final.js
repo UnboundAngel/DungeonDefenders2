@@ -85,7 +85,7 @@ const HeroBuilder = {
         return `
             <div class="tool-header">
                 <h1 class="tool-title">🏗️ Hero Builder</h1>
-                <p class="tool-description">Build your hero with gear, mods, and shards</p>
+                <p class="tool-description">Build your hero with gear, abilities, and hypershards</p>
             </div>
 
             <div class="grid-2">
@@ -124,20 +124,20 @@ const HeroBuilder = {
 
             ${this.currentBuild.hero ? `
                 <div class="grid-2 mt-md">
-                    <!-- Mods & Shards -->
+                    <!-- Abilities & Hypershards -->
                     <div class="card">
-                        <h3 class="card-title">Add Mods & Shards</h3>
+                        <h3 class="card-title">⚡ Hero Abilities & Hypershards</h3>
                         <div class="input-group">
-                            <label class="input-label">Search Mods</label>
-                            <input type="text" class="input-field" id="hero-mod-search" placeholder="Search mods...">
+                            <label class="input-label">🎯 Search Abilities (Filtered for ${this.currentBuild.hero.name})</label>
+                            <input type="text" class="input-field" id="hero-mod-search" placeholder="Search abilities...">
                         </div>
-                        <div id="mod-select-list" style="max-height: 300px; overflow-y: auto;">
+                        <div id="mod-select-list" style="max-height: 300px; overflow-y: auto; margin-bottom: 1.5rem;">
                             ${this.renderModList()}
                         </div>
 
-                        <div class="input-group mt-md">
-                            <label class="input-label">Search Shards</label>
-                            <input type="text" class="input-field" id="hero-shard-search" placeholder="Search shards...">
+                        <div class="input-group">
+                            <label class="input-label">💎 Search Hypershards</label>
+                            <input type="text" class="input-field" id="hero-shard-search" placeholder="Search hypershards...">
                         </div>
                         <div id="shard-select-list" style="max-height: 300px; overflow-y: auto;">
                             ${this.renderShardList()}
@@ -146,15 +146,15 @@ const HeroBuilder = {
 
                     <!-- Build Summary -->
                     <div class="neon-panel">
-                        <h3 style="color: var(--dd2-orange); margin-bottom: 1rem;">Build Summary</h3>
+                        <h3 style="color: var(--dd2-orange); margin-bottom: 1rem;">📋 Build Summary</h3>
                         <div style="margin-bottom: 1rem;">
-                            <h4 style="color: var(--dd2-purple);">Selected Mods (${this.currentBuild.mods.length})</h4>
+                            <h4 style="color: var(--dd2-purple);">⚡ Selected Abilities (${this.currentBuild.mods.length})</h4>
                             <div id="selected-mods">
                                 ${this.renderSelectedMods()}
                             </div>
                         </div>
                         <div style="margin-bottom: 1rem;">
-                            <h4 style="color: var(--dd2-purple);">Selected Shards (${this.currentBuild.shards.length})</h4>
+                            <h4 style="color: var(--dd2-orange);">💎 Selected Hypershards (${this.currentBuild.shards.length})</h4>
                             <div id="selected-shards">
                                 ${this.renderSelectedShards()}
                             </div>
@@ -167,7 +167,42 @@ const HeroBuilder = {
                         </div>
                     </div>
                 </div>
+
+                <!-- Ability Quick Reference -->
+                ${this.renderAbilityReference()}
             ` : ''}
+        `;
+    },
+
+    renderAbilityReference() {
+        if (!this.currentBuild.hero) return '';
+
+        const heroAbilities = this.availableMods.filter(m =>
+            !m.heroes || m.heroes.length === 0 || m.heroes.includes(this.currentBuild.hero.name)
+        );
+
+        if (heroAbilities.length === 0) return '';
+
+        return `
+            <div class="card mt-md">
+                <h3 class="card-title">📖 ${this.currentBuild.hero.name} Ability Reference</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+                    Quick reference of all abilities available for ${this.currentBuild.hero.name}. Total: ${heroAbilities.length} abilities
+                </p>
+                <div class="grid-3" style="gap: 0.75rem;">
+                    ${heroAbilities.map(ability => `
+                        <div class="card" style="background: var(--bg-input); padding: 0.75rem;">
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                ${ability.iconUrl ? `<img src="${ability.iconUrl}" alt="${ability.name}" style="width: 24px; height: 24px; border-radius: 4px;" onerror="this.style.display='none'">` : ''}
+                                <strong style="color: var(--dd2-purple); font-size: 0.9rem;">${ability.name}</strong>
+                            </div>
+                            <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.4;">
+                                ${ability.description || 'No description'}
+                            </p>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
         `;
     },
 
@@ -191,25 +226,38 @@ const HeroBuilder = {
 
     renderModList() {
         const searchTerm = document.getElementById('hero-mod-search')?.value.toLowerCase() || '';
-        const filtered = this.availableMods.filter(m =>
+
+        // Filter by selected hero first
+        let heroFiltered = this.availableMods;
+        if (this.currentBuild.hero) {
+            heroFiltered = this.availableMods.filter(m => {
+                // Show abilities that work for this hero or are universal
+                return !m.heroes || m.heroes.length === 0 || m.heroes.includes(this.currentBuild.hero.name);
+            });
+        }
+
+        // Then filter by search term
+        const filtered = heroFiltered.filter(m =>
             m.name.toLowerCase().includes(searchTerm) ||
-            (m.description && m.description.toLowerCase().includes(searchTerm))
-        ).slice(0, 20);
+            (m.description && m.description.toLowerCase().includes(searchTerm)) ||
+            (m.type && m.type.toLowerCase().includes(searchTerm))
+        ).slice(0, 30);
 
         if (filtered.length === 0) {
-            return '<p style="color: var(--text-muted); padding: 1rem; text-align: center;">No mods found</p>';
+            return '<p style="color: var(--text-muted); padding: 1rem; text-align: center;">No abilities found for this hero</p>';
         }
 
         return filtered.map(mod => {
             const isSelected = this.currentBuild.mods.some(m => m.name === mod.name);
             return `
-                <div style="padding: 0.75rem; border-bottom: 1px solid var(--dd2-purple); display: flex; justify-content: space-between; align-items: center;">
+                <div style="padding: 0.75rem; border-bottom: 1px solid var(--dd2-purple); display: flex; gap: 0.75rem; align-items: center;">
+                    ${mod.iconUrl ? `<img src="${mod.iconUrl}" alt="${mod.name}" style="width: 32px; height: 32px; border-radius: 4px;" onerror="this.style.display='none'">` : ''}
                     <div style="flex: 1;">
                         <strong style="color: var(--dd2-purple);">${mod.name}</strong>
-                        <p style="font-size: 0.85rem; color: var(--text-secondary);">${mod.description || ''}</p>
+                        <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.25rem;">${mod.description || ''}</p>
                     </div>
                     <button onclick="HeroBuilder.toggleMod('${mod.name.replace(/'/g, "\\'")}', event)"
-                            style="background: ${isSelected ? '#ef4444' : 'var(--dd2-orange)'}; border: none; padding: 0.5rem 1rem; border-radius: 4px; color: white; cursor: pointer;">
+                            style="background: ${isSelected ? '#ef4444' : 'var(--dd2-orange)'}; border: none; padding: 0.5rem 1rem; border-radius: 4px; color: white; cursor: pointer; white-space: nowrap;">
                         ${isSelected ? 'Remove' : 'Add'}
                     </button>
                 </div>
@@ -222,22 +270,23 @@ const HeroBuilder = {
         const filtered = this.availableShards.filter(s =>
             s.name.toLowerCase().includes(searchTerm) ||
             (s.description && s.description.toLowerCase().includes(searchTerm))
-        ).slice(0, 20);
+        );
 
         if (filtered.length === 0) {
-            return '<p style="color: var(--text-muted); padding: 1rem; text-align: center;">No shards found</p>';
+            return '<p style="color: var(--text-muted); padding: 1rem; text-align: center;">No hypershards found</p>';
         }
 
         return filtered.map(shard => {
             const isSelected = this.currentBuild.shards.some(s => s.name === shard.name);
             return `
-                <div style="padding: 0.75rem; border-bottom: 1px solid var(--dd2-purple); display: flex; justify-content: space-between; align-items: center;">
+                <div style="padding: 0.75rem; border-bottom: 1px solid var(--dd2-purple); display: flex; gap: 0.75rem; align-items: center;">
+                    ${shard.iconUrl ? `<img src="${shard.iconUrl}" alt="${shard.name}" style="width: 40px; height: 40px; border-radius: 4px;" onerror="this.style.display='none'">` : ''}
                     <div style="flex: 1;">
-                        <strong style="color: var(--dd2-purple);">${shard.name}</strong>
-                        <p style="font-size: 0.85rem; color: var(--text-secondary);">${shard.description || ''}</p>
+                        <strong style="color: var(--dd2-orange); font-size: 0.95rem;">${shard.name}</strong>
+                        <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem; line-height: 1.3;">${shard.description || ''}</p>
                     </div>
                     <button onclick="HeroBuilder.toggleShard('${shard.name.replace(/'/g, "\\'")}', event)"
-                            style="background: ${isSelected ? '#ef4444' : 'var(--dd2-orange)'}; border: none; padding: 0.5rem 1rem; border-radius: 4px; color: white; cursor: pointer;">
+                            style="background: ${isSelected ? '#ef4444' : 'var(--dd2-orange)'}; border: none; padding: 0.5rem 1rem; border-radius: 4px; color: white; cursor: pointer; white-space: nowrap;">
                         ${isSelected ? 'Remove' : 'Add'}
                     </button>
                 </div>
@@ -351,18 +400,49 @@ const HeroBuilder = {
 
     async loadData() {
         try {
-            const [modsRes, shardsRes] = await Promise.all([
-                fetch('data/dd2_mods_data.json'),
-                fetch('data/dd2_shards_data.json')
-            ]);
-            const mods = await modsRes.json();
-            const shards = await shardsRes.json();
+            // Load abilities from dd2_abilities.json via DD2DataCache
+            const abilitiesData = await DD2DataCache.load('abilities');
+            if (abilitiesData && Array.isArray(abilitiesData)) {
+                this.availableMods = abilitiesData.map(ability => ({
+                    name: ability.name,
+                    description: this.formatAbilityDescription(ability),
+                    type: ability.abilityType,
+                    heroes: ability.heroes || [],
+                    iconUrl: ability.iconUrl,
+                    rawData: ability
+                }));
+                console.log('✅ Loaded', this.availableMods.length, 'abilities from dd2_abilities.json');
+            }
 
-            this.availableMods = mods.filter(m => m.name && !m.name.startsWith('http'));
-            this.availableShards = shards.filter(s => s.name && !s.name.startsWith('http'));
+            // Load hypershards from hypershards.json via DD2DataCache
+            const hypershardsData = await DD2DataCache.load('hypershards');
+            if (hypershardsData?.hypershards) {
+                this.availableShards = hypershardsData.hypershards.map(shard => ({
+                    name: shard.name,
+                    description: `Acquire from: ${shard.acquisition.fromPrimes || 'N/A'} | Mastery: ${shard.acquisition.fromMastery || 'N/A'}`,
+                    iconUrl: shard.iconUrl,
+                    acquisition: shard.acquisition
+                }));
+                console.log('✅ Loaded', this.availableShards.length, 'hypershards from hypershards.json');
+            }
         } catch (e) {
-            console.error('Failed to load data:', e);
+            console.error('Failed to load abilities/hypershards data:', e);
+            this.availableMods = [];
+            this.availableShards = [];
         }
+    },
+
+    formatAbilityDescription(ability) {
+        const parts = [];
+        if (ability.abilityType) parts.push(`Type: ${ability.abilityType}`);
+        if (ability.manaCost) parts.push(`Mana: ${ability.manaCost}`);
+        if (ability.recharge) parts.push(`Cooldown: ${ability.recharge}`);
+        if (ability.damageType) parts.push(`Damage: ${ability.damageType}`);
+        if (ability.damageScalar) parts.push(`Scalar: ${ability.damageScalar}`);
+        if (ability.statusEffects && ability.statusEffects.length > 0) {
+            parts.push(`Effects: ${ability.statusEffects.join(', ')}`);
+        }
+        return parts.join(' | ');
     },
 
     loadBuild() {
