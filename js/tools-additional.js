@@ -131,6 +131,16 @@ const AncientPowerTool = {
     maxFloorEver: 30,
     maxAscensionEver: 250,
     perkPoints: {},
+    apData: null,
+
+    async loadAPData() {
+        if (!this.apData) {
+            this.apData = await DD2DataCache.load('ancientPower');
+            if (this.apData) {
+                console.log('✅ Loaded Ancient Power data from dd2_ap.json');
+            }
+        }
+    },
 
     // Official DD2 Wiki floor requirements per AP
     getFloorRequirement(apLevel) {
@@ -144,18 +154,52 @@ const AncientPowerTool = {
         return apLevel >= 50 ? 320 : (floorTable[apLevel] || 30);
     },
 
-    // AP Perk system - official bonuses
+    // AP Perk system - load from dd2_ap.json
     getPerks() {
+        if (this.apData) {
+            // Convert dd2_ap.json format to internal format
+            const perks = {};
+            for (const [key, data] of Object.entries(this.apData)) {
+                // Convert from decimal format (0.04 = 4%) to percentage values
+                const values = data.levels.slice(1).map(level => level * 100);
+                perks[key.toLowerCase()] = {
+                    name: data.name,
+                    bonus: this.getBonusDescription(key),
+                    values: values,
+                    maxLevel: data.maxLevel
+                };
+            }
+            return perks;
+        }
+
+        // Fallback to hardcoded values if JSON not loaded
         return {
-            'heroic_power': { name: 'Heroic Power', bonus: 'Hero Damage', values: [4, 6, 8, 10, 12, 14, 16, 18, 20, 25] },
-            'ancient_health': { name: 'Ancient Health', bonus: 'Hero Health', values: [4, 6, 8, 10, 12, 14, 16, 18, 20, 25] },
-            'ancient_destruction': { name: 'Ancient Destruction', bonus: 'Defense Power', values: [4, 6, 8, 10, 12, 14, 16, 18, 20, 25] },
-            'ancient_fortification': { name: 'Ancient Fortification', bonus: 'Defense Health', values: [4, 6, 8, 10, 12, 14, 16, 18, 20, 25] },
-            'power_of_the_ancients': { name: 'Power of the Ancients', bonus: 'Ability Power', values: [4, 6, 8, 10, 12, 14, 16, 18, 20, 25] }
+            'ancientheroicpower': { name: 'Ancient Heroic Power', bonus: 'Hero Damage', values: [4, 6, 8, 9, 10], maxLevel: 5 },
+            'ancienthealth': { name: 'Ancient Health', bonus: 'Hero Health', values: [4, 6, 8, 9, 10], maxLevel: 5 },
+            'ancientdestruction': { name: 'Ancient Destruction', bonus: 'Defense Power', values: [4, 6, 8, 9, 10], maxLevel: 5 },
+            'ancientfortification': { name: 'Ancient Fortification', bonus: 'Defense Health', values: [4, 6, 8, 9, 10], maxLevel: 5 },
+            'ancientabilitypower': { name: 'Ancient Ability Power', bonus: 'Ability Power', values: [4, 6, 8, 9, 10], maxLevel: 5 }
         };
     },
 
-    render() {
+    getBonusDescription(key) {
+        const descriptions = {
+            'AncientAbilityPower': 'Ability Power',
+            'AncientHeroicPower': 'Hero Damage',
+            'AncientHealth': 'Hero Health',
+            'AncientResistance': 'All Resistance',
+            'AncientLifeSteal': 'Life Steal',
+            'AncientFortification': 'Defense Health',
+            'AncientDestruction': 'Defense Power',
+            'AncientStrikes': 'Critical Damage',
+            'AncientCriticalDamage': 'Critical Damage',
+            'AncientSpeed': 'Attack Rate'
+        };
+        return descriptions[key] || 'Bonus';
+    },
+
+    async render() {
+        await this.loadAPData();
         this.loadData();
         const perks = this.getPerks();
         const nextFloorReq = this.getFloorRequirement(this.currentAP);
@@ -209,15 +253,16 @@ const AncientPowerTool = {
                 <div id="perk-allocation" class="grid-2">
                     ${Object.entries(perks).map(([key, perk]) => {
                         const points = this.perkPoints[key] || 0;
-                        const bonus = points > 0 ? perk.values[Math.min(points - 1, 9)] : 0;
+                        const maxLevel = perk.maxLevel || 10;
+                        const bonus = points > 0 ? perk.values[Math.min(points - 1, perk.values.length - 1)] : 0;
                         return `
                             <div class="card" style="background: var(--bg-input);">
                                 <h4 style="color: var(--dd2-purple);">${perk.name}</h4>
-                                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.5rem;">${perk.bonus}: +${bonus}%</p>
+                                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.5rem;">${perk.bonus}: +${bonus.toFixed(1)}%</p>
                                 <div style="display: flex; align-items: center; gap: 0.5rem;">
                                     <button class="btn btn-danger" onclick="AncientPowerTool.adjustPerk('${key}', -1)" style="padding: 0.25rem 0.75rem;">−</button>
                                     <div style="flex: 1; text-align: center; font-size: 1.2rem; font-weight: bold; color: var(--dd2-orange);">
-                                        ${points} / 10
+                                        ${points} / ${maxLevel}
                                     </div>
                                     <button class="btn btn-primary" onclick="AncientPowerTool.adjustPerk('${key}', 1)" style="padding: 0.25rem 0.75rem;">+</button>
                                 </div>
@@ -416,13 +461,14 @@ const AncientPowerTool = {
 const GearSimulator = {
     pWeapons: [],
     rings: [],
+    mods: [],
 
     async render() {
         await this.loadGearData();
         return `
             <div class="tool-header">
                 <h1 class="tool-title">⚙️ Gear Stats Simulator</h1>
-                <p class="tool-description">Calculate gear stat ranges, browse premium weapons, and prime rings</p>
+                <p class="tool-description">Calculate gear stat ranges, browse premium weapons, prime rings, and defense mods</p>
             </div>
 
             <div class="grid-2">
@@ -487,13 +533,16 @@ const GearSimulator = {
 
             <!-- Prime Rings Reference -->
             ${this.renderRingsReference()}
+
+            <!-- Defense Mods Database -->
+            ${this.renderModsDatabase()}
         `;
     },
 
     async loadGearData() {
         try {
             // Load premium weapons from P_Weapon.json
-            const pWeaponsData = await DD2DataCache.load('pWeapons');
+            const pWeaponsData = await DD2DataCache.load('perfectWeapons');
             if (pWeaponsData && Array.isArray(pWeaponsData)) {
                 this.pWeapons = pWeaponsData;
                 console.log('✅ Loaded', this.pWeapons.length, 'premium weapons from P_Weapon.json');
@@ -504,6 +553,16 @@ const GearSimulator = {
             if (ringsData?.rings) {
                 this.rings = ringsData.rings;
                 console.log('✅ Loaded', this.rings.length, 'rings from dd2_rings.json');
+            }
+
+            // Load mods database from dd2_mods_data.json
+            const modsData = await DD2DataCache.load('mods');
+            if (modsData && Array.isArray(modsData)) {
+                // Filter valid mods
+                this.mods = modsData.filter(m =>
+                    m.name && !m.name.startsWith('http') && m.description
+                );
+                console.log('✅ Loaded', this.mods.length, 'defense mods from dd2_mods_data.json');
             }
         } catch (e) {
             console.error('Failed to load gear data:', e);
@@ -589,6 +648,54 @@ const GearSimulator = {
                         </div>
                     `).join('')}
                 </div>
+            </div>
+        `;
+    },
+
+    renderModsDatabase() {
+        if (!this.mods || this.mods.length === 0) {
+            return '';
+        }
+
+        // Group by hero
+        const byHero = {};
+        this.mods.forEach(mod => {
+            const hero = mod.hero || 'All';
+            if (!byHero[hero]) byHero[hero] = [];
+            byHero[hero].push(mod);
+        });
+
+        // Show top 50 most common mods first (All hero mods)
+        const allMods = byHero['All'] || [];
+        const firstBatch = allMods.slice(0, 50);
+
+        return `
+            <div class="card mt-md">
+                <h3 class="card-title">🔧 Defense Mods & Servos Database</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+                    Comprehensive database of defense mods. Showing ${firstBatch.length} of ${this.mods.length} total mods.
+                </p>
+
+                <div class="grid-3" style="gap: 0.75rem;">
+                    ${firstBatch.map(mod => `
+                        <div class="card" style="background: var(--bg-input); padding: 0.75rem;">
+                            <h5 style="color: var(--dd2-purple); margin-bottom: 0.5rem; font-size: 0.9rem;">
+                                ${mod.name}
+                            </h5>
+                            <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.4; margin-bottom: 0.5rem;">
+                                ${mod.description}
+                            </p>
+                            <div style="font-size: 0.7rem;">
+                                <p style="color: var(--dd2-orange);"><strong>Hero:</strong> ${mod.hero}</p>
+                                <p style="color: var(--dd2-cyan);"><strong>Drop:</strong> ${mod.drop || 'Unknown'}</p>
+                                <p style="color: var(--dd2-gold);"><strong>Type:</strong> ${mod.type || 'N/A'}</p>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                <p style="text-align: center; color: var(--text-muted); margin-top: 1rem; font-size: 0.9rem;">
+                    ${this.mods.length - firstBatch.length} more mods available
+                </p>
             </div>
         `;
     },

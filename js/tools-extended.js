@@ -240,6 +240,7 @@ const OnslaughtTracker = {
     highestFloor: 1,
     mapData: null,
     chaosData: null,
+    survivalData: null,
 
     async render() {
         this.loadData();
@@ -322,6 +323,36 @@ const OnslaughtTracker = {
                     </div>
                 </div>
             ` : '<div class="card mt-md"><p style="color: var(--text-muted); text-align: center;">Map data not available for this floor</p></div>'}
+
+            ${this.renderSurvivalReference()}
+        `;
+    },
+
+    renderSurvivalReference() {
+        if (!this.survivalData?.expeditionToSurvival) {
+            return '';
+        }
+
+        return `
+            <div class="card mt-md">
+                <h3 class="card-title">🌊 Survival Mode - Chaos Tier Mapping</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+                    Survival wave equivalents for Chaos Expedition tiers
+                </p>
+                <div class="grid-2" style="gap: 0.75rem;">
+                    ${this.survivalData.expeditionToSurvival.map(mapping => `
+                        <div class="card" style="background: var(--bg-input); padding: 0.75rem;">
+                            <h4 style="color: var(--dd2-orange); margin-bottom: 0.5rem;">
+                                ${mapping.tier}
+                            </h4>
+                            <div style="font-size: 0.85rem; line-height: 1.6;">
+                                <p><strong style="color: var(--dd2-purple);">Equivalent:</strong> ${mapping.waveEquivalent}</p>
+                                <p><strong style="color: var(--dd2-cyan);">Checkpoint Start:</strong> ${mapping.startingCheckpoint}</p>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
         `;
     },
 
@@ -356,6 +387,23 @@ const OnslaughtTracker = {
         if (!this.chaosData) {
             this.chaosData = await DD2DataCache.load('onslaughtToChaos');
         }
+        if (!this.survivalData) {
+            this.survivalData = await DD2DataCache.load('survivalToChaos');
+            if (this.survivalData) {
+                console.log('✅ Loaded Survival to Chaos mapping');
+            }
+        }
+    },
+
+    getSurvivalWaveInfo(chaosTier) {
+        if (!this.survivalData?.expeditionToSurvival) return null;
+
+        // Find the matching tier
+        const mapping = this.survivalData.expeditionToSurvival.find(m =>
+            m.tier === chaosTier || m.tier === `Chaos ${chaosTier}`
+        );
+
+        return mapping;
     },
 
     getChaosTier(floor) {

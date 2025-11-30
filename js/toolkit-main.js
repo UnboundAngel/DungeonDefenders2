@@ -178,7 +178,7 @@ const DD2Toolkit = {
             'shard-wishlist': ShardWishlist,
 
             // Builders & Planners
-            'hero-builder': HeroBuilder,
+            'hero-builder': HeroBuilderV2,
             'strategy-planner': StrategyPlanner,
 
             // Utilities

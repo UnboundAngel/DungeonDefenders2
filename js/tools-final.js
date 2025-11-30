@@ -425,6 +425,19 @@ const HeroBuilder = {
                 }));
                 console.log('✅ Loaded', this.availableShards.length, 'hypershards from hypershards.json');
             }
+
+            // Load comprehensive shards database from dd2_shards_data.json
+            const shardsDbData = await DD2DataCache.load('shards');
+            if (shardsDbData && Array.isArray(shardsDbData)) {
+                // Filter out malformed entries and merge with availableShards
+                const validShards = shardsDbData.filter(s =>
+                    s.name &&
+                    !s.name.startsWith('http') &&
+                    s.description &&
+                    !this.availableShards.some(existing => existing.name === s.name)
+                );
+                console.log('✅ Loaded', validShards.length, 'additional shards from dd2_shards_data.json');
+            }
         } catch (e) {
             console.error('Failed to load abilities/hypershards data:', e);
             this.availableMods = [];
