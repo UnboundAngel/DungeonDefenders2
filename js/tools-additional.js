@@ -461,13 +461,14 @@ const AncientPowerTool = {
 const GearSimulator = {
     pWeapons: [],
     rings: [],
+    mods: [],
 
     async render() {
         await this.loadGearData();
         return `
             <div class="tool-header">
                 <h1 class="tool-title">⚙️ Gear Stats Simulator</h1>
-                <p class="tool-description">Calculate gear stat ranges, browse premium weapons, and prime rings</p>
+                <p class="tool-description">Calculate gear stat ranges, browse premium weapons, prime rings, and defense mods</p>
             </div>
 
             <div class="grid-2">
@@ -532,13 +533,16 @@ const GearSimulator = {
 
             <!-- Prime Rings Reference -->
             ${this.renderRingsReference()}
+
+            <!-- Defense Mods Database -->
+            ${this.renderModsDatabase()}
         `;
     },
 
     async loadGearData() {
         try {
             // Load premium weapons from P_Weapon.json
-            const pWeaponsData = await DD2DataCache.load('pWeapons');
+            const pWeaponsData = await DD2DataCache.load('perfectWeapons');
             if (pWeaponsData && Array.isArray(pWeaponsData)) {
                 this.pWeapons = pWeaponsData;
                 console.log('✅ Loaded', this.pWeapons.length, 'premium weapons from P_Weapon.json');
@@ -549,6 +553,16 @@ const GearSimulator = {
             if (ringsData?.rings) {
                 this.rings = ringsData.rings;
                 console.log('✅ Loaded', this.rings.length, 'rings from dd2_rings.json');
+            }
+
+            // Load mods database from dd2_mods_data.json
+            const modsData = await DD2DataCache.load('mods');
+            if (modsData && Array.isArray(modsData)) {
+                // Filter valid mods
+                this.mods = modsData.filter(m =>
+                    m.name && !m.name.startsWith('http') && m.description
+                );
+                console.log('✅ Loaded', this.mods.length, 'defense mods from dd2_mods_data.json');
             }
         } catch (e) {
             console.error('Failed to load gear data:', e);
@@ -634,6 +648,54 @@ const GearSimulator = {
                         </div>
                     `).join('')}
                 </div>
+            </div>
+        `;
+    },
+
+    renderModsDatabase() {
+        if (!this.mods || this.mods.length === 0) {
+            return '';
+        }
+
+        // Group by hero
+        const byHero = {};
+        this.mods.forEach(mod => {
+            const hero = mod.hero || 'All';
+            if (!byHero[hero]) byHero[hero] = [];
+            byHero[hero].push(mod);
+        });
+
+        // Show top 50 most common mods first (All hero mods)
+        const allMods = byHero['All'] || [];
+        const firstBatch = allMods.slice(0, 50);
+
+        return `
+            <div class="card mt-md">
+                <h3 class="card-title">🔧 Defense Mods & Servos Database</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+                    Comprehensive database of defense mods. Showing ${firstBatch.length} of ${this.mods.length} total mods.
+                </p>
+
+                <div class="grid-3" style="gap: 0.75rem;">
+                    ${firstBatch.map(mod => `
+                        <div class="card" style="background: var(--bg-input); padding: 0.75rem;">
+                            <h5 style="color: var(--dd2-purple); margin-bottom: 0.5rem; font-size: 0.9rem;">
+                                ${mod.name}
+                            </h5>
+                            <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.4; margin-bottom: 0.5rem;">
+                                ${mod.description}
+                            </p>
+                            <div style="font-size: 0.7rem;">
+                                <p style="color: var(--dd2-orange);"><strong>Hero:</strong> ${mod.hero}</p>
+                                <p style="color: var(--dd2-cyan);"><strong>Drop:</strong> ${mod.drop || 'Unknown'}</p>
+                                <p style="color: var(--dd2-gold);"><strong>Type:</strong> ${mod.type || 'N/A'}</p>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                <p style="text-align: center; color: var(--text-muted); margin-top: 1rem; font-size: 0.9rem;">
+                    ${this.mods.length - firstBatch.length} more mods available
+                </p>
             </div>
         `;
     },
