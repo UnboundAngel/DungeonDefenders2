@@ -1,5 +1,24 @@
 # DD2 Toolkit - JSON Data Integration Status
 
+## 📋 Current State
+
+**Infrastructure**: Complete and functional
+- Data cache system ready for all JSON files
+- Integration patterns documented in `data/JSON_SCHEMAS.md`
+- Reference implementation in Resources Page tool
+
+**Data Files**: Most referenced files do not exist yet
+- Existing: `dd2_mods_data.json`, `dd2_shards_data.json`, `dd2_abilities.json`, `dd2_prices.json`
+- Missing: Defense data, map data, godly rates, onslaught data, questlines, etc.
+- See `data/JSON_SCHEMAS.md` for expected file formats
+
+**Next Steps**:
+1. Create JSON data files following schemas in `data/JSON_SCHEMAS.md`
+2. Once files exist, tools will automatically consume them via DD2DataCache
+3. All tools below marked "Ready to Integrate" require their data files to be created first
+
+---
+
 ## ✅ Completed
 
 ### Core Infrastructure
@@ -8,6 +27,10 @@
   - Async loading with promise caching
   - Helper functions for common queries
   - Auto-preloading on toolkit init
+- **JSON Schema Documentation** (`data/JSON_SCHEMAS.md`)
+  - Expected format for all data files
+  - Integration patterns and examples
+  - Usage documentation for each schema
 
 ### Fixed & Enhanced Tools
 1. **Ancient Power Calculator** - 100% accurate with official DD2 Wiki formulas
@@ -15,6 +38,7 @@
 3. **Map Efficiency Tracker** - Full build tracking with AP calculations
 4. **Multi-Page Website** - Landing page, navigation, URL parameters
 5. **Async Rendering Fix** - All Promise-based tools work correctly
+6. **Resources Page** - Data-cache integrated with graceful fallback (demonstrates integration pattern)
 
 ## 🔄 Ready to Integrate (Data Loaded, Tools Need Updates)
 
