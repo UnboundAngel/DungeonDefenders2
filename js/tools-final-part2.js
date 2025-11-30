@@ -184,122 +184,290 @@ const PetEvolution = {
 // TOWER SCALING VISUALIZER
 // ========================================
 const TowerVisualizer = {
+    defenses: [],
+    dpsEfficiency: [],
+    filteredDefenses: [],
     selectedDefense: null,
+    filterHero: 'all',
+    filterType: 'all',
+    sortBy: 'name',
 
-    render() {
-        const defenseList = [
-            'Spike Blockade', 'Cannonball Tower', 'Flame Aura', 'Lightning Aura',
-            'Flameburst Tower', 'Skeletal Ramster', 'Poison Dart Tower'
-        ];
+    async render() {
+        await this.loadData();
+        this.applyFilters();
+
+        const heroes = [...new Set(this.defenses.map(d => d.hero).filter(Boolean))].sort();
+        const types = [...new Set(this.defenses.map(d => d.defense_type).filter(Boolean))].sort();
 
         return `
             <div class="tool-header">
-                <h1 class="tool-title">📊 Tower Scaling Visualizer</h1>
-                <p class="tool-description">View tower stats across upgrade levels</p>
+                <h1 class="tool-title">📊 Tower Visualizer</h1>
+                <p class="tool-description">Browse all defenses with stats, DPS efficiency, and scaling</p>
             </div>
 
-            <div class="grid-2">
-                <div class="card">
-                    <h3 class="card-title">Select Defense</h3>
-                    <select class="input-field" id="defense-select" onchange="TowerVisualizer.selectDefense(this.value)">
-                        <option value="">-- Select Defense --</option>
-                        ${defenseList.map(def => `
-                            <option value="${def}" ${this.selectedDefense === def ? 'selected' : ''}>${def}</option>
-                        `).join('')}
-                    </select>
+            <div class="card">
+                <div class="grid-3">
+                    <div class="input-group">
+                        <label class="input-label">Filter by Hero</label>
+                        <select class="input-field" id="hero-filter">
+                            <option value="all">All Heroes</option>
+                            ${heroes.map(hero => `<option value="${hero}">${hero}</option>`).join('')}
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Filter by Type</label>
+                        <select class="input-field" id="type-filter">
+                            <option value="all">All Types</option>
+                            ${types.map(type => `<option value="${type}">${type}</option>`).join('')}
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Sort By</label>
+                        <select class="input-field" id="sort-by">
+                            <option value="name">Name (A-Z)</option>
+                            <option value="hero">Hero</option>
+                            <option value="du">DU Cost</option>
+                            <option value="eff_t1">Efficiency (T1)</option>
+                            <option value="eff_t5">Efficiency (T5)</option>
+                        </select>
+                    </div>
+                </div>
+                <p style="color: var(--text-muted); margin-top: 0.5rem;">Found ${this.filteredDefenses.length} defenses</p>
+            </div>
 
-                    ${this.selectedDefense ? `
-                        <div class="mt-md" style="background: var(--bg-input); padding: 1rem; border-radius: 8px;">
-                            <h4 style="color: var(--dd2-orange); margin-bottom: 0.5rem;">Manual Stat Input</h4>
-                            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
-                                Enter base stats to see scaling across levels 1-5
-                            </p>
-                            <div class="input-group">
-                                <label class="input-label">Base Damage</label>
-                                <input type="number" class="input-field" id="tower-base-damage" value="1000" min="0">
+            <div id="defense-grid" class="grid-3">
+                ${this.renderDefenses()}
+            </div>
+
+            ${this.selectedDefense ? this.renderDetailsModal() : ''}
+        `;
+    },
+
+    renderDefenses() {
+        if (this.filteredDefenses.length === 0) {
+            return '<p class="text-center" style="grid-column: 1/-1;">No defenses found</p>';
+        }
+
+        return this.filteredDefenses.map(defense => {
+            const efficiency = this.dpsEfficiency.find(e => e.name === defense.name);
+            const du = parseInt(defense.mana_cost) || 0;
+
+            return `
+                <div class="card" onclick="TowerVisualizer.selectDefense('${defense.name}')" style="cursor: pointer; transition: all 0.3s;"
+                     onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 16px rgba(230, 126, 34, 0.3)';"
+                     onmouseout="this.style.transform=''; this.style.boxShadow='';">
+
+                    ${defense.image_url ? `
+                        <div style="text-align: center; margin-bottom: 0.5rem;">
+                            <img src="${defense.image_url}" alt="${defense.name}"
+                                 style="width: 80px; height: 80px; object-fit: contain;"
+                                 onerror="this.style.display='none'">
+                        </div>
+                    ` : ''}
+
+                    <h3 style="color: var(--dd2-orange); margin-bottom: 0.5rem; font-size: 1.1rem;">${defense.name}</h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.9rem;">
+                        <div>
+                            <p style="color: var(--text-muted); font-size: 0.85rem;">Hero</p>
+                            <p style="color: var(--dd2-purple); font-weight: bold;">${defense.hero}</p>
+                        </div>
+                        <div>
+                            <p style="color: var(--text-muted); font-size: 0.85rem;">Type</p>
+                            <p style="color: var(--dd2-cyan);">${defense.defense_type}</p>
+                        </div>
+                        <div>
+                            <p style="color: var(--text-muted); font-size: 0.85rem;">DU Cost</p>
+                            <p style="color: var(--dd2-gold); font-weight: bold;">${du}</p>
+                        </div>
+                        <div>
+                            <p style="color: var(--text-muted); font-size: 0.85rem;">Damage</p>
+                            <p style="color: var(--dd2-orange);">${defense.damage_type}</p>
+                        </div>
+                    </div>
+
+                    ${defense.status_effects && defense.status_effects !== 'None' ? `
+                        <p style="color: var(--dd2-purple); font-size: 0.85rem; margin-top: 0.5rem; padding: 0.25rem 0.5rem; background: var(--bg-input); border-radius: 4px;">
+                            <strong>Status:</strong> ${defense.status_effects}
+                        </p>
+                    ` : ''}
+
+                    ${efficiency ? `
+                        <div style="margin-top: 0.5rem; padding: 0.5rem; background: var(--bg-input); border-radius: 4px;">
+                            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.25rem;">DPS Efficiency (per 10 DU)</p>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.9rem;">
+                                <div>
+                                    <span style="color: var(--text-muted);">T1:</span>
+                                    <span style="color: var(--dd2-gold); font-weight: bold;">${efficiency.efficiency.t1}</span>
+                                </div>
+                                <div>
+                                    <span style="color: var(--text-muted);">T5:</span>
+                                    <span style="color: var(--dd2-gold); font-weight: bold;">${efficiency.efficiency.t5}</span>
+                                </div>
                             </div>
-                            <div class="input-group">
-                                <label class="input-label">Base Range</label>
-                                <input type="number" class="input-field" id="tower-base-range" value="500" min="0">
-                            </div>
-                            <div class="input-group">
-                                <label class="input-label">Base Attack Rate</label>
-                                <input type="number" class="input-field" id="tower-base-rate" value="1.5" min="0.1" step="0.1">
-                            </div>
-                            <button class="btn btn-primary" onclick="TowerVisualizer.calculate()" style="width: 100%;">
-                                Calculate Scaling
-                            </button>
                         </div>
                     ` : ''}
                 </div>
+            `;
+        }).join('');
+    },
 
-                <div class="neon-panel">
-                    ${this.selectedDefense ? `
-                        <h3 style="color: var(--dd2-orange); margin-bottom: 1rem;">${this.selectedDefense} - Stat Scaling</h3>
-                        <div id="tower-stats-display">
-                            <p style="color: var(--text-muted); text-align: center;">Enter stats and calculate</p>
+    renderDetailsModal() {
+        const defense = this.selectedDefense;
+        if (!defense) return '';
+
+        return `
+            <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 2rem;" onclick="TowerVisualizer.closeDetails(event)">
+                <div class="card" style="max-width: 800px; width: 100%; max-height: 90vh; overflow-y: auto;" onclick="event.stopPropagation();">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h2 style="color: var(--dd2-orange); margin: 0;">${defense.name}</h2>
+                        <button onclick="TowerVisualizer.closeDetails()" style="background: #ef4444; border: none; padding: 0.5rem 1rem; border-radius: 4px; color: white; cursor: pointer; font-size: 1.2rem;">✕</button>
+                    </div>
+
+                    ${defense.image_url ? `
+                        <div style="text-align: center; margin-bottom: 1rem;">
+                            <img src="${defense.image_url}" alt="${defense.name}" style="width: 120px; height: 120px; object-fit: contain;" onerror="this.style.display='none'">
                         </div>
-                    ` : '<p style="color: var(--text-muted); text-align: center;">Select a defense to view scaling</p>'}
+                    ` : ''}
+
+                    <div class="grid-2" style="margin-bottom: 1rem;">
+                        <div class="neon-panel" style="padding: 1rem;">
+                            <h3 style="color: var(--dd2-purple); margin-bottom: 0.5rem;">Basic Info</h3>
+                            <p><strong>Hero:</strong> ${defense.hero}</p>
+                            <p><strong>Type:</strong> ${defense.defense_type}</p>
+                            <p><strong>DU Cost:</strong> ${defense.mana_cost}</p>
+                            <p><strong>Damage Type:</strong> ${defense.damage_type}</p>
+                            <p><strong>Status Effects:</strong> ${defense.status_effects}</p>
+                        </div>
+
+                        <div class="neon-panel" style="padding: 1rem;">
+                            <h3 style="color: var(--dd2-purple); margin-bottom: 0.5rem;">Base Stats</h3>
+                            <p><strong>Defense Power:</strong> ${defense.base_def_power}</p>
+                            <p><strong>Defense Health:</strong> ${defense.base_def_health}</p>
+                            <p><strong>Attack Rate:</strong> ${defense.base_atk_rate}s → ${defense.max_atk_rate}s</p>
+                            ${defense.base_range !== '-' ? `<p><strong>Range:</strong> ${defense.base_range} → ${defense.max_range}</p>` : ''}
+                        </div>
+                    </div>
+
+                    <div class="card" style="background: var(--bg-input); margin-bottom: 1rem;">
+                        <h3 style="color: var(--dd2-orange); margin-bottom: 0.5rem;">Tier Scaling</h3>
+                        <div style="overflow-x: auto;">
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <thead>
+                                    <tr style="background: var(--bg-card); border-bottom: 2px solid var(--dd2-purple);">
+                                        <th style="padding: 0.5rem; text-align: left;">Tier</th>
+                                        <th style="padding: 0.5rem; text-align: right;">Atk Scalar</th>
+                                        <th style="padding: 0.5rem; text-align: right;">HP Scalar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${[1,2,3,4,5].map(tier => `
+                                        <tr style="border-bottom: 1px solid var(--dd2-purple);">
+                                            <td style="padding: 0.5rem; color: var(--dd2-gold); font-weight: bold;">Tier ${tier}</td>
+                                            <td style="padding: 0.5rem; text-align: right; color: var(--dd2-orange);">${defense[`t${tier}_atk_scalar`]}</td>
+                                            <td style="padding: 0.5rem; text-align: right; color: var(--dd2-cyan);">${defense[`t${tier}_hp_scalar`]}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="card" style="background: var(--bg-input);">
+                        <h3 style="color: var(--dd2-orange); margin-bottom: 0.5rem;">Ascension Scaling</h3>
+                        <p><strong>Defense Power per Ascension:</strong> ${defense.asc_def_power}</p>
+                        <p><strong>Defense Health per Ascension:</strong> ${defense.asc_def_health}</p>
+                        ${defense.asc_gambit !== '-' ? `<p><strong>Gambit:</strong> ${defense.asc_gambit}</p>` : ''}
+                    </div>
                 </div>
             </div>
         `;
     },
 
-    init() {},
+    init() {
+        const heroFilter = document.getElementById('hero-filter');
+        const typeFilter = document.getElementById('type-filter');
+        const sortBy = document.getElementById('sort-by');
 
-    selectDefense(defense) {
-        this.selectedDefense = defense || null;
+        heroFilter?.addEventListener('change', (e) => {
+            this.filterHero = e.target.value;
+            this.applyFilters();
+        });
+
+        typeFilter?.addEventListener('change', (e) => {
+            this.filterType = e.target.value;
+            this.applyFilters();
+        });
+
+        sortBy?.addEventListener('change', (e) => {
+            this.sortBy = e.target.value;
+            this.applyFilters();
+        });
+    },
+
+    async loadData() {
+        try {
+            // Load defenses
+            const defensesData = await DD2DataCache.load('defenses');
+            this.defenses = defensesData?.defenses || [];
+
+            // Load DPS efficiency
+            this.dpsEfficiency = await DD2DataCache.load('towerDPS') || [];
+
+            console.log(`✅ Loaded ${this.defenses.length} defenses and ${this.dpsEfficiency.length} efficiency ratings`);
+        } catch (e) {
+            console.error('Failed to load defense data:', e);
+            this.defenses = [];
+            this.dpsEfficiency = [];
+        }
+    },
+
+    applyFilters() {
+        this.filteredDefenses = this.defenses.filter(defense => {
+            const matchesHero = this.filterHero === 'all' || defense.hero === this.filterHero;
+            const matchesType = this.filterType === 'all' || defense.defense_type === this.filterType;
+            return matchesHero && matchesType;
+        });
+
+        // Sort
+        this.filteredDefenses.sort((a, b) => {
+            switch (this.sortBy) {
+                case 'name':
+                    return a.name.localeCompare(b.name);
+                case 'hero':
+                    return a.hero.localeCompare(b.hero) || a.name.localeCompare(b.name);
+                case 'du':
+                    return parseInt(a.mana_cost) - parseInt(b.mana_cost);
+                case 'eff_t1': {
+                    const effA = this.dpsEfficiency.find(e => e.name === a.name);
+                    const effB = this.dpsEfficiency.find(e => e.name === b.name);
+                    return (effB?.efficiency?.t1 || 0) - (effA?.efficiency?.t1 || 0);
+                }
+                case 'eff_t5': {
+                    const effA = this.dpsEfficiency.find(e => e.name === a.name);
+                    const effB = this.dpsEfficiency.find(e => e.name === b.name);
+                    return (effB?.efficiency?.t5 || 0) - (effA?.efficiency?.t5 || 0);
+                }
+                default:
+                    return 0;
+            }
+        });
+
+        const grid = document.getElementById('defense-grid');
+        if (grid) {
+            grid.innerHTML = this.renderDefenses();
+        }
+    },
+
+    selectDefense(defenseName) {
+        this.selectedDefense = this.defenses.find(d => d.name === defenseName);
         DD2Toolkit.loadTool('tower-visualizer');
     },
 
-    calculate() {
-        const baseDamage = parseFloat(document.getElementById('tower-base-damage').value) || 1000;
-        const baseRange = parseFloat(document.getElementById('tower-base-range').value) || 500;
-        const baseRate = parseFloat(document.getElementById('tower-base-rate').value) || 1.5;
-
-        const scalingPerLevel = 1.15; // 15% increase per level
-
-        const levels = [];
-        for (let i = 1; i <= 5; i++) {
-            const multiplier = Math.pow(scalingPerLevel, i - 1);
-            levels.push({
-                level: i,
-                damage: Math.floor(baseDamage * multiplier),
-                range: Math.floor(baseRange * multiplier),
-                rate: (baseRate * multiplier).toFixed(2)
-            });
-        }
-
-        const displayDiv = document.getElementById('tower-stats-display');
-        displayDiv.innerHTML = `
-            <div style="overflow-x: auto;">
-                <table style="width: 100%; border-collapse: collapse;">
-                    <thead>
-                        <tr style="background: var(--bg-card); border-bottom: 2px solid var(--dd2-orange);">
-                            <th style="padding: 0.75rem; text-align: left;">Level</th>
-                            <th style="padding: 0.75rem; text-align: right;">Damage</th>
-                            <th style="padding: 0.75rem; text-align: right;">Range</th>
-                            <th style="padding: 0.75rem; text-align: right;">Rate</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${levels.map(lvl => `
-                            <tr style="border-bottom: 1px solid var(--dd2-purple);">
-                                <td style="padding: 0.75rem; color: var(--dd2-gold); font-weight: bold;">Level ${lvl.level}</td>
-                                <td style="padding: 0.75rem; text-align: right; color: var(--dd2-orange);">${DD2Utils.formatNumber(lvl.damage)}</td>
-                                <td style="padding: 0.75rem; text-align: right; color: var(--dd2-purple);">${DD2Utils.formatNumber(lvl.range)}</td>
-                                <td style="padding: 0.75rem; text-align: right; color: var(--dd2-cyan);">${lvl.rate}</td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            </div>
-            <div style="margin-top: 1rem; padding: 1rem; background: var(--bg-card); border-radius: 8px;">
-                <p style="font-size: 0.85rem; color: var(--text-muted);">
-                    <strong>Note:</strong> Scaling assumes 15% increase per level. Actual game values may vary.
-                </p>
-            </div>
-        `;
+    closeDetails(event) {
+        if (event) event.stopPropagation();
+        this.selectedDefense = null;
+        DD2Toolkit.loadTool('tower-visualizer');
     }
 };
 
