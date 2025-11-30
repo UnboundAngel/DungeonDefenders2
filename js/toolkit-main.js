@@ -7,9 +7,16 @@ const DD2Toolkit = {
     currentTool: null,
     tools: {},
 
-    init() {
+    async init() {
         // Initialize theme first
         DD2Theme.init();
+
+        // Preload common data files (non-blocking)
+        if (typeof DD2DataCache !== 'undefined') {
+            DD2DataCache.preloadCommon().catch(err =>
+                console.warn('Some data files failed to preload:', err)
+            );
+        }
 
         // Setup navigation
         this.setupNavigation();
