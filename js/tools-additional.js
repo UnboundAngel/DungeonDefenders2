@@ -131,6 +131,16 @@ const AncientPowerTool = {
     maxFloorEver: 30,
     maxAscensionEver: 250,
     perkPoints: {},
+    apData: null,
+
+    async loadAPData() {
+        if (!this.apData) {
+            this.apData = await DD2DataCache.load('ancientPower');
+            if (this.apData) {
+                console.log('✅ Loaded Ancient Power data from dd2_ap.json');
+            }
+        }
+    },
 
     // Official DD2 Wiki floor requirements per AP
     getFloorRequirement(apLevel) {
@@ -144,18 +154,52 @@ const AncientPowerTool = {
         return apLevel >= 50 ? 320 : (floorTable[apLevel] || 30);
     },
 
-    // AP Perk system - official bonuses
+    // AP Perk system - load from dd2_ap.json
     getPerks() {
+        if (this.apData) {
+            // Convert dd2_ap.json format to internal format
+            const perks = {};
+            for (const [key, data] of Object.entries(this.apData)) {
+                // Convert from decimal format (0.04 = 4%) to percentage values
+                const values = data.levels.slice(1).map(level => level * 100);
+                perks[key.toLowerCase()] = {
+                    name: data.name,
+                    bonus: this.getBonusDescription(key),
+                    values: values,
+                    maxLevel: data.maxLevel
+                };
+            }
+            return perks;
+        }
+
+        // Fallback to hardcoded values if JSON not loaded
         return {
-            'heroic_power': { name: 'Heroic Power', bonus: 'Hero Damage', values: [4, 6, 8, 10, 12, 14, 16, 18, 20, 25] },
-            'ancient_health': { name: 'Ancient Health', bonus: 'Hero Health', values: [4, 6, 8, 10, 12, 14, 16, 18, 20, 25] },
-            'ancient_destruction': { name: 'Ancient Destruction', bonus: 'Defense Power', values: [4, 6, 8, 10, 12, 14, 16, 18, 20, 25] },
-            'ancient_fortification': { name: 'Ancient Fortification', bonus: 'Defense Health', values: [4, 6, 8, 10, 12, 14, 16, 18, 20, 25] },
-            'power_of_the_ancients': { name: 'Power of the Ancients', bonus: 'Ability Power', values: [4, 6, 8, 10, 12, 14, 16, 18, 20, 25] }
+            'ancientheroicpower': { name: 'Ancient Heroic Power', bonus: 'Hero Damage', values: [4, 6, 8, 9, 10], maxLevel: 5 },
+            'ancienthealth': { name: 'Ancient Health', bonus: 'Hero Health', values: [4, 6, 8, 9, 10], maxLevel: 5 },
+            'ancientdestruction': { name: 'Ancient Destruction', bonus: 'Defense Power', values: [4, 6, 8, 9, 10], maxLevel: 5 },
+            'ancientfortification': { name: 'Ancient Fortification', bonus: 'Defense Health', values: [4, 6, 8, 9, 10], maxLevel: 5 },
+            'ancientabilitypower': { name: 'Ancient Ability Power', bonus: 'Ability Power', values: [4, 6, 8, 9, 10], maxLevel: 5 }
         };
     },
 
-    render() {
+    getBonusDescription(key) {
+        const descriptions = {
+            'AncientAbilityPower': 'Ability Power',
+            'AncientHeroicPower': 'Hero Damage',
+            'AncientHealth': 'Hero Health',
+            'AncientResistance': 'All Resistance',
+            'AncientLifeSteal': 'Life Steal',
+            'AncientFortification': 'Defense Health',
+            'AncientDestruction': 'Defense Power',
+            'AncientStrikes': 'Critical Damage',
+            'AncientCriticalDamage': 'Critical Damage',
+            'AncientSpeed': 'Attack Rate'
+        };
+        return descriptions[key] || 'Bonus';
+    },
+
+    async render() {
+        await this.loadAPData();
         this.loadData();
         const perks = this.getPerks();
         const nextFloorReq = this.getFloorRequirement(this.currentAP);
@@ -209,15 +253,16 @@ const AncientPowerTool = {
                 <div id="perk-allocation" class="grid-2">
                     ${Object.entries(perks).map(([key, perk]) => {
                         const points = this.perkPoints[key] || 0;
-                        const bonus = points > 0 ? perk.values[Math.min(points - 1, 9)] : 0;
+                        const maxLevel = perk.maxLevel || 10;
+                        const bonus = points > 0 ? perk.values[Math.min(points - 1, perk.values.length - 1)] : 0;
                         return `
                             <div class="card" style="background: var(--bg-input);">
                                 <h4 style="color: var(--dd2-purple);">${perk.name}</h4>
-                                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.5rem;">${perk.bonus}: +${bonus}%</p>
+                                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.5rem;">${perk.bonus}: +${bonus.toFixed(1)}%</p>
                                 <div style="display: flex; align-items: center; gap: 0.5rem;">
                                     <button class="btn btn-danger" onclick="AncientPowerTool.adjustPerk('${key}', -1)" style="padding: 0.25rem 0.75rem;">−</button>
                                     <div style="flex: 1; text-align: center; font-size: 1.2rem; font-weight: bold; color: var(--dd2-orange);">
-                                        ${points} / 10
+                                        ${points} / ${maxLevel}
                                     </div>
                                     <button class="btn btn-primary" onclick="AncientPowerTool.adjustPerk('${key}', 1)" style="padding: 0.25rem 0.75rem;">+</button>
                                 </div>
