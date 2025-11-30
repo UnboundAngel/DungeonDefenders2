@@ -1,6 +1,7 @@
 # MacroHub (Dungeon Defenders 2)
 
 Quality-of-life desktop companion for Dungeon Defenders 2: global macro runner, HUD overlay, and reroll counter packaged as a portable EXE.
+(quick page link: https://unboundangel.github.io/DungeonDefenders2/ )
 
 ## Download & Run
 - Get the latest release ZIP from the GitHub Releases page.
