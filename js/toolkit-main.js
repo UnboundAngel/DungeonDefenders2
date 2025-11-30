@@ -151,6 +151,7 @@ const DD2Toolkit = {
             'mod-browser': ModBrowser,
             'shard-browser': ShardBrowser,
             'enemy-database': EnemyDatabase,
+            'map-efficiency': MapEfficiency,
             'resources': ResourcesPage,
 
             // Calculators
