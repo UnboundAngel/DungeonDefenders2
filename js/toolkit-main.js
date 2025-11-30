@@ -108,17 +108,22 @@ const DD2Toolkit = {
         }
     },
 
-    loadTool(toolName) {
+    async loadTool(toolName) {
         const container = document.getElementById('toolContainer');
         if (!container) return;
 
-        // Clear current tool
-        container.innerHTML = '';
+        // Clear current tool and show loading
+        container.innerHTML = '<div class="tool-header"><h1 class="tool-title">⚡ Loading...</h1></div>';
 
         // Check if tool exists
         const toolModule = this.getToolModule(toolName);
         if (toolModule && toolModule.render) {
-            container.innerHTML = toolModule.render();
+            // Handle both async and sync render functions
+            const renderResult = toolModule.render();
+            const html = renderResult instanceof Promise ? await renderResult : renderResult;
+
+            container.innerHTML = html;
+
             if (toolModule.init) {
                 toolModule.init();
             }
