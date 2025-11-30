@@ -238,15 +238,21 @@ const DD2Timers = {
 const OnslaughtTracker = {
     currentFloor: 1,
     highestFloor: 1,
+    mapData: null,
+    chaosData: null,
 
-    render() {
+    async render() {
         this.loadData();
+        await this.loadMapData();
+
         const scaling = DD2Utils.calculateOnslaughtScaling(this.currentFloor);
+        const chaosTier = this.getChaosTier(this.currentFloor);
+        const mapPool = this.getMapPool(this.currentFloor);
 
         return `
             <div class="tool-header">
                 <h1 class="tool-title">🏔️ Onslaught Progress Tracker</h1>
-                <p class="tool-description">Track your Onslaught floor progress with accurate enemy scaling</p>
+                <p class="tool-description">Track your Onslaught floor progress with accurate enemy scaling and map info</p>
             </div>
 
             <div class="grid-2">
@@ -261,6 +267,14 @@ const OnslaughtTracker = {
                         <p style="color: var(--text-muted); margin-bottom: 0.5rem; font-size: 0.9rem;">🏆 Personal Best</p>
                         <p style="font-size: 2.5rem; color: var(--dd2-gold); font-weight: bold; margin: 0;">Floor ${this.highestFloor}</p>
                     </div>
+
+                    ${chaosTier ? `
+                        <div style="margin-top: 1rem; padding: 1rem; background: var(--bg-card); border-radius: 8px; border: 2px solid var(--dd2-purple);">
+                            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.25rem;">Chaos Tier Equivalent</p>
+                            <p style="color: var(--dd2-purple); font-size: 1.5rem; font-weight: bold; margin: 0;">${chaosTier.level}</p>
+                            <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.25rem;">Champion Score: ${chaosTier.championScore}</p>
+                        </div>
+                    ` : ''}
                 </div>
 
                 <div class="card">
@@ -280,6 +294,34 @@ const OnslaughtTracker = {
                     </div>
                 </div>
             </div>
+
+            ${mapPool ? `
+                <div class="card mt-md">
+                    <h3 class="card-title">🗺️ Map Pool for Floor ${this.currentFloor} (${mapPool.label})</h3>
+                    <div id="map-pool-grid" class="grid-4" style="margin-top: 1rem;">
+                        ${mapPool.maps.map(map => `
+                            <div class="card" style="padding: 0.75rem;">
+                                ${map.map_icon_url ? `
+                                    <div style="text-align: center; margin-bottom: 0.5rem;">
+                                        <img src="${map.map_icon_url}" alt="${map.name}"
+                                             style="width: 60px; height: 60px; object-fit: contain;"
+                                             onerror="this.style.display='none'">
+                                    </div>
+                                ` : ''}
+                                <h4 style="color: var(--dd2-orange); font-size: 0.95rem; margin-bottom: 0.5rem; text-align: center;">${map.name}</h4>
+                                <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+                                    <span style="color: var(--text-muted);">DU:</span>
+                                    <span style="color: var(--dd2-gold); font-weight: bold;">${map.du}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+                                    <span style="color: var(--text-muted);">Size:</span>
+                                    <span style="color: var(--dd2-cyan);">${map.size}</span>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            ` : '<div class="card mt-md"><p style="color: var(--text-muted); text-align: center;">Map data not available for this floor</p></div>'}
         `;
     },
 
@@ -290,13 +332,13 @@ const OnslaughtTracker = {
         floorInput?.addEventListener('input', (e) => {
             const newFloor = Math.max(1, parseInt(e.target.value) || 1);
             this.currentFloor = newFloor;
-            this.updateScalingDisplay(newFloor);
+            this.updateLiveDisplay(newFloor);
         });
 
         document.getElementById('save-floor')?.addEventListener('click', () => this.saveFloor());
     },
 
-    updateScalingDisplay(floor) {
+    updateLiveDisplay(floor) {
         const scaling = DD2Utils.calculateOnslaughtScaling(floor);
         const scalingFloorEl = document.getElementById('scaling-floor');
         const healthMultEl = document.getElementById('health-mult');
@@ -305,6 +347,53 @@ const OnslaughtTracker = {
         if (scalingFloorEl) scalingFloorEl.textContent = floor;
         if (healthMultEl) healthMultEl.textContent = scaling.health.toFixed(2) + 'x';
         if (damageMultEl) damageMultEl.textContent = scaling.damage.toFixed(2) + 'x';
+    },
+
+    async loadMapData() {
+        if (!this.mapData) {
+            this.mapData = await DD2DataCache.load('onslaughtMaps');
+        }
+        if (!this.chaosData) {
+            this.chaosData = await DD2DataCache.load('onslaughtToChaos');
+        }
+    },
+
+    getChaosTier(floor) {
+        if (!this.chaosData?.chaosLevels) return null;
+
+        for (const tier of this.chaosData.chaosLevels) {
+            if (tier.floorUnlock === 'N/A') {
+                // Chaos 10
+                if (floor >= 700) return tier;
+            } else {
+                const unlock = parseInt(tier.floorUnlock);
+                const tierIndex = this.chaosData.chaosLevels.indexOf(tier);
+                const nextTier = this.chaosData.chaosLevels[tierIndex + 1];
+
+                if (nextTier) {
+                    const nextUnlock = nextTier.floorUnlock === 'N/A' ? 700 : parseInt(nextTier.floorUnlock);
+                    if (floor >= unlock && floor < nextUnlock) {
+                        return tier;
+                    }
+                }
+            }
+        }
+
+        return this.chaosData.chaosLevels[0]; // Default to Campaign
+    },
+
+    getMapPool(floor) {
+        if (!this.mapData?.patterns) return null;
+
+        const lastDigit = floor % 10;
+
+        for (const pattern of this.mapData.patterns) {
+            if (pattern.floor_suffixes && pattern.floor_suffixes.includes(lastDigit)) {
+                return pattern;
+            }
+        }
+
+        return null;
     },
 
     saveFloor() {
@@ -583,10 +672,18 @@ const ResourcesPage = {
         // Try to load from DD2DataCache first
         if (typeof DD2DataCache !== 'undefined') {
             const linksData = await DD2DataCache.load('links');
-            if (linksData && Array.isArray(linksData)) {
-                this.links = linksData;
-                this.categories = [...new Set(linksData.map(l => l.category).filter(Boolean))];
-                console.log('✅ Loaded links from dd2_links.json');
+            if (linksData && linksData.resources && Array.isArray(linksData.resources)) {
+                // Transform the dd2_links.json structure to match our display needs
+                this.links = linksData.resources.map(resource => ({
+                    title: resource.name,
+                    url: resource.link,
+                    description: resource.description,
+                    icon: this.getIconForResource(resource.author, resource.name),
+                    category: this.getCategoryForResource(resource.author, resource.name),
+                    author: resource.author
+                }));
+                this.categories = [...new Set(this.links.map(l => l.category).filter(Boolean))].sort();
+                console.log(`✅ Loaded ${this.links.length} links from dd2_links.json`);
                 return;
             }
         }
@@ -595,6 +692,32 @@ const ResourcesPage = {
         console.log('📋 Using fallback hardcoded links (dd2_links.json not found)');
         this.links = [];
         this.categories = [];
+    },
+
+    getIconForResource(author, name) {
+        if (name.toLowerCase().includes('protobot') || name.toLowerCase().includes('database')) return '🔗';
+        if (name.toLowerCase().includes('market') || name.toLowerCase().includes('price')) return '💰';
+        if (name.toLowerCase().includes('dps')) return '⚔️';
+        if (name.toLowerCase().includes('defense') || name.toLowerCase().includes('build')) return '🛡';
+        if (name.toLowerCase().includes('youtube') || name.toLowerCase().includes('video')) return '🎥';
+        if (name.toLowerCase().includes('wiki')) return '📘';
+        if (name.toLowerCase().includes('support') || name.toLowerCase().includes('ticket')) return '🧩';
+        if (name.toLowerCase().includes('guide') || name.toLowerCase().includes('progression')) return '📄';
+        if (name.toLowerCase().includes('calculator') || name.toLowerCase().includes('tool')) return '🧮';
+        if (name.toLowerCase().includes('spreadsheet') || name.toLowerCase().includes('sheet')) return '📊';
+        return '📚';
+    },
+
+    getCategoryForResource(author, name) {
+        if (author === 'Chromatic Games') return 'Official';
+        if (name.toLowerCase().includes('youtube') || name.toLowerCase().includes('video')) return 'Videos';
+        if (name.toLowerCase().includes('guide') || name.toLowerCase().includes('progression')) return 'Guides';
+        if (name.toLowerCase().includes('market') || name.toLowerCase().includes('price')) return 'Trading';
+        if (name.toLowerCase().includes('wiki')) return 'Reference';
+        if (name.toLowerCase().includes('calculator') || name.toLowerCase().includes('tool')) return 'Tools';
+        if (name.toLowerCase().includes('spreadsheet') || name.toLowerCase().includes('sheet') || name.toLowerCase().includes('build') || name.toLowerCase().includes('info')) return 'Spreadsheets';
+        if (author.includes('Protobot')) return 'Protobot';
+        return 'Community';
     },
 
     filterByCategory(category) {
