@@ -124,16 +124,46 @@ const DPSBenchmark = {
 
 // ========================================
 // ANCIENT POWER PLANNING TOOL
+// Official DD2 Wiki formulas - accurate calculations
 // ========================================
 const AncientPowerTool = {
     currentAP: 0,
+    maxFloorEver: 30,
+    maxAscensionEver: 250,
+    perkPoints: {},
+
+    // Official DD2 Wiki floor requirements per AP
+    getFloorRequirement(apLevel) {
+        const floorTable = {
+            0: 30, 1: 34, 2: 39, 3: 44, 4: 50, 5: 56, 6: 63, 7: 71, 8: 79, 9: 88,
+            10: 97, 11: 107, 12: 117, 13: 128, 14: 139, 15: 151, 16: 163, 17: 176, 18: 189, 19: 203,
+            20: 217, 21: 231, 22: 246, 23: 261, 24: 277, 25: 293, 26: 309, 27: 326, 28: 343, 29: 360,
+            30: 377, 31: 394, 32: 412, 33: 430, 34: 448, 35: 466, 36: 484, 37: 502, 38: 520, 39: 538,
+            40: 556, 41: 574, 42: 592, 43: 610, 44: 628, 45: 646, 46: 664, 47: 682, 48: 700, 49: 718
+        };
+        return apLevel >= 50 ? 320 : (floorTable[apLevel] || 30);
+    },
+
+    // AP Perk system - official bonuses
+    getPerks() {
+        return {
+            'heroic_power': { name: 'Heroic Power', bonus: 'Hero Damage', values: [4, 6, 8, 10, 12, 14, 16, 18, 20, 25] },
+            'ancient_health': { name: 'Ancient Health', bonus: 'Hero Health', values: [4, 6, 8, 10, 12, 14, 16, 18, 20, 25] },
+            'ancient_destruction': { name: 'Ancient Destruction', bonus: 'Defense Power', values: [4, 6, 8, 10, 12, 14, 16, 18, 20, 25] },
+            'ancient_fortification': { name: 'Ancient Fortification', bonus: 'Defense Health', values: [4, 6, 8, 10, 12, 14, 16, 18, 20, 25] },
+            'power_of_the_ancients': { name: 'Power of the Ancients', bonus: 'Ability Power', values: [4, 6, 8, 10, 12, 14, 16, 18, 20, 25] }
+        };
+    },
 
     render() {
         this.loadData();
+        const perks = this.getPerks();
+        const nextFloorReq = this.getFloorRequirement(this.currentAP);
+
         return `
             <div class="tool-header">
-                <h1 class="tool-title">🌟 Ancient Power Planning Tool</h1>
-                <p class="tool-description">Calculate optimal AP reset timing and post-reset stats</p>
+                <h1 class="tool-title">🌟 Ancient Power Calculator</h1>
+                <p class="tool-description">Official DD2 Wiki formulas - accurate reset planning and perk management</p>
             </div>
 
             <div class="grid-2">
@@ -145,28 +175,97 @@ const AncientPowerTool = {
                     </div>
                     <div class="input-group">
                         <label class="input-label">Current Ascension Level</label>
-                        <input type="number" class="input-field" id="ap-ascension" value="0" min="0">
+                        <input type="number" class="input-field" id="ap-ascension" value="${this.maxAscensionEver}" min="0">
                     </div>
                     <div class="input-group">
-                        <label class="input-label">Total XP Earned</label>
-                        <input type="number" class="input-field" id="ap-xp" value="1000000000" min="0">
+                        <label class="input-label">Highest Onslaught Floor Reached</label>
+                        <input type="number" class="input-field" id="ap-floor" value="${this.maxFloorEver}" min="30">
                     </div>
-
-                    <h3 class="card-title mt-md">Target Values</h3>
                     <div class="input-group">
-                        <label class="input-label">Target AP per Reset</label>
-                        <input type="number" class="input-field" id="ap-target" value="5" min="1">
+                        <label class="input-label">Max Ascension Level Ever</label>
+                        <input type="number" class="input-field" id="ap-max-ascension" value="${this.maxAscensionEver}" min="250">
+                        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem;">
+                            Used for minimum ascension calculation
+                        </p>
                     </div>
 
-                    <button class="btn btn-primary mt-md" id="calculate-ap" style="width: 100%;">Calculate</button>
+                    <button class="btn btn-primary mt-md" id="calculate-ap" style="width: 100%;">Calculate Reset Requirements</button>
                     <button class="btn btn-secondary mt-sm" id="save-ap" style="width: 100%;">Save Progress</button>
                 </div>
 
                 <div class="neon-panel">
-                    <h3 style="color: var(--dd2-orange); margin-bottom: 1rem;">AP Analysis</h3>
-                    <div id="ap-results">
-                        <p style="color: var(--text-muted);">Enter your stats and calculate</p>
+                    <h3 style="color: var(--dd2-orange); margin-bottom: 1rem;">Next Reset Requirements</h3>
+                    <div id="ap-requirements">
+                        <p style="color: var(--text-muted);">Click Calculate to check eligibility</p>
                     </div>
+                </div>
+            </div>
+
+            <div class="card mt-md">
+                <h3 class="card-title">AP Perk Allocation (${this.currentAP} points available)</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                    Each reset gives +1 AP point. Allocate points to perks for stat bonuses.
+                </p>
+                <div id="perk-allocation" class="grid-2">
+                    ${Object.entries(perks).map(([key, perk]) => {
+                        const points = this.perkPoints[key] || 0;
+                        const bonus = points > 0 ? perk.values[Math.min(points - 1, 9)] : 0;
+                        return `
+                            <div class="card" style="background: var(--bg-input);">
+                                <h4 style="color: var(--dd2-purple);">${perk.name}</h4>
+                                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.5rem;">${perk.bonus}: +${bonus}%</p>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <button class="btn btn-danger" onclick="AncientPowerTool.adjustPerk('${key}', -1)" style="padding: 0.25rem 0.75rem;">−</button>
+                                    <div style="flex: 1; text-align: center; font-size: 1.2rem; font-weight: bold; color: var(--dd2-orange);">
+                                        ${points} / 10
+                                    </div>
+                                    <button class="btn btn-primary" onclick="AncientPowerTool.adjustPerk('${key}', 1)" style="padding: 0.25rem 0.75rem;">+</button>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+                <div style="margin-top: 1rem; padding: 1rem; background: var(--bg-secondary); border-radius: 8px; border: 1px solid var(--dd2-orange);">
+                    <p style="color: var(--text-primary);"><strong>Allocated Points:</strong> <span id="total-allocated">0</span> / ${this.currentAP}</p>
+                    <p style="color: var(--text-primary);"><strong>Unspent Points:</strong> <span id="unspent-points">${this.currentAP}</span></p>
+                </div>
+            </div>
+
+            <div class="card mt-md">
+                <h3 class="card-title">Account Bonuses</h3>
+                <div id="account-bonuses">
+                    ${this.renderAccountBonuses()}
+                </div>
+            </div>
+        `;
+    },
+
+    renderAccountBonuses() {
+        const goldBonus = this.currentAP * 5;
+        const expBonus = this.currentAP * 5;
+        const talentCap = this.calculateTalentCap();
+
+        return `
+            <div class="grid-2">
+                <div style="padding: 1rem; background: var(--bg-input); border-radius: 8px;">
+                    <p style="color: var(--dd2-gold); font-weight: bold;">💰 Gold Bonus</p>
+                    <p style="font-size: 1.5rem; color: var(--text-primary);">+${goldBonus}%</p>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">+5% per AP reset</p>
+                </div>
+                <div style="padding: 1rem; background: var(--bg-input); border-radius: 8px;">
+                    <p style="color: var(--dd2-purple); font-weight: bold;">⭐ EXP Bonus</p>
+                    <p style="font-size: 1.5rem; color: var(--text-primary);">+${expBonus}%</p>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">+5% per AP reset</p>
+                </div>
+                <div style="padding: 1rem; background: var(--bg-input); border-radius: 8px;">
+                    <p style="color: var(--dd2-orange); font-weight: bold;">📊 Talent Cap Bonus</p>
+                    <p style="font-size: 1.5rem; color: var(--text-primary);">+${talentCap.toFixed(0)}</p>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">(Floor - 30) × 4.16 + (Asc / 50)</p>
+                </div>
+                <div style="padding: 1rem; background: var(--bg-input); border-radius: 8px;">
+                    <p style="color: var(--dd2-cyan); font-weight: bold;">🎯 Min Ascension After Reset</p>
+                    <p style="font-size: 1.5rem; color: var(--text-primary);">${this.calculateMinAscension().toFixed(0)}</p>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">Minimum level after next reset</p>
                 </div>
             </div>
         `;
@@ -175,72 +274,139 @@ const AncientPowerTool = {
     init() {
         document.getElementById('calculate-ap')?.addEventListener('click', () => this.calculate());
         document.getElementById('save-ap')?.addEventListener('click', () => this.saveProgress());
+        this.updatePerkDisplay();
+    },
+
+    calculateTalentCap() {
+        const floor = parseInt(document.getElementById('ap-floor')?.value) || this.maxFloorEver;
+        const ascension = parseInt(document.getElementById('ap-ascension')?.value) || this.maxAscensionEver;
+        return (Math.max(0, floor - 30) * 4.16) + (ascension / 50);
+    },
+
+    calculateMinAscension() {
+        const maxFloor = parseInt(document.getElementById('ap-floor')?.value) || this.maxFloorEver;
+        const maxAsc = parseInt(document.getElementById('ap-max-ascension')?.value) || this.maxAscensionEver;
+        return ((Math.max(0, maxFloor - 30) * 4.16) + (maxAsc / 50)) * 3;
     },
 
     calculate() {
         const currentAP = parseInt(document.getElementById('ap-current').value) || 0;
         const ascension = parseInt(document.getElementById('ap-ascension').value) || 0;
-        const totalXP = parseInt(document.getElementById('ap-xp').value) || 0;
-        const targetAP = parseInt(document.getElementById('ap-target').value) || 5;
+        const floor = parseInt(document.getElementById('ap-floor').value) || 30;
+        const maxAsc = parseInt(document.getElementById('ap-max-ascension').value) || ascension;
 
-        // Simplified AP calculations (DD2 formulas are complex, these are approximations)
-        const apGainPerReset = Math.floor(ascension / 10) + 1; // Simplified formula
-        const resetsToTarget = Math.max(0, Math.ceil((targetAP - currentAP) / apGainPerReset));
-        const totalAPAfterResets = currentAP + (resetsToTarget * apGainPerReset);
+        // Get requirements
+        const requiredFloor = this.getFloorRequirement(currentAP);
+        const requiredAscension = currentAP === 0 ? 250 : this.calculateMinAscension();
 
-        // Stat bonuses from AP (5% per AP)
-        const statBonus = totalAPAfterResets * 5;
+        const floorMet = floor >= requiredFloor;
+        const ascensionMet = ascension >= requiredAscension;
+        const canReset = floorMet && ascensionMet;
 
-        const resultsDiv = document.getElementById('ap-results');
+        const resultsDiv = document.getElementById('ap-requirements');
         resultsDiv.innerHTML = `
-            <div style="margin-bottom: 1.5rem;">
-                <div style="font-size: 2rem; color: var(--dd2-gold); font-weight: bold;">
-                    ${totalAPAfterResets} AP
+            <div style="text-align: center; margin-bottom: 1.5rem; padding: 1rem; background: ${canReset ? 'var(--dd2-orange)' : 'var(--bg-card)'}; border-radius: 12px;">
+                <h2 style="font-size: 2.5rem; margin: 0; color: ${canReset ? 'white' : 'var(--text-muted)'};">
+                    ${canReset ? '✅ Ready to Reset!' : '❌ Not Ready'}
+                </h2>
+            </div>
+
+            <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                <h4 style="color: var(--dd2-purple); margin-bottom: 0.5rem;">Floor Requirement</h4>
+                <p><strong>Required Floor:</strong> ${requiredFloor}</p>
+                <p><strong>Your Highest Floor:</strong> ${floor}</p>
+                <p><strong>Status:</strong> ${floorMet ? '✅ Met' : `❌ Need ${requiredFloor - floor} more floors`}</p>
+            </div>
+
+            <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                <h4 style="color: var(--dd2-purple); margin-bottom: 0.5rem;">Ascension Requirement</h4>
+                <p><strong>Required Ascension:</strong> ${Math.ceil(requiredAscension)}</p>
+                <p><strong>Your Ascension:</strong> ${ascension}</p>
+                <p><strong>Status:</strong> ${ascensionMet ? '✅ Met' : `❌ Need ${Math.ceil(requiredAscension - ascension)} more levels`}</p>
+            </div>
+
+            ${canReset ? `
+                <div style="background: linear-gradient(135deg, var(--dd2-orange), var(--dd2-purple)); padding: 1rem; border-radius: 8px; color: white;">
+                    <h4 style="margin-bottom: 0.5rem;">After Reset</h4>
+                    <p><strong>New AP:</strong> ${currentAP + 1}</p>
+                    <p><strong>Gold Bonus:</strong> +${(currentAP + 1) * 5}%</p>
+                    <p><strong>EXP Bonus:</strong> +${(currentAP + 1) * 5}%</p>
+                    <p><strong>Next Required Floor:</strong> ${this.getFloorRequirement(currentAP + 1)}</p>
                 </div>
-                <div style="color: var(--text-secondary);">Projected Total</div>
-            </div>
-
-            <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
-                <h4 style="color: var(--dd2-purple); margin-bottom: 0.5rem;">Reset Plan</h4>
-                <p><strong>Current AP:</strong> ${currentAP}</p>
-                <p><strong>AP per Reset:</strong> ~${apGainPerReset}</p>
-                <p><strong>Resets Needed:</strong> ${resetsToTarget}</p>
-                <p><strong>Target Reached:</strong> ${totalAPAfterResets >= targetAP ? '✅ Yes' : '❌ Not yet'}</p>
-            </div>
-
-            <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
-                <h4 style="color: var(--dd2-purple); margin-bottom: 0.5rem;">Stat Bonuses (at ${totalAPAfterResets} AP)</h4>
-                <p><strong>Total Bonus:</strong> +${statBonus}%</p>
-                <p><strong>Hero Damage:</strong> +${statBonus}%</p>
-                <p><strong>Hero Health:</strong> +${statBonus}%</p>
-                <p><strong>Defense Power:</strong> +${statBonus}%</p>
-                <p><strong>Defense Health:</strong> +${statBonus}%</p>
-            </div>
-
-            <div style="background: var(--bg-input); padding: 1rem; border-radius: 8px; border-left: 3px solid var(--dd2-orange);">
-                <p style="color: var(--text-secondary); font-size: 0.9rem;">
-                    <strong>Note:</strong> This tool uses simplified AP calculations.
-                    Actual AP gain depends on multiple factors including floors completed,
-                    champion kills, and current ascension level.
-                </p>
-            </div>
+            ` : `
+                <div style="background: var(--bg-input); padding: 1rem; border-radius: 8px; border-left: 3px solid var(--dd2-orange);">
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                        <strong>What to do:</strong> ${!floorMet ? `Push to floor ${requiredFloor}. ` : ''}${!ascensionMet ? `Gain ${Math.ceil(requiredAscension - ascension)} ascension levels.` : ''}
+                    </p>
+                </div>
+            `}
         `;
+    },
+
+    adjustPerk(perkKey, delta) {
+        const current = this.perkPoints[perkKey] || 0;
+        const totalAllocated = Object.values(this.perkPoints).reduce((sum, val) => sum + val, 0);
+
+        const newValue = Math.max(0, Math.min(10, current + delta));
+
+        // Check if we have enough points
+        if (delta > 0 && totalAllocated >= this.currentAP) {
+            DD2Utils.showToast('No unspent AP points available!', 'error');
+            return;
+        }
+
+        this.perkPoints[perkKey] = newValue;
+        if (newValue === 0) delete this.perkPoints[perkKey];
+
+        this.saveData();
+        DD2Toolkit.loadTool('ancient-power');
+    },
+
+    updatePerkDisplay() {
+        const totalAllocated = Object.values(this.perkPoints).reduce((sum, val) => sum + val, 0);
+        const unspent = this.currentAP - totalAllocated;
+
+        const allocatedEl = document.getElementById('total-allocated');
+        const unspentEl = document.getElementById('unspent-points');
+
+        if (allocatedEl) allocatedEl.textContent = totalAllocated;
+        if (unspentEl) unspentEl.textContent = unspent;
     },
 
     saveProgress() {
         const currentAP = parseInt(document.getElementById('ap-current').value) || 0;
+        const floor = parseInt(document.getElementById('ap-floor').value) || 30;
+        const ascension = parseInt(document.getElementById('ap-ascension').value) || 250;
+        const maxAsc = parseInt(document.getElementById('ap-max-ascension').value) || ascension;
+
         this.currentAP = currentAP;
+        this.maxFloorEver = Math.max(this.maxFloorEver, floor);
+        this.maxAscensionEver = Math.max(this.maxAscensionEver, ascension, maxAsc);
+
         this.saveData();
         DD2Utils.showToast('Progress saved!', 'success');
     },
 
     loadData() {
-        const data = DD2Storage.load('ancient_power', { currentAP: 0 });
+        const data = DD2Storage.load('ancient_power', {
+            currentAP: 0,
+            maxFloorEver: 30,
+            maxAscensionEver: 250,
+            perkPoints: {}
+        });
         this.currentAP = data.currentAP;
+        this.maxFloorEver = data.maxFloorEver;
+        this.maxAscensionEver = data.maxAscensionEver;
+        this.perkPoints = data.perkPoints || {};
     },
 
     saveData() {
-        DD2Storage.save('ancient_power', { currentAP: this.currentAP });
+        DD2Storage.save('ancient_power', {
+            currentAP: this.currentAP,
+            maxFloorEver: this.maxFloorEver,
+            maxAscensionEver: this.maxAscensionEver,
+            perkPoints: this.perkPoints
+        });
     }
 };
 

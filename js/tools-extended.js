@@ -246,33 +246,36 @@ const OnslaughtTracker = {
         return `
             <div class="tool-header">
                 <h1 class="tool-title">🏔️ Onslaught Progress Tracker</h1>
-                <p class="tool-description">Track your Onslaught floor progress and scaling</p>
+                <p class="tool-description">Track your Onslaught floor progress with accurate enemy scaling</p>
             </div>
 
             <div class="grid-2">
                 <div class="neon-panel">
-                    <h3 style="color: var(--dd2-orange); margin-bottom: 1rem;">Current Floor</h3>
+                    <h3 style="color: var(--dd2-orange); margin-bottom: 1rem;">Floor Input</h3>
                     <div class="input-group">
                         <label class="input-label">Floor Number</label>
-                        <input type="number" class="input-field" id="onslaught-floor" value="${this.currentFloor}" min="1">
+                        <input type="number" class="input-field" id="onslaught-floor" value="${this.currentFloor}" min="1" step="1">
                     </div>
-                    <button class="btn btn-primary" id="save-floor" style="width: 100%; margin-bottom: 1rem;">Save Floor</button>
-                    <div style="text-align: center; padding: 1rem; background: var(--bg-card); border-radius: 8px;">
-                        <p style="color: var(--text-muted); margin-bottom: 0.5rem;">Personal Best</p>
-                        <p style="font-size: 2rem; color: var(--dd2-gold); font-weight: bold;">Floor ${this.highestFloor}</p>
+                    <button class="btn btn-primary" id="save-floor" style="width: 100%; margin-bottom: 1rem;">Save Current Floor</button>
+                    <div style="text-align: center; padding: 1.5rem; background: var(--bg-card); border-radius: 12px; border: 2px solid var(--dd2-gold);">
+                        <p style="color: var(--text-muted); margin-bottom: 0.5rem; font-size: 0.9rem;">🏆 Personal Best</p>
+                        <p style="font-size: 2.5rem; color: var(--dd2-gold); font-weight: bold; margin: 0;">Floor ${this.highestFloor}</p>
                     </div>
                 </div>
 
                 <div class="card">
-                    <h3 class="card-title">Enemy Scaling (Floor ${this.currentFloor})</h3>
+                    <h3 class="card-title">Enemy Scaling</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.9rem;">
+                        Viewing floor: <span id="scaling-floor" style="color: var(--dd2-orange); font-weight: bold;">${this.currentFloor}</span>
+                    </p>
                     <div style="padding: 1rem;">
-                        <div style="margin-bottom: 1rem;">
-                            <p style="color: var(--dd2-orange); font-weight: bold;">Health Multiplier</p>
-                            <p style="font-size: 1.5rem; color: var(--text-primary);">${scaling.health.toFixed(2)}x</p>
+                        <div style="margin-bottom: 1.5rem; padding: 1rem; background: var(--bg-input); border-radius: 8px;">
+                            <p style="color: var(--dd2-orange); font-weight: bold; margin-bottom: 0.5rem;">💪 Health Multiplier</p>
+                            <p id="health-mult" style="font-size: 2rem; color: var(--text-primary); margin: 0;">${scaling.health.toFixed(2)}x</p>
                         </div>
-                        <div>
-                            <p style="color: var(--dd2-purple); font-weight: bold;">Damage Multiplier</p>
-                            <p style="font-size: 1.5rem; color: var(--text-primary);">${scaling.damage.toFixed(2)}x</p>
+                        <div style="padding: 1rem; background: var(--bg-input); border-radius: 8px;">
+                            <p style="color: var(--dd2-purple); font-weight: bold; margin-bottom: 0.5rem;">⚔️ Damage Multiplier</p>
+                            <p id="damage-mult" style="font-size: 2rem; color: var(--text-primary); margin: 0;">${scaling.damage.toFixed(2)}x</p>
                         </div>
                     </div>
                 </div>
@@ -282,19 +285,39 @@ const OnslaughtTracker = {
 
     init() {
         const floorInput = document.getElementById('onslaught-floor');
+
+        // Update scaling display in real-time without reloading
         floorInput?.addEventListener('input', (e) => {
-            this.currentFloor = Math.max(1, parseInt(e.target.value) || 1);
-            DD2Toolkit.loadTool('onslaught-tracker');
+            const newFloor = Math.max(1, parseInt(e.target.value) || 1);
+            this.currentFloor = newFloor;
+            this.updateScalingDisplay(newFloor);
         });
 
         document.getElementById('save-floor')?.addEventListener('click', () => this.saveFloor());
     },
 
+    updateScalingDisplay(floor) {
+        const scaling = DD2Utils.calculateOnslaughtScaling(floor);
+        const scalingFloorEl = document.getElementById('scaling-floor');
+        const healthMultEl = document.getElementById('health-mult');
+        const damageMultEl = document.getElementById('damage-mult');
+
+        if (scalingFloorEl) scalingFloorEl.textContent = floor;
+        if (healthMultEl) healthMultEl.textContent = scaling.health.toFixed(2) + 'x';
+        if (damageMultEl) damageMultEl.textContent = scaling.damage.toFixed(2) + 'x';
+    },
+
     saveFloor() {
+        const floorInput = document.getElementById('onslaught-floor');
+        this.currentFloor = Math.max(1, parseInt(floorInput?.value) || 1);
+
         if (this.currentFloor > this.highestFloor) {
             this.highestFloor = this.currentFloor;
-            DD2Utils.showToast(`New personal best: Floor ${this.highestFloor}!`, 'success');
+            DD2Utils.showToast(`🎉 New personal best: Floor ${this.highestFloor}!`, 'success');
+        } else {
+            DD2Utils.showToast(`Floor ${this.currentFloor} saved!`, 'success');
         }
+
         this.saveData();
         DD2Toolkit.loadTool('onslaught-tracker');
     },
@@ -540,4 +563,377 @@ const ResourcesPage = {
     },
 
     init() {}
+};
+
+// ========================================
+// MAP EFFICIENCY TRACKER
+// Track map runs with build data, calculate optimal farming
+// ========================================
+const MapEfficiency = {
+    mapRuns: [],
+    currentRun: {},
+
+    render() {
+        this.loadData();
+
+        const stats = this.calculateStatistics();
+
+        return `
+            <div class="tool-header">
+                <h1 class="tool-title">📊 Map Efficiency Tracker</h1>
+                <p class="tool-description">Track map runs with build data to find optimal farming routes</p>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3 class="card-title">Add New Map Run</h3>
+                    <div class="input-group">
+                        <label class="input-label">Map Name</label>
+                        <input type="text" class="input-field" id="map-name" placeholder="e.g., Dead Road, Harbinger">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Hero Used</label>
+                        <input type="text" class="input-field" id="map-hero" placeholder="e.g., Gunwitch, Monk">
+                    </div>
+                    <div class="grid-2">
+                        <div class="input-group">
+                            <label class="input-label">Time Completed (minutes)</label>
+                            <input type="number" class="input-field" id="map-time" placeholder="15" min="0" step="0.1">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Ancient Power (AP)</label>
+                            <input type="number" class="input-field" id="map-ap" placeholder="50" min="0">
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="input-group">
+                            <label class="input-label">Gold Earned (base)</label>
+                            <input type="number" class="input-field" id="map-gold" placeholder="1000000" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">EXP Earned (base)</label>
+                            <input type="number" class="input-field" id="map-exp" placeholder="500000" min="0">
+                        </div>
+                    </div>
+
+                    <h4 style="color: var(--dd2-purple); margin-top: 1rem; margin-bottom: 0.5rem;">Build Details (Optional)</h4>
+                    <div class="input-group">
+                        <label class="input-label">Mods Used</label>
+                        <textarea class="input-field" id="map-mods" rows="2" placeholder="List mods (one per line)"></textarea>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Shards Used</label>
+                        <textarea class="input-field" id="map-shards" rows="2" placeholder="List shards (one per line)"></textarea>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Notes</label>
+                        <textarea class="input-field" id="map-notes" rows="2" placeholder="Strategy, tips, etc."></textarea>
+                    </div>
+
+                    <button class="btn btn-primary mt-md" id="add-map-run" style="width: 100%;">Add Map Run</button>
+                </div>
+
+                <div class="neon-panel">
+                    <h3 style="color: var(--dd2-orange); margin-bottom: 1rem;">Farming Statistics</h3>
+                    <div id="map-stats">
+                        ${this.renderStatistics(stats)}
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-md">
+                <div class="flex-between mb-md">
+                    <h3 class="card-title">All Map Runs (${this.mapRuns.length})</h3>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-secondary" id="export-maps" style="padding: 0.5rem 1rem;">Export JSON</button>
+                        <button class="btn btn-secondary" id="import-maps" style="padding: 0.5rem 1rem;">Import JSON</button>
+                        <button class="btn btn-danger" id="clear-maps" style="padding: 0.5rem 1rem;">Clear All</button>
+                    </div>
+                </div>
+                <div id="map-runs-list">
+                    ${this.renderMapRuns()}
+                </div>
+            </div>
+
+            <input type="file" id="import-file-input" accept=".json" style="display: none;">
+        `;
+    },
+
+    renderStatistics(stats) {
+        if (!stats || stats.totalRuns === 0) {
+            return '<p style="color: var(--text-muted);">No map runs recorded yet</p>';
+        }
+
+        return `
+            <div class="grid-2" style="margin-bottom: 1.5rem;">
+                <div style="padding: 1rem; background: var(--bg-card); border-radius: 8px;">
+                    <p style="color: var(--dd2-gold); font-weight: bold; font-size: 0.9rem;">💰 Best Gold/Min</p>
+                    <p style="font-size: 1.5rem; color: var(--text-primary); margin: 0.5rem 0;">${DD2Utils.formatGold(stats.bestGoldPerMin)}/min</p>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">${stats.bestGoldMap}</p>
+                </div>
+                <div style="padding: 1rem; background: var(--bg-card); border-radius: 8px;">
+                    <p style="color: var(--dd2-purple); font-weight: bold; font-size: 0.9rem;">⭐ Best EXP/Min</p>
+                    <p style="font-size: 1.5rem; color: var(--text-primary); margin: 0.5rem 0;">${DD2Utils.formatNumber(Math.floor(stats.bestExpPerMin))}/min</p>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">${stats.bestExpMap}</p>
+                </div>
+            </div>
+
+            <div style="background: var(--bg-card); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                <h4 style="color: var(--dd2-orange); margin-bottom: 0.5rem;">Overall Stats</h4>
+                <p><strong>Total Runs:</strong> ${stats.totalRuns}</p>
+                <p><strong>Total Time:</strong> ${(stats.totalTime / 60).toFixed(1)} hours</p>
+                <p><strong>Total Gold Earned:</strong> ${DD2Utils.formatGold(stats.totalGold)}</p>
+                <p><strong>Total EXP Earned:</strong> ${DD2Utils.formatGold(stats.totalExp)}</p>
+            </div>
+
+            <div style="background: var(--bg-input); padding: 1rem; border-radius: 8px; border-left: 3px solid var(--dd2-orange);">
+                <h4 style="color: var(--dd2-cyan); margin-bottom: 0.5rem;">💡 Farming Recommendation</h4>
+                <p style="color: var(--text-secondary); margin-bottom: 0.5rem;"><strong>For Gold:</strong> ${stats.bestGoldMap} (${DD2Utils.formatGold(stats.bestGoldPerMin)}/min)</p>
+                <p style="color: var(--text-secondary);"><strong>For EXP:</strong> ${stats.bestExpMap} (${DD2Utils.formatNumber(Math.floor(stats.bestExpPerMin))}/min)</p>
+            </div>
+        `;
+    },
+
+    renderMapRuns() {
+        if (this.mapRuns.length === 0) {
+            return '<p style="color: var(--text-muted); text-align: center; padding: 2rem;">No map runs yet. Add your first run above!</p>';
+        }
+
+        return `
+            <div class="grid-3">
+                ${this.mapRuns.map((run, idx) => {
+                    const goldWithAP = run.gold * (1 + (run.ap * 0.05));
+                    const expWithAP = run.exp * (1 + (run.ap * 0.05));
+                    const goldPerMin = goldWithAP / run.time;
+                    const expPerMin = expWithAP / run.time;
+
+                    return `
+                        <div class="card" style="background: var(--bg-input);">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                                <h4 style="color: var(--dd2-orange);">${run.map}</h4>
+                                <button onclick="MapEfficiency.deleteRun(${idx})" style="background: #ef4444; border: none; padding: 0.25rem 0.5rem; border-radius: 4px; color: white; cursor: pointer;">×</button>
+                            </div>
+                            <p style="color: var(--dd2-purple); font-size: 0.9rem; margin-bottom: 0.5rem;">🦸 ${run.hero}</p>
+                            <div style="padding: 0.75rem; background: var(--bg-card); border-radius: 6px; margin-bottom: 0.5rem;">
+                                <p style="font-size: 0.85rem; margin-bottom: 0.25rem;"><strong>⏱️ Time:</strong> ${run.time} min</p>
+                                <p style="font-size: 0.85rem; margin-bottom: 0.25rem;"><strong>💰 Gold/min:</strong> ${DD2Utils.formatGold(goldPerMin)}</p>
+                                <p style="font-size: 0.85rem;"><strong>⭐ EXP/min:</strong> ${DD2Utils.formatNumber(Math.floor(expPerMin))}</p>
+                            </div>
+                            ${run.mods ? `<p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.25rem;">🔧 ${run.mods.split('\\n').length} mods</p>` : ''}
+                            ${run.shards ? `<p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.25rem;">💎 ${run.shards.split('\\n').length} shards</p>` : ''}
+                            ${run.notes ? `<p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.5rem; font-style: italic;">"${run.notes}"</p>` : ''}
+                            <button onclick="MapEfficiency.viewDetails(${idx})" class="btn btn-secondary mt-sm" style="width: 100%; padding: 0.5rem;">View Details</button>
+                        </div>
+                    `;
+                }).join('')}
+            </div>
+        `;
+    },
+
+    init() {
+        document.getElementById('add-map-run')?.addEventListener('click', () => this.addMapRun());
+        document.getElementById('export-maps')?.addEventListener('click', () => this.exportData());
+        document.getElementById('import-maps')?.addEventListener('click', () => this.triggerImport());
+        document.getElementById('clear-maps')?.addEventListener('click', () => this.clearAll());
+
+        const fileInput = document.getElementById('import-file-input');
+        fileInput?.addEventListener('change', (e) => this.importData(e));
+    },
+
+    addMapRun() {
+        const mapName = document.getElementById('map-name').value.trim();
+        const hero = document.getElementById('map-hero').value.trim();
+        const time = parseFloat(document.getElementById('map-time').value) || 0;
+        const ap = parseInt(document.getElementById('map-ap').value) || 0;
+        const gold = parseInt(document.getElementById('map-gold').value) || 0;
+        const exp = parseInt(document.getElementById('map-exp').value) || 0;
+        const mods = document.getElementById('map-mods').value.trim();
+        const shards = document.getElementById('map-shards').value.trim();
+        const notes = document.getElementById('map-notes').value.trim();
+
+        if (!mapName || !hero || time <= 0 || gold <= 0 || exp <= 0) {
+            DD2Utils.showToast('Please fill in all required fields!', 'error');
+            return;
+        }
+
+        const run = {
+            id: DD2Utils.generateId(),
+            map: mapName,
+            hero,
+            time,
+            ap,
+            gold,
+            exp,
+            mods,
+            shards,
+            notes,
+            timestamp: Date.now()
+        };
+
+        this.mapRuns.push(run);
+        this.saveData();
+
+        // Clear inputs
+        document.getElementById('map-name').value = '';
+        document.getElementById('map-hero').value = '';
+        document.getElementById('map-time').value = '';
+        document.getElementById('map-gold').value = '';
+        document.getElementById('map-exp').value = '';
+        document.getElementById('map-mods').value = '';
+        document.getElementById('map-shards').value = '';
+        document.getElementById('map-notes').value = '';
+
+        DD2Utils.showToast(`✅ Added: ${mapName}`, 'success');
+        DD2Toolkit.loadTool('map-efficiency');
+    },
+
+    calculateStatistics() {
+        if (this.mapRuns.length === 0) {
+            return null;
+        }
+
+        let bestGoldPerMin = 0;
+        let bestGoldMap = '';
+        let bestExpPerMin = 0;
+        let bestExpMap = '';
+        let totalTime = 0;
+        let totalGold = 0;
+        let totalExp = 0;
+
+        this.mapRuns.forEach(run => {
+            const goldWithAP = run.gold * (1 + (run.ap * 0.05));
+            const expWithAP = run.exp * (1 + (run.ap * 0.05));
+            const goldPerMin = goldWithAP / run.time;
+            const expPerMin = expWithAP / run.time;
+
+            if (goldPerMin > bestGoldPerMin) {
+                bestGoldPerMin = goldPerMin;
+                bestGoldMap = run.map;
+            }
+
+            if (expPerMin > bestExpPerMin) {
+                bestExpPerMin = expPerMin;
+                bestExpMap = run.map;
+            }
+
+            totalTime += run.time;
+            totalGold += goldWithAP;
+            totalExp += expWithAP;
+        });
+
+        return {
+            totalRuns: this.mapRuns.length,
+            bestGoldPerMin,
+            bestGoldMap,
+            bestExpPerMin,
+            bestExpMap,
+            totalTime,
+            totalGold,
+            totalExp
+        };
+    },
+
+    viewDetails(idx) {
+        const run = this.mapRuns[idx];
+        if (!run) return;
+
+        const goldWithAP = run.gold * (1 + (run.ap * 0.05));
+        const expWithAP = run.exp * (1 + (run.ap * 0.05));
+
+        const details = `
+📍 Map: ${run.map}
+🦸 Hero: ${run.hero}
+⏱️ Time: ${run.time} minutes
+🌟 AP: ${run.ap} (+${run.ap * 5}% bonus)
+
+💰 Gold Earned: ${DD2Utils.formatGold(run.gold)} (base)
+💰 Gold with AP: ${DD2Utils.formatGold(goldWithAP)}
+💰 Gold/min: ${DD2Utils.formatGold(goldWithAP / run.time)}
+
+⭐ EXP Earned: ${DD2Utils.formatNumber(run.exp)} (base)
+⭐ EXP with AP: ${DD2Utils.formatNumber(Math.floor(expWithAP))}
+⭐ EXP/min: ${DD2Utils.formatNumber(Math.floor(expWithAP / run.time))}
+
+${run.mods ? `🔧 Mods:\n${run.mods}\n` : ''}
+${run.shards ? `💎 Shards:\n${run.shards}\n` : ''}
+${run.notes ? `📝 Notes: ${run.notes}` : ''}
+
+Added: ${DD2Utils.formatDate(run.timestamp)}
+        `.trim();
+
+        alert(details);
+    },
+
+    deleteRun(idx) {
+        if (!confirm(`Delete this map run: ${this.mapRuns[idx].map}?`)) return;
+
+        this.mapRuns.splice(idx, 1);
+        this.saveData();
+        DD2Utils.showToast('Map run deleted', 'info');
+        DD2Toolkit.loadTool('map-efficiency');
+    },
+
+    exportData() {
+        if (this.mapRuns.length === 0) {
+            DD2Utils.showToast('No data to export!', 'error');
+            return;
+        }
+
+        const exportData = {
+            version: '1.0',
+            exportDate: Date.now(),
+            mapRuns: this.mapRuns
+        };
+
+        DD2Utils.downloadJSON(exportData, 'dd2_map_efficiency.json');
+        DD2Utils.showToast('✅ Exported map data!', 'success');
+    },
+
+    triggerImport() {
+        document.getElementById('import-file-input')?.click();
+    },
+
+    importData(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const data = JSON.parse(e.target.result);
+
+                if (!data.mapRuns || !Array.isArray(data.mapRuns)) {
+                    throw new Error('Invalid format');
+                }
+
+                const currentCount = this.mapRuns.length;
+                this.mapRuns = [...this.mapRuns, ...data.mapRuns];
+                this.saveData();
+
+                DD2Utils.showToast(`✅ Imported ${data.mapRuns.length} runs!`, 'success');
+                DD2Toolkit.loadTool('map-efficiency');
+            } catch (e) {
+                DD2Utils.showToast('Invalid import file!', 'error');
+            }
+        };
+        reader.readAsText(file);
+    },
+
+    clearAll() {
+        if (!confirm(`Delete all ${this.mapRuns.length} map runs? This cannot be undone!`)) return;
+
+        this.mapRuns = [];
+        this.saveData();
+        DD2Utils.showToast('All map runs cleared', 'info');
+        DD2Toolkit.loadTool('map-efficiency');
+    },
+
+    loadData() {
+        const data = DD2Storage.load('map_efficiency', { mapRuns: [] });
+        this.mapRuns = data.mapRuns;
+    },
+
+    saveData() {
+        DD2Storage.save('map_efficiency', { mapRuns: this.mapRuns });
+    }
 };
