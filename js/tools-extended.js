@@ -570,13 +570,17 @@ const MaterialTracker = {
 const MissionTracker = {
     dailies: [],
     weeklies: [],
+    questlinesData: null,
+    masteryData: null,
+    primeData: null,
 
-    render() {
+    async render() {
         this.loadData();
+        await this.loadProgressionData();
         return `
             <div class="tool-header">
-                <h1 class="tool-title">📋 Daily/Weekly Mission Tracker</h1>
-                <p class="tool-description">Track your daily and weekly missions</p>
+                <h1 class="tool-title">📋 Mission & Progression Tracker</h1>
+                <p class="tool-description">Track daily/weekly missions, questlines, mastery, and prime incursions</p>
             </div>
 
             <div class="grid-2">
@@ -598,6 +602,146 @@ const MissionTracker = {
                     <div id="weekly-list">
                         ${this.renderMissions(this.weeklies, 'weekly')}
                     </div>
+                </div>
+            </div>
+
+            <!-- Questlines Reference -->
+            ${this.renderQuestlinesReference()}
+
+            <!-- Mastery Rewards Reference -->
+            ${this.renderMasteryReference()}
+
+            <!-- Prime Incursions Reference -->
+            ${this.renderPrimeReference()}
+        `;
+    },
+
+    async loadProgressionData() {
+        try {
+            if (!this.questlinesData) {
+                this.questlinesData = await DD2DataCache.load('questlines');
+                if (this.questlinesData) {
+                    console.log('✅ Loaded questlines data');
+                }
+            }
+            if (!this.masteryData) {
+                this.masteryData = await DD2DataCache.load('mastery');
+                if (this.masteryData) {
+                    console.log('✅ Loaded mastery rewards data');
+                }
+            }
+            if (!this.primeData) {
+                this.primeData = await DD2DataCache.load('primeIncursions');
+                if (this.primeData) {
+                    console.log('✅ Loaded prime incursions data');
+                }
+            }
+        } catch (e) {
+            console.error('Failed to load progression data:', e);
+        }
+    },
+
+    renderQuestlinesReference() {
+        if (!this.questlinesData?.questlines) {
+            return '';
+        }
+
+        return `
+            <div class="card mt-md">
+                <h3 class="card-title">📜 Questlines Guide</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+                    Complete these questlines for rewards. Total: ${this.questlinesData.questlines.length} questlines
+                </p>
+                <div class="grid-2" style="gap: 0.75rem;">
+                    ${this.questlinesData.questlines.map(quest => `
+                        <div class="card" style="background: var(--bg-input); padding: 0.75rem;">
+                            <h4 style="color: var(--dd2-purple); margin-bottom: 0.5rem; font-size: 0.95rem;">
+                                ${quest.name}
+                            </h4>
+                            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.75rem;">
+                                <strong>Task:</strong> ${quest.task}
+                            </p>
+                            <div style="font-size: 0.8rem; line-height: 1.5;">
+                                <p><strong style="color: var(--dd2-gold);">Rewards:</strong></p>
+                                ${quest.rewards.defenderMedals ? `<p>• ${quest.rewards.defenderMedals.toLocaleString()} Defender Medals</p>` : ''}
+                                ${quest.rewards.gold ? `<p>• ${quest.rewards.gold.toLocaleString()} Gold</p>` : ''}
+                                ${quest.rewards.shards && quest.rewards.shards.length > 0 ? `<p>• Shards: ${quest.rewards.shards.join(', ')}</p>` : ''}
+                                ${quest.rewards.other && quest.rewards.other.length > 0 ? `<p>• ${quest.rewards.other.join(', ')}</p>` : ''}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    },
+
+    renderMasteryReference() {
+        if (!this.masteryData?.masteryTiers) {
+            return '';
+        }
+
+        return `
+            <div class="card mt-md">
+                <h3 class="card-title">⭐ Mastery Rewards Tracker</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+                    Earn stars by completing maps to unlock mastery rewards. ${this.masteryData.masteryTiers.length} tiers available
+                </p>
+                ${this.masteryData.masteryTiers.map(tier => `
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--dd2-orange); margin-bottom: 0.75rem;">
+                            Tier ${tier.tier}
+                        </h4>
+                        <div class="grid-3" style="gap: 0.5rem;">
+                            ${tier.rewards.map(reward => `
+                                <div class="card" style="background: var(--bg-input); padding: 0.5rem; text-align: center;">
+                                    <div style="color: var(--dd2-gold); font-weight: bold; font-size: 1.1rem;">
+                                        ${reward.stars} ⭐
+                                    </div>
+                                    <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.25rem;">
+                                        ${reward.reward}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    },
+
+    renderPrimeReference() {
+        if (!this.primeData?.primeDifficulties) {
+            return '';
+        }
+
+        return `
+            <div class="card mt-md">
+                <h3 class="card-title">👑 Prime Incursions Guide</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+                    Complete Prime incursions for hypershards, special weapons, and rings. ${this.primeData.primeDifficulties.length} Prime difficulties
+                </p>
+                <div class="grid-2" style="gap: 1rem;">
+                    ${this.primeData.primeDifficulties.map(prime => `
+                        <div class="card" style="background: var(--bg-input); padding: 1rem;">
+                            <h4 style="color: var(--dd2-orange); margin-bottom: 0.75rem; font-size: 1.1rem;">
+                                ${prime.name}
+                            </h4>
+                            <div style="font-size: 0.85rem; line-height: 1.6;">
+                                <p style="color: var(--dd2-gold);"><strong>💎 Hypershard:</strong> ${prime.hyperShard}</p>
+                                <p style="color: var(--dd2-purple);"><strong>💍 Ring:</strong> ${prime.primeRingReward}</p>
+
+                                <p style="margin-top: 0.75rem;"><strong>Incursions:</strong></p>
+                                <ul style="margin-left: 1.25rem; color: var(--text-secondary);">
+                                    ${prime.incursions.map(inc => `<li>${inc}</li>`).join('')}
+                                </ul>
+
+                                <p style="margin-top: 0.75rem;"><strong>Special Drops:</strong></p>
+                                <ul style="margin-left: 1.25rem; color: var(--text-secondary);">
+                                    ${prime.specialDrops.map(drop => `<li>${drop}</li>`).join('')}
+                                </ul>
+                            </div>
+                        </div>
+                    `).join('')}
                 </div>
             </div>
         `;
