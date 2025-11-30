@@ -2,1275 +2,1337 @@
   {
     "name": "Heal Self",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "0",
-    "damageType": "1s",
+    "abilityType": "Healing",
+    "manaCost": 0,
+    "recharge": "1s",
+    "damageType": null,
     "damageScalar": null,
     "heroes": [
-      "N/A"
+      "Squire",
+      "Huntress",
+      "Monk",
+      "Apprentice",
+      "Adept"
     ],
-    "iconUrl": "Squire, Huntress, Monk, Apprentice, Adept"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/6/6e/Heal.png"
   },
   {
     "name": "Sword Beam",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "20",
-    "damageType": "N/A",
-    "damageScalar": null,
+    "abilityType": "Damage",
+    "manaCost": 20,
+    "recharge": null,
+    "damageType": "Magical",
+    "damageScalar": 32,
     "heroes": [
-      "32"
+      "Squire"
     ],
-    "iconUrl": "Squire"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/1/12/Squire_swordbeam.png"
   },
   {
     "name": "Provoke",
-    "statusEffects": [],
-    "abilityType": "Taunt",
-    "manaCost": null,
-    "recharge": "50",
-    "damageType": "10s",
+    "statusEffects": [
+      "Taunt"
+    ],
+    "abilityType": "Buff",
+    "manaCost": 50,
+    "recharge": "10s",
+    "damageType": null,
     "damageScalar": null,
     "heroes": [
-      "N/A"
+      "Squire"
     ],
-    "iconUrl": "Squire"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/a/ab/Squire_Provoke.png"
   },
   {
     "name": "Seismic Slam (Center)",
-    "statusEffects": [],
-    "abilityType": "Stun",
-    "manaCost": null,
-    "recharge": "100",
-    "damageType": "10s",
-    "damageScalar": null,
-    "heroes": [
-      "75"
+    "statusEffects": [
+      "Stun"
     ],
-    "iconUrl": "Squire"
+    "abilityType": "Damage",
+    "manaCost": 100,
+    "recharge": "10s",
+    "damageType": "Magical",
+    "damageScalar": 75,
+    "heroes": [
+      "Squire"
+    ],
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/8/81/Squire_seismic_slam.png"
   },
   {
     "name": "Seismic Slam (Edge)",
-    "statusEffects": [],
-    "abilityType": "Stun",
-    "manaCost": null,
-    "recharge": "100",
-    "damageType": "10s",
-    "damageScalar": null,
-    "heroes": [
-      "215"
+    "statusEffects": [
+      "Stun"
     ],
-    "iconUrl": "Squire"
+    "abilityType": "Damage",
+    "manaCost": 100,
+    "recharge": "10s",
+    "damageType": "Magical",
+    "damageScalar": 215,
+    "heroes": [
+      "Squire"
+    ],
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/8/81/Squire_seismic_slam.png"
   },
   {
     "name": "Arcane Volley",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "20",
-    "damageType": "N/A",
-    "damageScalar": null,
+    "abilityType": "Damage",
+    "manaCost": 20,
+    "recharge": null,
+    "damageType": "Magical",
+    "damageScalar": 40,
     "heroes": [
-      "40"
+      "Apprentice"
     ],
-    "iconUrl": "Apprentice"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/5/56/Apprentice_arcane_volley.png"
   },
   {
     "name": "Tornado",
-    "statusEffects": [],
-    "abilityType": "Knockup",
-    "manaCost": null,
-    "recharge": "50",
-    "damageType": "2s",
-    "damageScalar": null,
-    "heroes": [
-      "8"
+    "statusEffects": [
+      "Knockup"
     ],
-    "iconUrl": "Apprentice"
+    "abilityType": "Damage",
+    "manaCost": 50,
+    "recharge": "2s",
+    "damageType": "Storm",
+    "damageScalar": 8,
+    "heroes": [
+      "Apprentice"
+    ],
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/2/21/Apprentice_tornado.png"
   },
   {
     "name": "Mana Bomb",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "100",
-    "damageType": "10s",
-    "damageScalar": null,
+    "abilityType": "Damage",
+    "manaCost": 100,
+    "recharge": "10s",
+    "damageType": "Magical",
+    "damageScalar": 104,
     "heroes": [
-      "104"
+      "Apprentice"
     ],
-    "iconUrl": "Apprentice"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/6/64/Apprentice_manabomb.png"
   },
   {
     "name": "Concussive Shots",
-    "statusEffects": [],
-    "abilityType": "Stun",
-    "manaCost": null,
-    "recharge": "25",
-    "damageType": "5s",
-    "damageScalar": null,
-    "heroes": [
-      "25.88"
+    "statusEffects": [
+      "Stun"
     ],
-    "iconUrl": "Huntress"
+    "abilityType": "Damage",
+    "manaCost": 25,
+    "recharge": "5s",
+    "damageType": "Physical",
+    "damageScalar": 25.88,
+    "heroes": [
+      "Huntress"
+    ],
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/0/06/Huntress_concussive_shots.png"
   },
   {
     "name": "Concussive Shots (Total)",
-    "statusEffects": [],
-    "abilityType": "Stun",
-    "manaCost": null,
-    "recharge": "-",
-    "damageType": "-",
-    "damageScalar": null,
-    "heroes": [
-      "129.38"
+    "statusEffects": [
+      "Stun"
     ],
-    "iconUrl": "Huntress"
+    "abilityType": "Damage",
+    "manaCost": null,
+    "recharge": null,
+    "damageType": "Physical",
+    "damageScalar": 129.38,
+    "heroes": [
+      "Huntress"
+    ],
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/0/06/Huntress_concussive_shots.png"
   },
   {
     "name": "Oil Flask",
-    "statusEffects": [],
-    "abilityType": "Oiled",
-    "manaCost": null,
-    "recharge": "50",
-    "damageType": "N/A",
-    "damageScalar": null,
-    "heroes": [
-      "140"
+    "statusEffects": [
+      "Oiled"
     ],
-    "iconUrl": "Huntress"
+    "abilityType": "Damage",
+    "manaCost": 50,
+    "recharge": null,
+    "damageType": "Magical",
+    "damageScalar": 140,
+    "heroes": [
+      "Huntress"
+    ],
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/0/06/Huntress_Oil_Flask.png"
   },
   {
     "name": "Piercing Shot",
     "statusEffects": [],
-    "abilityType": "N/A",
+    "abilityType": "Damage",
     "manaCost": null,
-    "recharge": "All",
-    "damageType": "30s",
-    "damageScalar": null,
+    "recharge": "30s",
+    "damageType": "Fire",
+    "damageScalar": 250,
     "heroes": [
-      "250"
+      "Huntress"
     ],
-    "iconUrl": "Huntress"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/6/62/Huntress_piercing_shot.png"
   },
   {
     "name": "Pole Smash",
-    "statusEffects": [],
-    "abilityType": "Knockup",
-    "manaCost": null,
-    "recharge": "25",
-    "damageType": "2s",
-    "damageScalar": null,
-    "heroes": [
-      "50"
+    "statusEffects": [
+      "Knockup"
     ],
-    "iconUrl": "Monk"
+    "abilityType": "Damage",
+    "manaCost": 25,
+    "recharge": "2s",
+    "damageType": "Physical",
+    "damageScalar": 50,
+    "heroes": [
+      "Monk"
+    ],
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/b/b3/Monk_pole_smash.png"
   },
   {
     "name": "Chi Blast",
-    "statusEffects": [],
-    "abilityType": "Knockback",
-    "manaCost": null,
-    "recharge": "50",
-    "damageType": "N/A",
-    "damageScalar": null,
-    "heroes": [
-      "75"
+    "statusEffects": [
+      "Knockback"
     ],
-    "iconUrl": "Monk"
+    "abilityType": "Damage",
+    "manaCost": 50,
+    "recharge": null,
+    "damageType": "Magical",
+    "damageScalar": 75,
+    "heroes": [
+      "Monk"
+    ],
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/f/fa/Monk_chi_blast.png"
   },
   {
     "name": "Heroic Wave",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "100",
-    "damageType": "10s",
-    "damageScalar": null,
+    "abilityType": "Healing, Buff",
+    "manaCost": 100,
+    "recharge": "10s",
+    "damageType": null,
+    "damageScalar": 4,
     "heroes": [
-      "4"
+      "Monk"
     ],
-    "iconUrl": "Monk"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/6/6e/Monk_heroic_wave.png"
   },
   {
     "name": "Abyss Stone",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "50",
-    "damageType": "10s",
-    "damageScalar": null,
+    "abilityType": "Damage",
+    "manaCost": 50,
+    "recharge": "10s",
+    "damageType": "Magical",
+    "damageScalar": 4,
     "heroes": [
-      "4"
+      "Abyss Lord"
     ],
-    "iconUrl": "Abyss Lord"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/f/fd/AbyssLord_stone.png"
   },
   {
     "name": "Abyss Stone (Total)",
     "statusEffects": [],
-    "abilityType": "N/A",
+    "abilityType": "Damage",
     "manaCost": null,
-    "recharge": "-",
-    "damageType": "-",
-    "damageScalar": null,
+    "recharge": null,
+    "damageType": "Magical",
+    "damageScalar": 12,
     "heroes": [
-      "12"
+      "Abyss Lord"
     ],
-    "iconUrl": "Abyss Lord"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/f/fd/AbyssLord_stone.png"
   },
   {
     "name": "Knight of the Abyss",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "50",
-    "damageType": "2s",
-    "damageScalar": null,
+    "abilityType": "Damage",
+    "manaCost": 50,
+    "recharge": "2s",
+    "damageType": "Magical",
+    "damageScalar": 18.825,
     "heroes": [
-      "18.825"
+      "Abyss Lord"
     ],
-    "iconUrl": "Abyss Lord"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/f/fd/AbyssLord_knight.png"
   },
   {
     "name": "Knight of the Abyss (Total)",
     "statusEffects": [],
-    "abilityType": "N/A",
+    "abilityType": "Damage",
     "manaCost": null,
-    "recharge": "-",
-    "damageType": "-",
-    "damageScalar": null,
+    "recharge": null,
+    "damageType": "Magical",
+    "damageScalar": 75.3,
     "heroes": [
-      "75.3"
+      "Abyss Lord"
     ],
-    "iconUrl": "Abyss Lord"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/f/fd/AbyssLord_knight.png"
   },
   {
     "name": "Direct Command",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "100",
-    "damageType": "20s",
+    "abilityType": "Support",
+    "manaCost": 100,
+    "recharge": "20s",
+    "damageType": null,
     "damageScalar": null,
     "heroes": [
-      "N/A"
+      "Abyss Lord"
     ],
-    "iconUrl": "Abyss Lord"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/3/30/AbyssLord_command.png"
   },
   {
     "name": "Abyss Fountain",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "20",
-    "damageType": "2s",
+    "abilityType": "Healing",
+    "manaCost": 20,
+    "recharge": "2s",
+    "damageType": null,
     "damageScalar": null,
     "heroes": [
-      "N/A"
+      "Abyss Lord"
     ],
-    "iconUrl": "Abyss Lord"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/8/8c/AbyssLord_fountain.png"
   },
   {
     "name": "Anti Gravity Bots",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "35",
-    "damageType": "N/A",
-    "damageScalar": null,
+    "abilityType": "Damage",
+    "manaCost": 35,
+    "recharge": null,
+    "damageType": "Magical",
+    "damageScalar": 83.5,
     "heroes": [
-      "83.5"
+      "Ev2"
     ],
-    "iconUrl": "Ev2"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/d/d3/EV2_AntiGravBots.png"
   },
   {
     "name": "Holographic Decoy",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "30",
-    "damageType": "7s",
-    "damageScalar": null,
+    "abilityType": "Damage",
+    "manaCost": 30,
+    "recharge": "7s",
+    "damageType": "Magical",
+    "damageScalar": 44.275,
     "heroes": [
-      "44.275"
+      "Ev2"
     ],
-    "iconUrl": "Ev2"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/b/be/EV2_DFA.png"
   },
   {
     "name": "Proton Charge",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "20",
-    "damageType": "N/A",
-    "damageScalar": null,
+    "abilityType": "Damage",
+    "manaCost": 20,
+    "recharge": null,
+    "damageType": "Magical",
+    "damageScalar": 27.5,
     "heroes": [
-      "27.5"
+      "Ev2"
     ],
-    "iconUrl": "Ev2"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/1/10/EV2_ProtonCharge.png"
   },
   {
     "name": "Heal Self (Series EV2)",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "0",
-    "damageType": "1s",
+    "abilityType": "Healing",
+    "manaCost": 0,
+    "recharge": "1s",
+    "damageType": null,
     "damageScalar": null,
     "heroes": [
-      "N/A"
+      "Ev2"
     ],
-    "iconUrl": "Ev2"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/9/91/SeriesEV2_healself.png"
   },
   {
     "name": "Blunder Broom Buster",
-    "statusEffects": [],
-    "abilityType": "Stun",
-    "manaCost": null,
-    "recharge": "40",
-    "damageType": "5s",
-    "damageScalar": null,
-    "heroes": [
-      "47"
+    "statusEffects": [
+      "Stun"
     ],
-    "iconUrl": "Gunwitch"
+    "abilityType": "Damage",
+    "manaCost": 40,
+    "recharge": "5s",
+    "damageType": "Magical",
+    "damageScalar": 47,
+    "heroes": [
+      "Gunwitch"
+    ],
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/9/98/GunWitch_BlunderBroomBuster.png"
   },
   {
     "name": "Scatter Sweep",
-    "statusEffects": [],
-    "abilityType": "Knockback",
-    "manaCost": null,
-    "recharge": "50",
-    "damageType": "2s",
-    "damageScalar": null,
-    "heroes": [
-      "76.5"
+    "statusEffects": [
+      "Knockback"
     ],
-    "iconUrl": "Gunwitch"
+    "abilityType": "Damage",
+    "manaCost": 50,
+    "recharge": "2s",
+    "damageType": "Magical",
+    "damageScalar": 76.5,
+    "heroes": [
+      "Gunwitch"
+    ],
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/3/3c/GunWitch_ScatterSweep.png"
   },
   {
     "name": "Ice Needle",
-    "statusEffects": [],
-    "abilityType": "Freeze",
-    "manaCost": null,
-    "recharge": "50",
-    "damageType": "2s",
-    "damageScalar": null,
-    "heroes": [
-      "33"
+    "statusEffects": [
+      "Freeze"
     ],
-    "iconUrl": "Gunwitch"
+    "abilityType": "Damage",
+    "manaCost": 50,
+    "recharge": "2s",
+    "damageType": "Magical",
+    "damageScalar": 33,
+    "heroes": [
+      "Gunwitch"
+    ],
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/a/af/GunWitch_IceNeedle.png"
   },
   {
     "name": "Vroom Broom",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "0",
-    "damageType": "1s",
+    "abilityType": "Healing",
+    "manaCost": 0,
+    "recharge": "1s",
+    "damageType": null,
     "damageScalar": null,
     "heroes": [
-      "N/A"
+      "Gunwitch"
     ],
-    "iconUrl": "Gunwitch"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/2/28/Gunwitch_vroom_broom.png"
   },
   {
     "name": "Book Drop",
-    "statusEffects": [],
-    "abilityType": "Stun",
-    "manaCost": null,
-    "recharge": "40",
-    "damageType": "15s",
+    "statusEffects": [
+      "Stun"
+    ],
+    "abilityType": "Support",
+    "manaCost": 40,
+    "recharge": "15s",
+    "damageType": null,
     "damageScalar": null,
     "heroes": [
-      "N/A"
+      "Gunwitch"
     ],
-    "iconUrl": "Gunwitch"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/f/f7/Gunwitch_book_drop.png"
   },
   {
     "name": "Broom Nado",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "60",
-    "damageType": "20s",
-    "damageScalar": null,
+    "abilityType": "Damage",
+    "manaCost": 60,
+    "recharge": "20s",
+    "damageType": "Magical",
+    "damageScalar": 11,
     "heroes": [
-      "11"
+      "Gunwitch"
     ],
-    "iconUrl": "Gunwitch"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/e/ef/Gunwitch_broom_nado.png"
   },
   {
     "name": "Broom Nado (Total)",
     "statusEffects": [],
-    "abilityType": "N/A",
+    "abilityType": "Damage",
     "manaCost": null,
-    "recharge": "-",
-    "damageType": "-",
-    "damageScalar": null,
+    "recharge": null,
+    "damageType": "Magical",
+    "damageScalar": 110,
     "heroes": [
-      "110"
+      "Gunwitch"
     ],
-    "iconUrl": "Gunwitch"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/e/ef/Gunwitch_broom_nado.png"
   },
   {
     "name": "Two at Twice the Price",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "80",
-    "damageType": "25s",
-    "damageScalar": null,
+    "abilityType": "Damage",
+    "manaCost": 80,
+    "recharge": "25s",
+    "damageType": "Magical",
+    "damageScalar": 5.5,
     "heroes": [
-      "5.5"
+      "Gunwitch"
     ],
-    "iconUrl": "Gunwitch"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/e/e4/GunWitch_TwoPrice.png"
   },
   {
     "name": "Two at Twice the Price (Total)",
     "statusEffects": [],
-    "abilityType": "N/A",
+    "abilityType": "Damage",
     "manaCost": null,
-    "recharge": "-",
-    "damageType": "-",
-    "damageScalar": null,
+    "recharge": null,
+    "damageType": "Magical",
+    "damageScalar": 192.5,
     "heroes": [
-      "192.5"
+      "Gunwitch"
     ],
-    "iconUrl": "Gunwitch"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/e/e4/GunWitch_TwoPrice.png"
   },
   {
     "name": "Broom Vault",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "20",
-    "damageType": "4s",
-    "damageScalar": null,
+    "abilityType": "Damage",
+    "manaCost": 20,
+    "recharge": "4s",
+    "damageType": "Magical",
+    "damageScalar": 36,
     "heroes": [
-      "36"
+      "Gunwitch"
     ],
-    "iconUrl": "Gunwitch"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/1/12/GunWitch_BroomVault.png"
   },
   {
     "name": "Molten Core",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "40",
-    "damageType": "1s",
-    "damageScalar": null,
+    "abilityType": "Damage",
+    "manaCost": 40,
+    "recharge": "1s",
+    "damageType": "Fire",
+    "damageScalar": 35,
     "heroes": [
-      "35"
+      "Lavamancer"
     ],
-    "iconUrl": "Lavamancer"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/2/24/Lavamancer_MoltenCore.png"
   },
   {
     "name": "Inflame",
-    "statusEffects": [],
-    "abilityType": "Taunt",
-    "manaCost": null,
-    "recharge": "20",
-    "damageType": "10s",
-    "damageScalar": null,
-    "heroes": [
-      "25"
+    "statusEffects": [
+      "Taunt"
     ],
-    "iconUrl": "Lavamancer"
+    "abilityType": "Buff",
+    "manaCost": 20,
+    "recharge": "10s",
+    "damageType": "Fire",
+    "damageScalar": 25,
+    "heroes": [
+      "Lavamancer"
+    ],
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/1/1d/Lavamancer_HardenInflame.png"
   },
   {
     "name": "Eruption",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "80",
-    "damageType": "10s",
-    "damageScalar": null,
+    "abilityType": "Damage",
+    "manaCost": 80,
+    "recharge": "10s",
+    "damageType": "Fire",
+    "damageScalar": 80,
     "heroes": [
-      "80"
+      "Lavamancer"
     ],
-    "iconUrl": "Lavamancer"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/4/4c/Lavamancer_Eruption.png"
   },
   {
     "name": "Submerge/Emerge",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "0",
-    "damageType": "N/A",
+    "abilityType": "Healing",
+    "manaCost": 0,
+    "recharge": null,
+    "damageType": "Fire",
     "damageScalar": null,
     "heroes": [
-      "N/A"
+      "Lavamancer"
     ],
-    "iconUrl": "Lavamancer"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/f/f5/Lavamancer_SubmergeEmerge.png"
   },
   {
     "name": "Lash Out",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "5",
-    "damageType": "4s",
-    "damageScalar": null,
+    "abilityType": "Damage",
+    "manaCost": 5,
+    "recharge": "4s",
+    "damageType": "Magical",
+    "damageScalar": 35,
     "heroes": [
-      "35"
+      "Mystic"
     ],
-    "iconUrl": "Mystic"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/7/78/Mystic_LashOut.png"
   },
   {
     "name": "Lash Out (Poison)",
-    "statusEffects": [],
-    "abilityType": "Poison",
-    "manaCost": null,
-    "recharge": "-",
-    "damageType": "-",
-    "damageScalar": null,
-    "heroes": [
-      "5"
+    "statusEffects": [
+      "Poison"
     ],
-    "iconUrl": "Mystic"
+    "abilityType": "Damage",
+    "manaCost": null,
+    "recharge": null,
+    "damageType": "Poison",
+    "damageScalar": 5,
+    "heroes": [
+      "Mystic"
+    ],
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/7/78/Mystic_LashOut.png"
   },
   {
     "name": "Call To Madness",
-    "statusEffects": [],
-    "abilityType": "Confuse",
-    "manaCost": null,
-    "recharge": "10",
-    "damageType": "30s",
+    "statusEffects": [
+      "Confuse"
+    ],
+    "abilityType": "Support",
+    "manaCost": 10,
+    "recharge": "30s",
+    "damageType": null,
     "damageScalar": null,
     "heroes": [
-      "N/A"
+      "Mystic"
     ],
-    "iconUrl": "Mystic"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/b/b5/Mystic_CallToMadness.png"
   },
   {
     "name": "Dark Torment",
-    "statusEffects": [],
-    "abilityType": "Stun",
-    "manaCost": null,
-    "recharge": "10",
-    "damageType": "4s",
-    "damageScalar": null,
-    "heroes": [
-      "80"
+    "statusEffects": [
+      "Stun"
     ],
-    "iconUrl": "Mystic"
+    "abilityType": "Damage",
+    "manaCost": 10,
+    "recharge": "4s",
+    "damageType": "Magical",
+    "damageScalar": 80,
+    "heroes": [
+      "Mystic"
+    ],
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/2/2a/Mystic_DarkTorment.png"
   },
   {
     "name": "Dark Torment (Poison)",
-    "statusEffects": [],
-    "abilityType": "Poison",
-    "manaCost": null,
-    "recharge": "-",
-    "damageType": "-",
-    "damageScalar": null,
-    "heroes": [
-      "16"
+    "statusEffects": [
+      "Poison"
     ],
-    "iconUrl": "Mystic"
+    "abilityType": "Damage",
+    "manaCost": null,
+    "recharge": null,
+    "damageType": "Poison",
+    "damageScalar": 16,
+    "heroes": [
+      "Mystic"
+    ],
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/2/2a/Mystic_DarkTorment.png"
   },
   {
     "name": "Dryad's Blessing",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "1",
-    "damageType": "N/A",
+    "abilityType": "Buff",
+    "manaCost": 1,
+    "recharge": null,
+    "damageType": null,
     "damageScalar": null,
     "heroes": [
-      "N/A"
+      "Dryad"
     ],
-    "iconUrl": "Dryad"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/d/de/Dryad_Blessing.png"
   },
   {
     "name": "Powder Toss",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "10",
-    "damageType": "N/A",
+    "abilityType": "Support",
+    "manaCost": 10,
+    "recharge": null,
+    "damageType": null,
     "damageScalar": null,
     "heroes": [
-      "N/A"
+      "Dryad"
     ],
-    "iconUrl": "Dryad"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/8/8b/Dryad_PowderToss.png"
   },
   {
     "name": "Starfall",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "0",
-    "damageType": "4s",
-    "damageScalar": null,
+    "abilityType": "Support, Damage",
+    "manaCost": 0,
+    "recharge": "4s",
+    "damageType": "Physical",
+    "damageScalar": 8,
     "heroes": [
-      "8"
+      "Dryad"
     ],
-    "iconUrl": "Dryad"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/9/99/Dryad_Starfall.png"
   },
   {
     "name": "Dryad's Blessing (Corrupt)",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "2",
-    "damageType": "N/A",
-    "damageScalar": null,
+    "abilityType": "Buff",
+    "manaCost": 2,
+    "recharge": null,
+    "damageType": "Magical",
+    "damageScalar": 3.5,
     "heroes": [
-      "3.5"
+      "Dryad"
     ],
-    "iconUrl": "Dryad"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/7/73/Corrupted_Dryad%27s_Blessing.png"
   },
   {
     "name": "Powder Toss (Corrupt)",
-    "statusEffects": [],
-    "abilityType": "Stun",
-    "manaCost": null,
-    "recharge": "10",
-    "damageType": "N/A",
-    "damageScalar": null,
-    "heroes": [
-      "5.5"
+    "statusEffects": [
+      "Stun"
     ],
-    "iconUrl": "Dryad"
+    "abilityType": "Support. Damage",
+    "manaCost": 10,
+    "recharge": null,
+    "damageType": "Earth",
+    "damageScalar": 5.5,
+    "heroes": [
+      "Dryad"
+    ],
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/1/16/Corrupted_Powder_Toss.png"
   },
   {
     "name": "Starfall (Corrupt)",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "15",
-    "damageType": "4s",
-    "damageScalar": null,
+    "abilityType": "Damage",
+    "manaCost": 15,
+    "recharge": "4s",
+    "damageType": "Magical",
+    "damageScalar": 85,
     "heroes": [
-      "85"
+      "Dryad"
     ],
-    "iconUrl": "Dryad"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/7/79/Corrupted_Starfall.png"
   },
   {
     "name": "Starfall (Corrupt DoT)",
     "statusEffects": [],
-    "abilityType": "N/A",
+    "abilityType": "Damage",
     "manaCost": null,
-    "recharge": "-",
-    "damageType": "-",
-    "damageScalar": null,
+    "recharge": null,
+    "damageType": "Magical",
+    "damageScalar": 12,
     "heroes": [
-      "12"
+      "Dryad"
     ],
-    "iconUrl": "Dryad"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/7/79/Corrupted_Starfall.png"
   },
   {
     "name": "Chi Stomp",
-    "statusEffects": [],
-    "abilityType": "Knockup",
-    "manaCost": null,
-    "recharge": "25",
-    "damageType": "2s",
-    "damageScalar": null,
-    "heroes": [
-      "50"
+    "statusEffects": [
+      "Knockup"
     ],
-    "iconUrl": "Initiate"
+    "abilityType": "Damage",
+    "manaCost": 25,
+    "recharge": "2s",
+    "damageType": "Physical",
+    "damageScalar": 50,
+    "heroes": [
+      "Initiate"
+    ],
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/4/43/Initiate_chistomp.png"
   },
   {
     "name": "Crippling Chi Wave",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "50",
-    "damageType": "1s",
-    "damageScalar": null,
+    "abilityType": "Damage",
+    "manaCost": 50,
+    "recharge": "1s",
+    "damageType": "Magical",
+    "damageScalar": 40.5,
     "heroes": [
-      "40.5"
+      "Initiate"
     ],
-    "iconUrl": "Initiate"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/3/33/Initiate_cripplingchiwave.png"
   },
   {
     "name": "Crippling Chi Wave (With Debuff)",
     "statusEffects": [],
-    "abilityType": "N/A",
+    "abilityType": "Damage",
     "manaCost": null,
-    "recharge": "-",
-    "damageType": "-",
-    "damageScalar": null,
+    "recharge": null,
+    "damageType": "Magical",
+    "damageScalar": 50.625,
     "heroes": [
-      "50.625"
+      "Initiate"
     ],
-    "iconUrl": "Initiate"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/3/33/Initiate_cripplingchiwave.png"
   },
   {
     "name": "Talisman of Empowerment",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "100",
-    "damageType": "15s",
+    "abilityType": "Support",
+    "manaCost": 100,
+    "recharge": "15s",
+    "damageType": null,
     "damageScalar": null,
     "heroes": [
-      "N/A"
+      "Initiate"
     ],
-    "iconUrl": "Initiate"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/6/63/Initiate_talismanofempowerment.png"
   },
   {
     "name": "Arc Lightning",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "35",
-    "damageType": "N/A",
-    "damageScalar": null,
+    "abilityType": "Damage",
+    "manaCost": 35,
+    "recharge": null,
+    "damageType": "Storm",
+    "damageScalar": 42,
     "heroes": [
-      "42"
+      "Adept"
     ],
-    "iconUrl": "Adept"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/7/7e/Adept_arclightning.png"
   },
   {
     "name": "Tornado",
-    "statusEffects": [],
-    "abilityType": "Knockup",
-    "manaCost": null,
-    "recharge": "50",
-    "damageType": "2s",
-    "damageScalar": null,
-    "heroes": [
-      "8"
+    "statusEffects": [
+      "Knockup"
     ],
-    "iconUrl": "Adept"
+    "abilityType": "Damage",
+    "manaCost": 50,
+    "recharge": "2s",
+    "damageType": "Storm",
+    "damageScalar": 8,
+    "heroes": [
+      "Adept"
+    ],
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/2/21/Apprentice_tornado.png"
   },
   {
     "name": "Arcane Bubble",
-    "statusEffects": [],
-    "abilityType": "Stun",
-    "manaCost": null,
-    "recharge": "80",
-    "damageType": "25s",
+    "statusEffects": [
+      "Stun"
+    ],
+    "abilityType": "Support",
+    "manaCost": 80,
+    "recharge": "25s",
+    "damageType": null,
     "damageScalar": null,
     "heroes": [
-      "N/A"
+      "Adept"
     ],
-    "iconUrl": "Adept"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/5/53/Adept_arcanebubble.png"
   },
   {
     "name": "Furious Slash",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "5",
-    "damageType": "2s",
-    "damageScalar": null,
+    "abilityType": "Damage",
+    "manaCost": 5,
+    "recharge": "2s",
+    "damageType": "Magical",
+    "damageScalar": 40,
     "heroes": [
-      "40"
+      "Barbarian"
     ],
-    "iconUrl": "Barbarian"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/e/e8/Furious_Slash_Icon.png"
   },
   {
     "name": "Tornado Stance",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "6",
-    "damageType": "N/A",
+    "abilityType": "Support",
+    "manaCost": 6,
+    "recharge": null,
+    "damageType": null,
     "damageScalar": null,
     "heroes": [
-      "N/A"
+      "Barbarian"
     ],
-    "iconUrl": "Barbarian"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/a/a9/Tornado_Stance_Icon.png"
   },
   {
     "name": "Turtle Stance",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "6",
-    "damageType": "N/A",
+    "abilityType": "Support",
+    "manaCost": 6,
+    "recharge": null,
+    "damageType": null,
     "damageScalar": null,
     "heroes": [
-      "N/A"
+      "Barbarian"
     ],
-    "iconUrl": "Barbarian"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/9/9f/Turtle_Stance_Icon.png"
   },
   {
     "name": "Siphon Stance",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "6",
-    "damageType": "N/A",
+    "abilityType": "Support",
+    "manaCost": 6,
+    "recharge": null,
+    "damageType": null,
     "damageScalar": null,
     "heroes": [
-      "N/A"
+      "Barbarian"
     ],
-    "iconUrl": "Barbarian"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/d/d3/Siphon_Stance_Icon.png"
   },
   {
     "name": "Lightning Stance",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "10",
-    "damageType": "N/A",
-    "damageScalar": null,
+    "abilityType": "Support, Damage",
+    "manaCost": 10,
+    "recharge": null,
+    "damageType": "Storm",
+    "damageScalar": 1.25,
     "heroes": [
-      "1.25"
+      "Barbarian"
     ],
-    "iconUrl": "Barbarian"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/3/3c/Lightning_Stance_Icon.png"
   },
   {
     "name": "Staggering Shout",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "15",
-    "damageType": "5s",
+    "abilityType": "Support",
+    "manaCost": 15,
+    "recharge": "5s",
+    "damageType": null,
     "damageScalar": null,
     "heroes": [
-      "N/A"
+      "Barbarian"
     ],
-    "iconUrl": "Barbarian"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/4/4e/Staggering_Shout_Icon.png"
   },
   {
     "name": "Whirlwind",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "26",
-    "damageType": "N/A",
-    "damageScalar": null,
+    "abilityType": "Damage",
+    "manaCost": 26,
+    "recharge": null,
+    "damageType": "Physical",
+    "damageScalar": 15,
     "heroes": [
-      "15"
+      "Barbarian"
     ],
-    "iconUrl": "Barbarian"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/f/f4/Whirlwind_Icon.png"
   },
   {
     "name": "Hawk Strike",
     "statusEffects": [],
-    "abilityType": "N/A",
+    "abilityType": "Damage",
     "manaCost": null,
-    "recharge": "All",
-    "damageType": "10s",
-    "damageScalar": null,
+    "recharge": "10s",
+    "damageType": "Magical",
+    "damageScalar": 425,
     "heroes": [
-      "425"
+      "Barbarian"
     ],
-    "iconUrl": "Barbarian"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/0/0d/Hawk_Strike_Icon.png"
   },
   {
     "name": "Fan Of Knives",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "30",
-    "damageType": "2s",
-    "damageScalar": null,
+    "abilityType": "Damage",
+    "manaCost": 30,
+    "recharge": "2s",
+    "damageType": "Physical",
+    "damageScalar": 40,
     "heroes": [
-      "40"
+      "Mercenary"
     ],
-    "iconUrl": "Mercenary"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/f/f1/Mercenary_Fan_Of_Knives.png"
   },
   {
     "name": "Poison Dagger Throw",
-    "statusEffects": [],
-    "abilityType": "Poison",
-    "manaCost": null,
-    "recharge": "50",
-    "damageType": "7s",
-    "damageScalar": null,
-    "heroes": [
-      "15"
+    "statusEffects": [
+      "Poison"
     ],
-    "iconUrl": "Mercenary"
+    "abilityType": "Damage",
+    "manaCost": 50,
+    "recharge": "7s",
+    "damageType": "Poison",
+    "damageScalar": 15,
+    "heroes": [
+      "Mercenary"
+    ],
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/e/e0/Mercenary_Poison_Dagger_Throw.png"
   },
   {
     "name": "Poison Dagger Throw (Total)",
-    "statusEffects": [],
-    "abilityType": "Poison",
-    "manaCost": null,
-    "recharge": "-",
-    "damageType": "-",
-    "damageScalar": null,
-    "heroes": [
-      "75"
+    "statusEffects": [
+      "Poison"
     ],
-    "iconUrl": "Mercenary"
+    "abilityType": "Damage",
+    "manaCost": null,
+    "recharge": null,
+    "damageType": "Poison",
+    "damageScalar": 75,
+    "heroes": [
+      "Mercenary"
+    ],
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/e/e0/Mercenary_Poison_Dagger_Throw.png"
   },
   {
     "name": "Combat Preparation",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "100",
-    "damageType": "20s",
+    "abilityType": "Buff",
+    "manaCost": 100,
+    "recharge": "20s",
+    "damageType": null,
     "damageScalar": null,
     "heroes": [
-      "N/A"
+      "Mercenary"
     ],
-    "iconUrl": "Mercenary"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/5/56/Mercenary_Combat_Preparation.png"
   },
   {
     "name": "Sweeping Strikes",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "150",
-    "damageType": "20s",
-    "damageScalar": null,
+    "abilityType": "Damage",
+    "manaCost": 150,
+    "recharge": "20s",
+    "damageType": "Magical",
+    "damageScalar": 100,
     "heroes": [
-      "100"
+      "Mercenary"
     ],
-    "iconUrl": "Mercenary"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/1/14/Mercenary_Sweeping_Strikes.png"
   },
   {
     "name": "Sweeping Strikes (Landing)",
     "statusEffects": [],
-    "abilityType": "N/A",
+    "abilityType": "Damage",
     "manaCost": null,
-    "recharge": "-",
-    "damageType": "-",
-    "damageScalar": null,
+    "recharge": null,
+    "damageType": "Magical",
+    "damageScalar": 105,
     "heroes": [
-      "105"
+      "Mercenary"
     ],
-    "iconUrl": "Mercenary"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/1/14/Mercenary_Sweeping_Strikes.png"
   },
   {
     "name": "Flame Surge",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "50",
-    "damageType": "15s",
-    "damageScalar": null,
+    "abilityType": "Damage",
+    "manaCost": 50,
+    "recharge": "15s",
+    "damageType": "Fire",
+    "damageScalar": 40,
     "heroes": [
-      "40"
+      "Countess"
     ],
-    "iconUrl": "Countess"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/b/b3/Countess_Flame_Surge.png"
   },
   {
     "name": "Flame Surge (Dot)",
     "statusEffects": [],
-    "abilityType": "N/A",
+    "abilityType": "Damage",
     "manaCost": null,
-    "recharge": "-",
-    "damageType": "-",
-    "damageScalar": null,
+    "recharge": null,
+    "damageType": "Fire",
+    "damageScalar": 5,
     "heroes": [
-      "5"
+      "Countess"
     ],
-    "iconUrl": "Countess"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/b/b3/Countess_Flame_Surge.png"
   },
   {
     "name": "Call To Arms",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "10",
-    "damageType": "20s",
+    "abilityType": "Buff",
+    "manaCost": 10,
+    "recharge": "20s",
+    "damageType": null,
     "damageScalar": null,
     "heroes": [
-      "N/A"
+      "Countess"
     ],
-    "iconUrl": "Countess"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/f/f2/Countess_Call_To_Arms.png"
   },
   {
     "name": "Valiant Charge",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "100",
-    "damageType": "25s",
-    "damageScalar": null,
+    "abilityType": "Damage",
+    "manaCost": 100,
+    "recharge": "25s",
+    "damageType": "Fire",
+    "damageScalar": 510,
     "heroes": [
-      "510"
+      "Countess"
     ],
-    "iconUrl": "Countess"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/b/bd/Countess_Valiant_Charge.png"
   },
   {
     "name": "Holy Fire",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "10",
-    "damageType": "30",
+    "abilityType": "Healing",
+    "manaCost": 10,
+    "recharge": "30",
+    "damageType": null,
     "damageScalar": null,
     "heroes": [
-      "N/A"
+      "Countess"
     ],
-    "iconUrl": "Countess"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/1/13/Countess_Holy_Fire.png"
   },
   {
     "name": "Bunker Buster",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "40",
-    "damageType": "8s",
-    "damageScalar": null,
+    "abilityType": "Damage",
+    "manaCost": 40,
+    "recharge": "8s",
+    "damageType": "Magical",
+    "damageScalar": 50,
     "heroes": [
-      "50"
+      "Engineer"
     ],
-    "iconUrl": "Engineer"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/6/64/Bunker_Buster_Icon.png"
   },
   {
     "name": "Drill Smash",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "40",
-    "damageType": "8s",
-    "damageScalar": null,
+    "abilityType": "Damage",
+    "manaCost": 40,
+    "recharge": "8s",
+    "damageType": "Earth",
+    "damageScalar": 85,
     "heroes": [
-      "85"
+      "Engineer"
     ],
-    "iconUrl": "Engineer"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/b/b1/Drill_Smash_Icon.png"
   },
   {
     "name": "Orbital Cannon",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "80",
-    "damageType": "20s",
-    "damageScalar": null,
+    "abilityType": "Damage",
+    "manaCost": 80,
+    "recharge": "20s",
+    "damageType": "Magical",
+    "damageScalar": 20,
     "heroes": [
-      "20"
+      "Engineer"
     ],
-    "iconUrl": "Engineer"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/8/8e/Orbital_Cannon.png"
   },
   {
     "name": "Orbital Cannon (Total)",
     "statusEffects": [],
-    "abilityType": "N/A",
+    "abilityType": "Damage",
     "manaCost": null,
-    "recharge": "-",
-    "damageType": "-",
-    "damageScalar": null,
+    "recharge": null,
+    "damageType": "Magical",
+    "damageScalar": 160,
     "heroes": [
-      "160"
+      "Engineer"
     ],
-    "iconUrl": "Engineer"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/8/8e/Orbital_Cannon.png"
   },
   {
     "name": "Steam Blast",
-    "statusEffects": [],
-    "abilityType": "Drench",
-    "manaCost": null,
-    "recharge": "1",
-    "damageType": "10s",
-    "damageScalar": null,
-    "heroes": [
-      "150"
+    "statusEffects": [
+      "Drench"
     ],
-    "iconUrl": "Engineer"
+    "abilityType": "Buff",
+    "manaCost": 1,
+    "recharge": "10s",
+    "damageType": "Water",
+    "damageScalar": 150,
+    "heroes": [
+      "Engineer"
+    ],
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/2/2b/Steam_Blast_Icon.png"
   },
   {
     "name": "Wooden Stake",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "80",
-    "damageType": "N/A",
-    "damageScalar": null,
+    "abilityType": "Damage",
+    "manaCost": 80,
+    "recharge": null,
+    "damageType": "Earth",
+    "damageScalar": 60,
     "heroes": [
-      "60"
+      "Hunter"
     ],
-    "iconUrl": "Hunter"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/6/60/Wooden_Stake.png"
   },
   {
     "name": "Cloaked",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "100",
-    "damageType": "20s",
+    "abilityType": "Buff",
+    "manaCost": 100,
+    "recharge": "20s",
+    "damageType": null,
     "damageScalar": null,
     "heroes": [
-      "N/A"
+      "Hunter"
     ],
-    "iconUrl": "Hunter"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/3/38/Cloaked.png"
   },
   {
     "name": "Blood Effigy",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "60",
-    "damageType": "5s",
+    "abilityType": "Damage",
+    "manaCost": 60,
+    "recharge": "5s",
+    "damageType": "Physical",
     "damageScalar": null,
     "heroes": [
-      "?"
+      "Hunter"
     ],
-    "iconUrl": "Hunter"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/3/34/Blood_Effigy.png"
   },
   {
     "name": "Blood Siphon",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "50",
-    "damageType": "-",
-    "damageScalar": null,
+    "abilityType": "Healing, Damage",
+    "manaCost": 50,
+    "recharge": null,
+    "damageType": "Magical",
+    "damageScalar": 30,
     "heroes": [
-      "30"
+      "Hunter"
     ],
-    "iconUrl": "Hunter"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/4/45/Blood_Siphon.png"
   },
   {
     "name": "Blood Siphon (Explosion)",
     "statusEffects": [],
-    "abilityType": "N/A",
+    "abilityType": "Healing, Damage",
     "manaCost": null,
-    "recharge": "-",
-    "damageType": "10s",
-    "damageScalar": null,
+    "recharge": "10s",
+    "damageType": "Magical",
+    "damageScalar": 105,
     "heroes": [
-      "105"
+      "Hunter"
     ],
-    "iconUrl": "Hunter"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/4/45/Blood_Siphon.png"
   },
   {
     "name": "Flurry",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "30",
-    "damageType": "N/A",
-    "damageScalar": null,
+    "abilityType": "Damage",
+    "manaCost": 30,
+    "recharge": null,
+    "damageType": "Frost",
+    "damageScalar": 7.5,
     "heroes": [
-      "7.5"
+      "Frostweaver"
     ],
-    "iconUrl": "Frostweaver"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/2/24/Flurry.png"
   },
   {
     "name": "Flurry (Total)",
     "statusEffects": [],
-    "abilityType": "N/A",
+    "abilityType": "Damage",
     "manaCost": null,
-    "recharge": "-",
-    "damageType": "-",
-    "damageScalar": null,
+    "recharge": null,
+    "damageType": "Frost",
+    "damageScalar": 45,
     "heroes": [
-      "45"
+      "Frostweaver"
     ],
-    "iconUrl": "Frostweaver"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/2/24/Flurry.png"
   },
   {
     "name": "Cold Snap (First Hit)",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "50",
-    "damageType": "6s",
-    "damageScalar": null,
+    "abilityType": "Damage",
+    "manaCost": 50,
+    "recharge": "6s",
+    "damageType": "Frost",
+    "damageScalar": 65,
     "heroes": [
-      "65"
+      "Frostweaver"
     ],
-    "iconUrl": "Frostweaver"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/f/f2/Cold_Snap.png"
   },
   {
     "name": "Cold Snap",
-    "statusEffects": [],
-    "abilityType": "Slow, Stun",
-    "manaCost": null,
-    "recharge": "-",
-    "damageType": "-",
-    "damageScalar": null,
-    "heroes": [
-      "40"
+    "statusEffects": [
+      "Slow",
+      "Stun"
     ],
-    "iconUrl": "Frostweaver"
+    "abilityType": "Damage",
+    "manaCost": null,
+    "recharge": null,
+    "damageType": "Frost",
+    "damageScalar": 40,
+    "heroes": [
+      "Frostweaver"
+    ],
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/f/f2/Cold_Snap.png"
   },
   {
     "name": "Cold Snap (Total)",
-    "statusEffects": [],
-    "abilityType": "Slow, Stun",
-    "manaCost": null,
-    "recharge": "-",
-    "damageType": "-",
-    "damageScalar": null,
-    "heroes": [
-      "545"
+    "statusEffects": [
+      "Slow",
+      "Stun"
     ],
-    "iconUrl": "Frostweaver"
+    "abilityType": "Damage",
+    "manaCost": null,
+    "recharge": null,
+    "damageType": "Frost",
+    "damageScalar": 545,
+    "heroes": [
+      "Frostweaver"
+    ],
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/f/f2/Cold_Snap.png"
   },
   {
     "name": "Avalanche Strike",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "80",
-    "damageType": "20s",
-    "damageScalar": null,
+    "abilityType": "Damage",
+    "manaCost": 80,
+    "recharge": "20s",
+    "damageType": "Frost",
+    "damageScalar": 100,
     "heroes": [
-      "100"
+      "Frostweaver"
     ],
-    "iconUrl": "Frostweaver"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/9/99/Avalanche_Strike.png"
   },
   {
     "name": "PermaFreeze",
-    "statusEffects": [],
-    "abilityType": "Stun",
-    "manaCost": null,
-    "recharge": "50",
-    "damageType": "10s",
-    "damageScalar": null,
-    "heroes": [
-      "60"
+    "statusEffects": [
+      "Stun"
     ],
-    "iconUrl": "Frostweaver"
+    "abilityType": "Damage",
+    "manaCost": 50,
+    "recharge": "10s",
+    "damageType": "Frost",
+    "damageScalar": 60,
+    "heroes": [
+      "Frostweaver"
+    ],
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/7/78/PermaFreeze.png"
   },
   {
     "name": "Blizzard's Embrace",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "0",
-    "damageType": "5s",
+    "abilityType": "Support",
+    "manaCost": 0,
+    "recharge": "5s",
+    "damageType": null,
     "damageScalar": null,
     "heroes": [
-      "N/A"
+      "Frostweaver"
     ],
-    "iconUrl": "Frostweaver"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/f/fc/Blizzard%E2%80%99s_Embrace.png"
   },
   {
     "name": "Arctic Empowerment",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "0",
-    "damageType": "N/A",
+    "abilityType": "Buff",
+    "manaCost": 0,
+    "recharge": null,
+    "damageType": null,
     "damageScalar": null,
     "heroes": [
-      "N/A"
+      "Frostweaver"
     ],
-    "iconUrl": "Frostweaver"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/0/09/Arctic_Empowerment.png"
   },
   {
     "name": "Ice Wall",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "30",
-    "damageType": "10s",
-    "damageScalar": null,
+    "abilityType": "Support",
+    "manaCost": 30,
+    "recharge": "10s",
+    "damageType": "Frost",
+    "damageScalar": 50,
     "heroes": [
-      "50"
+      "Frostweaver"
     ],
-    "iconUrl": "Frostweaver"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/7/76/Ice_Wall.png"
   },
   {
     "name": "Icicle Fragmentation",
     "statusEffects": [],
-    "abilityType": "N/A",
-    "manaCost": null,
-    "recharge": "40",
-    "damageType": "15s",
+    "abilityType": "Damage",
+    "manaCost": 40,
+    "recharge": "15s",
+    "damageType": null,
     "damageScalar": null,
     "heroes": [
-      "?"
+      "Frostweaver"
     ],
-    "iconUrl": "Frostweaver"
+    "iconUrl": "https://wiki.dungeondefenders2.com/images/9/9e/Icicle_Fragmentation.png"
   }
 ]
