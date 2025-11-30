@@ -430,9 +430,13 @@ const OnslaughtTracker = {
 // ========================================
 const MaterialTracker = {
     materials: {},
+    materialsData: null,
+    pricesData: null,
 
-    render() {
+    async render() {
         this.loadData();
+        await this.loadMaterialsData();
+
         const materialTypes = [
             { key: 'motes', label: 'Motes', icon: '✨' },
             { key: 'clusters', label: 'Clusters', icon: '💫' },
@@ -444,7 +448,7 @@ const MaterialTracker = {
         return `
             <div class="tool-header">
                 <h1 class="tool-title">📦 Material Tracker</h1>
-                <p class="tool-description">Track all your account materials and resources</p>
+                <p class="tool-description">Track your account materials and resources</p>
             </div>
 
             <div class="grid-3">
@@ -468,6 +472,70 @@ const MaterialTracker = {
                         <p><strong>Gold:</strong> ${DD2Utils.formatGold(this.materials.gold || 0)}</p>
                         <p><strong>Medals:</strong> ${DD2Utils.formatNumber(this.materials.medals || 0)}</p>
                     </div>
+                </div>
+            </div>
+
+            ${this.renderMaterialsFarmingGuide()}
+        `;
+    },
+
+    async loadMaterialsData() {
+        if (!this.materialsData) {
+            this.materialsData = await DD2DataCache.load('materials');
+            if (this.materialsData) {
+                console.log('✅ Loaded materials data');
+            }
+        }
+        if (!this.pricesData) {
+            this.pricesData = await DD2DataCache.load('prices');
+            if (this.pricesData) {
+                console.log('✅ Loaded prices data');
+            }
+        }
+    },
+
+    renderMaterialsFarmingGuide() {
+        if (!this.materialsData?.materials) {
+            return '';
+        }
+
+        // Group materials by region
+        const byRegion = {};
+        this.materialsData.materials.forEach(mat => {
+            const region = mat.region || 'Unknown';
+            if (!byRegion[region]) {
+                byRegion[region] = [];
+            }
+            byRegion[region].push(mat);
+        });
+
+        return `
+            <div class="card mt-md">
+                <h3 class="card-title">📍 Material Farming Guide by Region</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+                    Material drop rates by Chaos tier. Numbers show drops per completion.
+                </p>
+
+                <div class="grid-2">
+                    ${Object.keys(byRegion).map(region => `
+                        <div class="card" style="background: var(--bg-input);">
+                            <h4 style="color: var(--dd2-orange); margin-bottom: 0.75rem;">${region}</h4>
+                            ${byRegion[region].map(mat => `
+                                <div style="margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--dd2-purple);">
+                                    <h5 style="color: var(--dd2-purple); margin-bottom: 0.5rem;">
+                                        ${mat.material}
+                                        ${mat.subregion ? `<span style="font-size: 0.8rem; color: var(--text-muted);"> (${mat.subregion})</span>` : ''}
+                                    </h5>
+                                    <div style="font-size: 0.85rem;">
+                                        ${mat.plain ? `<p><strong>Plain:</strong> ${Object.entries(mat.plain).map(([tier, count]) => `${tier}: ${count}`).join(', ')}</p>` : ''}
+                                        ${mat.shiny ? `<p><strong>Shiny:</strong> ${Object.entries(mat.shiny).map(([tier, count]) => `${tier}: ${count}`).join(', ')}</p>` : ''}
+                                        ${mat.pristine ? `<p><strong>Pristine:</strong> ${Object.entries(mat.pristine).map(([tier, count]) => `${tier}: ${count}`).join(', ')}</p>` : ''}
+                                        ${mat.exquisite ? `<p><strong>Exquisite:</strong> ${Object.entries(mat.exquisite).map(([tier, count]) => `${tier}: ${count}`).join(', ')}</p>` : ''}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `).join('')}
                 </div>
             </div>
         `;
@@ -746,9 +814,11 @@ const ResourcesPage = {
 const MapEfficiency = {
     mapRuns: [],
     currentRun: {},
+    godlyRatesData: null,
 
-    render() {
+    async render() {
         this.loadData();
+        await this.loadGodlyRates();
 
         const stats = this.calculateStatistics();
 
@@ -763,7 +833,8 @@ const MapEfficiency = {
                     <h3 class="card-title">Add New Map Run</h3>
                     <div class="input-group">
                         <label class="input-label">Map Name</label>
-                        <input type="text" class="input-field" id="map-name" placeholder="e.g., Dead Road, Harbinger">
+                        <input type="text" class="input-field" id="map-name" placeholder="e.g., Dead Road, Harbinger" list="map-suggestions">
+                        ${this.renderMapSuggestions()}
                     </div>
                     <div class="input-group">
                         <label class="input-label">Hero Used</label>
@@ -815,6 +886,8 @@ const MapEfficiency = {
                 </div>
             </div>
 
+            ${this.renderGodlyRatesReference()}
+
             <div class="card mt-md">
                 <div class="flex-between mb-md">
                     <h3 class="card-title">All Map Runs (${this.mapRuns.length})</h3>
@@ -831,6 +904,86 @@ const MapEfficiency = {
 
             <input type="file" id="import-file-input" accept=".json" style="display: none;">
         `;
+    },
+
+    async loadGodlyRates() {
+        if (!this.godlyRatesData) {
+            this.godlyRatesData = await DD2DataCache.load('godlyRates');
+            if (this.godlyRatesData) {
+                console.log('✅ Loaded godly rates data');
+            }
+        }
+    },
+
+    renderMapSuggestions() {
+        if (!this.godlyRatesData?.regions) return '';
+
+        const allMaps = [];
+        this.godlyRatesData.regions.forEach(region => {
+            region.maps.forEach(map => {
+                if (!allMaps.includes(map.name)) {
+                    allMaps.push(map.name);
+                }
+            });
+        });
+
+        return `
+            <datalist id="map-suggestions">
+                ${allMaps.map(map => `<option value="${map}">`).join('')}
+            </datalist>
+        `;
+    },
+
+    renderGodlyRatesReference() {
+        if (!this.godlyRatesData?.regions) {
+            return '';
+        }
+
+        return `
+            <div class="card mt-md">
+                <h3 class="card-title">🎁 Godly Drop Rates by Region</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+                    ${this.godlyRatesData.wave_151_plus_note || ''}
+                </p>
+
+                <div class="grid-2">
+                    ${this.godlyRatesData.regions.map(region => `
+                        <div class="card" style="background: var(--bg-input);">
+                            <h4 style="color: var(--dd2-orange); margin-bottom: 0.5rem;">${region.region}</h4>
+                            <p style="color: var(--dd2-purple); font-size: 0.85rem; margin-bottom: 0.75rem;">
+                                <strong>Drops:</strong> ${region.default_gear_types.join(', ')}
+                            </p>
+                            ${region.maps.map(map => `
+                                <div style="padding: 0.5rem; background: var(--bg-card); border-radius: 4px; margin-bottom: 0.5rem;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <span style="font-weight: bold;">${map.name}</span>
+                                        <span style="color: var(--dd2-gold); font-weight: bold;">${map.godly_drop_rate}</span>
+                                    </div>
+                                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem;">
+                                        ${map.gear_types.join(', ')}
+                                    </p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    },
+
+    getGodlyRateForMap(mapName) {
+        if (!this.godlyRatesData?.regions) return null;
+
+        for (const region of this.godlyRatesData.regions) {
+            const map = region.maps.find(m => m.name.toLowerCase() === mapName.toLowerCase());
+            if (map) {
+                return {
+                    rate: map.godly_drop_rate,
+                    gearTypes: map.gear_types
+                };
+            }
+        }
+        return null;
     },
 
     renderStatistics(stats) {
@@ -880,6 +1033,7 @@ const MapEfficiency = {
                     const expWithAP = run.exp * (1 + (run.ap * 0.05));
                     const goldPerMin = goldWithAP / run.time;
                     const expPerMin = expWithAP / run.time;
+                    const godlyInfo = this.getGodlyRateForMap(run.map);
 
                     return `
                         <div class="card" style="background: var(--bg-input);">
@@ -887,6 +1041,12 @@ const MapEfficiency = {
                                 <h4 style="color: var(--dd2-orange);">${run.map}</h4>
                                 <button onclick="MapEfficiency.deleteRun(${idx})" style="background: #ef4444; border: none; padding: 0.25rem 0.5rem; border-radius: 4px; color: white; cursor: pointer;">×</button>
                             </div>
+                            ${godlyInfo ? `
+                                <div style="padding: 0.5rem; background: var(--bg-card); border-radius: 4px; margin-bottom: 0.5rem; border-left: 3px solid var(--dd2-gold);">
+                                    <p style="font-size: 0.85rem; margin-bottom: 0.25rem;"><strong>🎁 Godly Rate:</strong> ${godlyInfo.rate}</p>
+                                    <p style="font-size: 0.8rem; color: var(--text-muted);">${godlyInfo.gearTypes.join(', ')}</p>
+                                </div>
+                            ` : ''}
                             <p style="color: var(--dd2-purple); font-size: 0.9rem; margin-bottom: 0.5rem;">🦸 ${run.hero}</p>
                             <div style="padding: 0.75rem; background: var(--bg-card); border-radius: 6px; margin-bottom: 0.5rem;">
                                 <p style="font-size: 0.85rem; margin-bottom: 0.25rem;"><strong>⏱️ Time:</strong> ${run.time} min</p>
